@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/Static/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* Flex container */
+        .form-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Flex items */
+        .form-box {
+            flex: 1 1 calc(50% - 20px); /* Adjust width as needed */
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+  .form-box {
+    flex: none; 
+  }
+}
+        /* Apply styles to form elements */
+        .form-box label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-box input[type="text"],
+        .form-box input[type="password"],
+        .form-box button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-box button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-box button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 5.9rem;
+        height: 100vh;
+        padding: 0 1.7rem;
+        color: white;
+        overflow: hidden;
+        transition: all 0.5s linear;
+        background: rgba(113, 99, 186, 255);
+        z-index: 1000;
+    }
+
+    /* Styles for sidebar items */
+    .sidebar ul.items {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul.items li {
+        padding: 10px;
+        border-bottom: 1px solid #555;
+        /* Adjust border color as needed */
+    }
+
+    .sidebar ul.items li:last-child {
+        border-bottom: none;
+    }
+
+    .sidebar ul.items li a {
+        color: #fff;
+        /* Adjust text color as needed */
+        text-decoration: none;
+    }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1001;
+    /* Ensure above sidebar */
+    color: #fff;
+    /* Adjust color as needed */
+    transition: margin-left 0.5s ease, margin-top 0.5s ease; /* Add transition properties */
+}
+.toggle-btn {
+    display: none; /* Hide toggle button by default */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .toggle-btn {
+        display: block; /* Show toggle button for mobile screens */
+    }
+}
+        /* Error message */
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        @media (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        /* Show sidebar when active class is added */
+        .sidebar.active {
+            transform: translateX(0);
+        }
+    }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            
+            .main--content{
+            margin-left: 0;
+        }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            /* Show sidebar when active class is added */
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main--content {
+            width: 100%;
+            /* Take up full width */
+            height: calc(100vh - 3.5rem);
+            /* Take up full height minus the height of the header */
+            padding-top: 3.5rem;
+            /* Height of the header */
+        }
+
+            .modal-content {
+                margin-left: 0px;
+                flex-wrap: wrap;
+            }
+
+            .randomclass {
+                flex-wrap: wrap;
+            }
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 1000px) {
+            .modal-content {
+                margin-left: 0px;
+            }
+        }
+        
+        
+
+
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    header {
+        background-color: #fff;
+        color: #333;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .clgimgname {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .clgimgname img {
+        margin-right: 20px;
+        max-width: 100px;
+        height: auto;
+    }
+
+    .clgname-container {
+        text-align: center;
+    }
+
+    .clgname-container h1 {
+        font-size: 24px;
+        margin: 5px 0;
+    }
+
+    .clgname-container h4 {
+        font-size: 14px;
+        margin: 5px 0;
+    }
+
+    .heading {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        margin: 20px;
+        padding: 20px;
+        width: calc(33.33% - 40px);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        transition: box-shadow 0.3s ease; /* Add transition for smooth hover effect */
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transform: scale(1.1);
+        transition: 0.2s; 
+        background-color: #e1bcbc;/* Change the box-shadow on hover */
+    }
+
+    .card:hover h2 {
+        color: rgb(114, 114, 64); /* Change color of heading on hover */
+    }
+
+    .card:hover .company p {
+        color: rgb(116, 116, 69); /* Change color of text in company section on hover */
+    }
+
+    .card h2 {
+        font-size: 20px;
+        margin-top: 0;
+        color: #333;
+        transition: color 0.3s ease; /* Add transition for smooth color change */
+    }
+
+    .company {
+        flex: 1;
+    }
+
+    .company p {
+        margin: 5px 0;
+        color: #555;
+        transition: color 0.3s ease; /* Add transition for smooth color change */
+    }
+
+    .comments {
+        border-left: 2px solid #ccc;
+        padding-left: 20px;
+    }
+
+    .comments p {
+        margin: 5px 0;
+        color: #777;
+    }
+
+    footer {
+        background-color: #426c35;
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .highlight {
+        color: #ff0; /* Yellow color */
+        font-weight: bold;
+    }
+
+    .mits {
+        color: blue;
+    }
+
+    .deemed {
+        color: red;
+    }
+
+    .naac {
+        color: red;
+    }
+
+    /* Media queries for responsiveness */
+    @media only screen and (max-width: 768px) {
+        .card {
+            width: calc(50% - 40px);
+        }
+
+        .clgimgname img {
+            margin-right: 10px;
+            max-width: 80px;
+        }
+
+        .clgname-container h1 {
+            font-size: 20px;
+            margin: 3px 0;
+        }
+
+        .clgname-container h4 {
+            font-size: 12px;
+            margin: 3px 0;
+        }
+
+        .mits {
+            color: blue;
+        }
+
+        .deemed {
+            color: red;
+        }
+
+        .naac {
+            color: red;
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+        .card {
+            width: calc(100% - 40px);
+        }
+
+        .clgimgname img {
+            margin-right: 5px;
+            max-width: 60px;
+        }
+
+        .clgname-container h1 {
+            font-size: 18px;
+            margin: 2px 0;
+        }
+
+        .clgname-container h4 {
+            font-size: 10px;
+            margin: 2px 0;
+        }
+
+        .mits {
+            color: blue;
+        }
+
+        .deemed {
+            color: red;
+        }
+
+        .naac {
+            color: red;
+        }
+    }
+
+    </style>
+
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+
+$(document).ready(function () {
+        document.querySelector('.toggle-btn').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.toggle('open');
+            if (document.querySelector('.sidebar').classList.contains('open')) {
+                document.querySelector('.toggle-btn').style.marginLeft = '4.1rem';
+                document.querySelector('.toggle-btn').style.marginTop = '-1rem';
+            } else {
+                document.querySelector('.toggle-btn').style.marginLeft = ''; // reset marginLeft
+                document.querySelector('.toggle-btn').style.marginTop = ''; // reset marginTop
+            }
+        });})
+        </script>
+    <button class="toggle-btn" style="color: black; background: transparent;width:40px;">&#9776;</button>
+    <div class="sidebar">
+        <ul class="items">
+            <li >
+                <a href="/api/studentlogin">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li > 
+                <a href="/api/studentprofile" id="profile-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="http://moodle.mitsgwalior.in/" class="mat">
+                    <i class="material-icons">assignment</i>
+                    <span>Moodle</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="https://web.mitsgwalior.in/" class="mat">
+                    <i class="material-icons">notes</i>
+                    <span>MITS Gwalior</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="/api/companydata" class="mat">
+                    <i class="material-icons">computer</i>
+                    <span>Companies</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="/api/show_feedback" class="mat">
+                    <i class="material-icons">computer</i>
+                    <span>FeedBacks</span>
+                </a>
+            </li>
+            <li class="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span><a href="{% url 'logout' %}">Logout</a></span>
+            </li>
+        </ul>
+    </div>
+    <div class="main--content">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <span>Student Profile</span>
+                <h2>{{record.EnrollmentId}} {{record.Name}}</h2>
+            </div>
+            <div class="user-info">
+                <img src="/Static/Images/mitslogo.png" style="width: 8rem; height: 8rem;" alt="">
+            </div>
+        </div>
+        <div class="heading">Company Feedback as given by our students</div>
+        <div class="container">
+            {% for company, feedback_list in feedback_by_company.items %}
+            <div class="card">
+                <h2>{{ company }}</h2>
+                <div class="company">
+                    <p>Experience: {{ feedback_list.0.average_experience_rating }}</p>
+                    <p>Work Environment: {{ feedback_list.0.average_work_environment_rating }}</p>
+                    <p>Supervisor: {{ feedback_list.0.average_supervisor_rating }}</p>
+                </div>
+                <div class="comments">
+                    <p>All Comments:</p>
+                    {% for feedback in feedback_list %}
+                        <p>{{ feedback.comment }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- <footer>
+            <p>Copyright &copy; 2024 <span class="highlight">SDC MITS</span>. All Rights Reserved.</p>
+        </footer> -->
+        
+    </div>
+    <script src="/Static/dashboard.js"></script>
+    
+</body>
+
+</html>

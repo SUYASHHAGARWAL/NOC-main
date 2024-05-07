@@ -1,0 +1,120 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    margin: 0 4rem;
+}
+
+.box1 {
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+h2, h3, h4 {
+    margin: 5px 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: blue;
+}
+
+h3, h4 {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+h3 {
+    color: blue;
+    font-weight: bold;
+}
+
+.box1 #s2{
+    text-decoration: underline;
+}
+.line {
+    border: 1px solid black;
+    margin: 10px 0; 
+    width: 100%;
+}
+
+.box2 {
+    display: flex;
+    justify-content: space-between;
+    color: red;
+}
+.box3 {
+    text-align: left;
+}
+
+.box3 #upper{
+    margin-top: 3rem;
+}
+
+.box3 #p1{
+    margin-top: 3rem;
+}
+
+.box3 .p3 .p4{
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.box3 #lower{
+    margin-top: 3rem;
+}
+
+.box4 table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+  }
+
+.box4 th, td {
+    border: 1px solid rgb(9, 9, 9);
+    padding: 10px;
+    text-align: center;
+
+  }
+.box5 {
+    text-align: left;
+}
+
+.box5 .p6 {
+    margin-top: 3rem;
+}
+
+.box6 {
+    text-align: left;
+}
+.box7 {
+    text-align: left;
+    
+}
+
+.box7 #h1, #h2{
+    color: black;
+    font-weight: bold;
+}
+
+.box8{
+    text-align: left;
+    margin-top: 3rem;
+}
+.box8 .p8{
+    margin-top: 3rem;
+    font-style: italic;
+
+}

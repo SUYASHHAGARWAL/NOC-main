@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    
+    .center {
+        text-align: center;
+        margin-top: 20px; /* Adjust margin for smaller screens */
+    }
+    .clgimgname {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    .clgimgname img {
+        width: 50px; /* Adjust image size for smaller screens */
+        height: auto;
+        margin-right: 10px; /* Add some spacing between image and text */
+    }
+    .search-container {
+        text-align: center;
+        margin-top: 20px; /* Adjust margin for smaller screens */
+    }
+    input[type=text] {
+        width: 80%; /* Adjust input width for smaller screens */
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: white;
+    }
+    input[type=submit] {
+        width: 80%; /* Adjust button width for smaller screens */
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+    h1 {
+        font-size: 24px; /* Adjust heading size for smaller screens */
+        color: #211f88;
+        letter-spacing: 1px;
+        margin-bottom: 10px; /* Adjust margin for smaller screens */
+    }
+    h3 {
+        font-size: 14px; /* Adjust sub-heading size for smaller screens */
+    }
+    #searchResults {
+        margin-top: 20px;
+        overflow-x: auto; /* Enable horizontal scrolling for small screens */
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    footer {
+        background-color: #426c35;
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    .highlight {
+        color: #ff0; /* Yellow color */
+        font-weight: bold;
+    }
+    /* Responsive design for smaller screens */
+    @media screen and (max-width: 600px) {
+        .center {
+            margin-top: 10px; /* Adjust margin for smaller screens */
+        }
+        .clgimgname img {
+            width: 40px; /* Adjust image size for smaller screens */
+        }
+        input[type=text] {
+            width: 100%; /* Adjust input width for smaller screens */
+        }
+        input[type=submit] {
+            width: 100%; /* Adjust button width for smaller screens */
+        }
+        h1 {
+            font-size: 20px; /* Adjust heading size for smaller screens */
+        }
+        h3 {
+            font-size: 12px; /* Adjust sub-heading size for smaller screens */
+        }
+    }
+</style>
+</head>
+<body>
+
+
+<div class="center">
+    <div class="clgimgname">
+        <img src="/Static/Images/mits_logo.png" alt="">
+        <h1>MADHAV INSTITUTE OF TECHNOLOGY AND SCIENCE</h1>
+    </div>
+    <h3>(A Govt. Aided UGC Autonomous Institute, Affiliated to R.G.P.V. BHOPAL (M.P.), INDIA)</h3>
+    <h2>Search here to check the authenticity of NOC</h2>
+</div>
+
+<div class="search-container">
+    <form id="searchForm" method="get">
+        <input type="text" placeholder="Enter Enrollment Number" name="enrollment_number" id="enrollmentNumber" required>
+        <input type="submit" value="Search">
+    </form>
+</div>
+
+<div id="searchResults">
+    <table>
+        <thead>
+            <tr>
+                <th>Enrollment ID</th>
+                <th>Student Name</th>
+                <th>TNP Approval Date</th>
+                <th>Department</th>
+                <th>Company</th>
+                <th>NOC Path</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if data %}
+                {% for item in data %}
+                    <tr>
+                        <td>{{ item.EnrollmentId }}</td>
+                        <td>{{ item.Name }}</td>
+                        <td>{{ item.date_tnp_approval }}</td>
+                        <td>{{ item.dept }}</td>
+                        <td>{{ item.Company }}</td>
+                        <td><a href="https://noc.mitsgwalior.in/Static/{{ item.noc }}" download="NOC.pdf">Download NOC</a></td>
+                    </tr>
+                {% endfor %}
+            {% elif error %}
+                <tr><td colspan="6">{{ error }}</td></tr>
+            {% else %}
+                <tr><td colspan="6">No data found.</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+<!-- <footer>
+    <p>Copyright &copy; 2024 <span class="highlight">SDC MITS</span>. All Rights Reserved.</p>
+</footer> -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchForm = document.getElementById('searchForm');
+    const enrollmentNumberInput = document.getElementById('enrollmentNumber');
+
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        const enrollmentNumber = enrollmentNumberInput.value.trim();
+
+        // Redirect to the same page with the enrollment_number in the URL
+        window.location.href = `/verifyNOC/?enrollment_number=${enrollmentNumber}`;
+    });
+});
+</script>
+
+</body>
+</html>

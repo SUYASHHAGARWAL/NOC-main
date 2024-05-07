@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="/Static/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+     .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 5.9rem;
+        height: 100vh;
+        padding: 0 1.7rem;
+        color: white;
+        overflow: hidden;
+        transition: all 0.5s linear;
+        background: rgba(113, 99, 186, 255);
+        z-index: 1000;
+    }
+
+    /* Styles for sidebar items */
+    .sidebar ul.items {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul.items li {
+        padding: 10px;
+        border-bottom: 1px solid #555;
+        /* Adjust border color as needed */
+    }
+
+    .sidebar ul.items li:last-child {
+        border-bottom: none;
+    }
+
+    .sidebar ul.items li a {
+        color: #fff;
+        /* Adjust text color as needed */
+        text-decoration: none;
+    }
+
+    footer {
+        background-color: #85849e;
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    .highlight {
+        color: #ff0; /* Yellow color */
+        font-weight: bold;
+    }
+    /* Main content */
+    
+    .toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1001;
+    /* Ensure above sidebar */
+    color: #fff;
+    /* Adjust color as needed */
+    transition: margin-left 0.5s ease, margin-top 0.5s ease; /* Add transition properties */
+}
+.toggle-btn {
+    display: none; /* Hide toggle button by default */
+}
+@media (max-width: 768px) {
+    footer {
+        position: fixed; /* Keep the position fixed */
+        bottom: 0; /* Position at the bottom of the viewport */
+        width: 100%; /* Take up full width */
+        padding: 10px 0; /* Reduce padding for smaller screens */
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+}
+@media (max-width: 768px) {
+    .toggle-btn {
+        display: block; /* Show toggle button for mobile screens */
+    }
+}
+    /* Responsive styles */
+ 
+    @media (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        /* Show sidebar when active class is added */
+        .sidebar.active {
+            transform: translateX(0);
+        }
+    }
+
+
+    /* Media query for smaller screens */
+    /* Media query for smaller screens */
+    @media (max-width: 768px) {
+        .main--content {
+            margin-left: 0;
+        }
+
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        /* Show sidebar when active class is added */
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .main--content {
+            width: 100%;
+            /* Take up full width */
+            height: calc(100vh - 3.5rem);
+            /* Take up full height minus the height of the header */
+            padding-top: 3.5rem;
+            /* Height of the header */
+        }
+
+        .modal-content {
+            margin-left: 0px;
+            flex-wrap: wrap;
+
+        }
+
+        .randomclass {
+            flex-wrap: wrap;
+        }
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    @media (max-width: 1000px) {
+        .modal-content {
+            margin-left: 0px;
+        }
+    }
+    .logoutbtnclr{
+        background-color: rgba(113, 99, 186, 255);
+        color: white;
+    }
+    .additional-options {
+        display: none;
+    }
+
+    .additional-options.open {
+        display: block;
+    }
+</style>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        document.querySelector('.toggle-btn').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.toggle('open');
+            if (document.querySelector('.sidebar').classList.contains('open')) {
+                document.querySelector('.toggle-btn').style.marginLeft = '4.1rem';
+                document.querySelector('.toggle-btn').style.marginTop = '-1rem';
+            } else {
+                document.querySelector('.toggle-btn').style.marginLeft = ''; // reset marginLeft
+                document.querySelector('.toggle-btn').style.marginTop = ''; // reset marginTop
+            }
+        });
+    })
+    </script>
+    <script>
+        function submitApproval(data, index) {
+    var rowData = data;
+    var ind = index;
+    var selectedStatus = document.getElementById(`status_${ind}`).value;
+    var selectedRole = document.getElementById(`role_${ind}`).value;
+    console.log("Selected Status:", selectedStatus);
+    console.log("Selected Role:", selectedRole);
+    sendPostRequest(rowData, selectedStatus, selectedRole);
+}
+        function NOCAdminsubmitApproval(data, index) {
+            var rowData = data;
+            var ind = index;
+            console.log("rowData", rowData);
+            var enrollmentId = rowData.EnrollmentId;
+            console.log(enrollmentId);
+            var selectedStatus = document.getElementById(`deptApprovalSelect${ind}`).value;
+    var selectedRole = document.getElementById(`tnpApprovalSelect${ind}`).value;
+    console.log("Selected Status:", selectedStatus);
+    console.log("Selected Role:", selectedRole);
+    NOCsendPostRequest(rowData, selectedStatus, selectedRole);
+}
+
+
+function NOCsendPostRequest(data, status, role) {
+    console.log("Sending POST request");
+    console.log(data);
+
+    var form = $('<form method="POST" action="/api/AdminApproval"></form>');
+
+    var csrftoken = getCookie('csrftoken');
+    $('<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">').appendTo(form);
+    $('<input type="hidden" name="Role" value="' + role + '">').appendTo(form);
+    $('<input type="hidden" name="Email" value="' + data.Email + '">').appendTo(form);
+    $('<input type="hidden" name="Contact" value="' + data.Contact + '">').appendTo(form);
+    $('<input type="hidden" name="id" value="' + data.id + '">').appendTo(form);
+    $('<input type="hidden" name="dept" value="' + data.dept + '">').appendTo(form);
+    $('<input type="hidden" name="status" value="' + status + '">').appendTo(form);
+    $('<input type="hidden" name="clicked" value="{{clicked}}">').appendTo(form);
+
+    // Append additional data
+    $('<input type="hidden" name="Name" value="' + data.Name + '">').appendTo(form);
+    $('<input type="hidden" name="ReceiverName" value="' + data.name_reciever + '">').appendTo(form);
+    $('<input type="hidden" name="Designation" value="' + data.Designation_reciever + '">').appendTo(form);
+    $('<input type="hidden" name="Company" value="' + data.Company + '">').appendTo(form);
+    $('<input type="hidden" name="Location" value="' + data.location + '">').appendTo(form);
+    // Add more data as needed
+
+    $('body').append(form);
+    form.submit();
+}
+
+        function sendPostRequest(data, status, role) {
+            console.log("Sending POST request");
+            console.log(data)
+            var form = $('<form method="POST" action="/api/statussave"></form>');
+
+            var csrftoken = getCookie('csrftoken');
+            $('<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">').appendTo(form);
+
+            $('<input type="hidden" name="Role" value="' + role + '">').appendTo(form);
+            $('<input type="hidden" name="Email" value="' + data.Email + '">').appendTo(form);
+            $('<input type="hidden" name="Contact" value="' + data.Contact + '">').appendTo(form);
+            $('<input type="hidden" name="id" value="' + data.id + '">').appendTo(form);
+            $('<input type="hidden" name="dept" value="' + data.dept + '">').appendTo(form);
+            $('<input type="hidden" name="status" value="' + status + '">').appendTo(form);
+            $('<input type="hidden" name="clicked" value="{{clicked}}">').appendTo(form);
+
+
+            $('body').append(form);
+
+            form.submit();
+        }
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(document).ready(function () {
+
+
+            $(document).ready(function () {
+    $('#adminfaculties').click(function () {
+        console.log(121)
+        $.getJSON('/api/adminfaculties', function (data) {
+            console.log(data)
+            console.log(data.length)
+
+            $('#section-display').css('display', 'block')
+            $("#tablebody2").html('')
+            $("#tablehead2").html('')
+            $("#tablehead2").append(`
+            <tr>
+                <th>S No</th>
+                <th>ID</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Status</th>
+            </tr>
+        `);
+            for (let i = 0; i < data.length; i++) {
+                $('#tablebody2').append(`
+                    <tr>
+                        <th scope="row">${i + 1}</th>
+                        <td>${data[i].id}</td>
+                        <td>
+                            <select id="role_${i}" name="role_${i}">
+                                <option value="head" ${data[i].Role === 'head' ? 'selected' : ''}>Head</option>
+                                <option value="faculty" ${data[i].Role === 'faculty' ? 'selected' : ''}>Faculty</option>
+                                <option value="admin" ${data[i].Role === 'admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+
+                        </td>
+                        <td>${data[i].Email}</td>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].dept}</td>
+                        <td>
+                            <select id="status_${i}" name="status_${i}">
+                                <option value="active" ${data[i].status === 'active' ? 'selected' : ''}>Active</option>
+                                <option value="passive" ${data[i].status === 'passive' ? 'selected' : ''}>Passive</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button type="button" name="btn" value="edit" class="action-button" onclick='submitApproval(${JSON.stringify(data[i])}, ${i})'>Submit</button>
+                        </td>
+                        <td>
+                            <a href="/api/DelFaculty?id=${data[i].id}" class="delete-button" data-id="${data[i].id}">Delete</a>
+                        </td>
+                    </tr>
+                `);
+            }
+        });
+    });
+});
+
+
+            $('#depatrments').click(function () {
+    console.log(121);
+    $.getJSON('/api/ALldepartments', function (data) {
+        console.log(data);
+        console.log(data.length);
+
+        $('#section-display').css('display', 'block');
+        $("#tablebody2").html('');
+        $("#tablehead2").html('')
+        $("#tablehead2").html(''); // Clear existing table header
+
+        // Add dynamic table header
+        $("#tablehead2").append(`
+            <tr>
+                <th>S No</th>
+                <th>Department ID</th>
+                <th>Department Name</th>
+                <th>Department</th>
+            </tr>
+        `);
+
+        // Populate table body
+        for (let i = 0; i < data.length; i++) {
+            $('#tablebody2').append(`
+                <tr>
+                    <th scope="row">${i + 1}</th>
+                    <td>${data[i].Dep_Id}</td>
+                    <td>${data[i].Department_name}</td>
+                    <td>${data[i].Department}</td>
+                </tr>
+            `);
+        }
+        $('#tablebody2').append(`
+            <tr>
+                <td colspan="4"><button id="addDepartmentBtn">Add a Department</button></td>
+            </tr>
+        `);
+
+        // Bind click event to the "Add a Department" button
+        $('#addDepartmentBtn').click(function() {
+            // Code to add a department goes here
+        });
+    });
+});
+
+
+
+
+            $('#admincheckstudents').click(function () {
+                console.log(121)
+                $.getJSON('/api/admincheckstudents', function (data) {
+                    console.log(data)
+                    console.log(data.length)
+
+                    $('#section-display').css('display', 'block')
+                    $("#tablebody2").html('')
+                    $("#tablehead2").html('')
+                    $("#tablehead2").append(`
+            <tr>
+                <th>S No</th>
+                <th>Enrollment ID</th>
+                <th>Name</th>
+                <th>Contact Num</th>
+                <th>Email</th>
+            </tr>
+        `);
+                    for (i = 0; i < data.length; i++) {
+                        $('#tablebody2').append(`<tr>
+                          <th scope="row">${i + 1}</th>
+                         <td>${data[i].EnrollmentId}</td>
+                          <td>${data[i].Name}</td>
+                         <td>${data[i].contact_Num}</td>
+                         <td>${data[i].Email}</td>
+                        
+                       </tr>`
+                        )
+                    }
+                })
+            })
+
+
+
+            $('#adminnocstudents').click(function () {
+                console.log(121)
+                $.getJSON('/api/adminnocstudents', function (data) {
+                    console.log(data)
+                    console.log(data.length)
+
+                    $('#section-display').css('display', 'block')
+                    $("#tablebody2").html('')
+                    $("#tablehead2").html('')
+
+
+                    for (i = 0; i < data.length; i++) {
+                        $('#tablebody2').append(`<tr>
+                          <th scope="row">${i + 1}</th>
+                         <td>${data[i].EnrollmentId}</td>
+                          <td>${data[i].Name}</td>
+                         <td>${data[i].Email}</td>
+                         <td>${data[i].Dept_approval}</td>
+                         <td>${data[i].Dept_Comment}</td>
+                         <td>${data[i].TnP_approval}</td>
+                         <td>${data[i].TnP_Comment}</td>
+                         <td>${data[i].Company}</td>
+                         <td>${data[i].Role}</td>
+                       </tr>`
+                        )
+                    }
+                })
+            })
+
+
+
+            $('#adminnoduestudents').click(function () {
+                console.log(121)
+                $.getJSON('/api/adminnoduestudents', function (data) {
+                    console.log(data)
+                    console.log(data.length)
+
+                    $('#section-display').css('display', 'block')
+                    $("#tablebody2").html('')
+                    $("#tablehead2").html('')
+                    for (i = 0; i < data.length; i++) {
+                        $('#tablebody2').append(`<tr>
+                          <th scope="row">${i + 1}</th>
+                         <td>${data[i].EnrollmentId}</td>
+                          <td>${data[i].Name}</td>
+                         <td>${data[i].Email}</td>
+                         <td>${data[i].Dept_approval}</td>
+                         <td>${data[i].TnP_approval}</td>
+                         <td>${data[i].Lib_approval}</td>
+                         <td>${data[i].Acc_approval}</td>
+                         <td>${data[i].Hostle_approval}</td>
+                         <td>${data[i].App_Date}</td>
+                    </tr>`
+                        )
+                    }
+                })
+            })
+
+
+            $('#adminhostle').click(function () {
+                console.log(121)
+                $.getJSON('/api/adminhostle', function (data) {
+                    console.log(data)
+                    console.log(data.length)
+
+                    $('#section-display').css('display', 'block')
+                    $("#tablebody2").html('')
+                    $("#tablehead2").html('')
+                    for (i = 0; i < data.length; i++) {
+                        $('#tablebody2').append(`<tr>
+                          <th scope="row">${i + 1}</th>
+                         <td>${data[i].EnrollmentId}</td>
+                          <td>${data[i].Name}</td>
+                         <td>${data[i].Email}</td>
+                         <td>${data[i].Dept_approval}</td>
+                         <td>${data[i].Dept_Comment}</td>
+                         <td>${data[i].TnP_approval}</td>
+                         <td>${data[i].TnP_Comment}</td>
+                         <td>${data[i].Company}</td>
+                         <td>${data[i].Role}</td>
+                       </tr>`
+                        )
+                    }
+                })
+            })
+            $('#show_all_applications_noc').click(function () {
+    console.log(121);
+    var applicationsData; // Define a variable to hold the data
+    $.getJSON('/api/AllApplications', function (data) {
+    console.log(data);
+    console.log(data.length);
+    applicationsData = data; // Assign the data to the variable
+    $('#section-display').css('display', 'block');
+    $("#tablebody2").html('');
+    $("#tablehead2").html('');
+    $("#tablehead2").append(`<tr>
+        <th>S. no</th>
+        <th>Enrollment</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Year</th>
+        <th>Company</th>
+        <th>Offer Letter</th>
+        <th>Dept Approval</th>
+        <th>Tnp approval</th>
+        <th>Application date</th>
+    </tr>`);
+    for (let i = 0; i < data.length; i++) {
+        $('#tablebody2').append(`<tr>
+            <td>${i + 1}</td>
+            <td>${data[i].EnrollmentId}</td>
+            <td>${data[i].Name}</td>
+            <td>${data[i].Email}</td>
+            <td>${data[i].year}</td>
+            <td>${data[i].Company}</td>
+            <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>
+            <td>
+                <select id="deptApprovalSelect${i}">
+                    <option value="None" ${!data[i].Dept_approval ? 'selected' : ''}>None</option>
+                    <option value="Approved" ${data[i].Dept_approval === 'Approved' ? 'selected' : ''}>Approve</option>
+                    <option value="Declined" ${data[i].Dept_approval === 'Declined' ? 'selected' : ''}>Decline</option>
+                </select>
+            </td>
+            <td>
+                <select id="tnpApprovalSelect${i}">
+                    <option value="None" ${!data[i].TnP_approval ? 'selected' : ''}>None</option>
+                    <option value="Approved" ${data[i].TnP_approval === 'Approved' ? 'selected' : ''}>Approve</option>
+                    <option value="Declined" ${data[i].TnP_approval === 'Declined' ? 'selected' : ''}>Decline</option>
+                </select>
+            </td>
+            <td>${data[i].App_Date}</td>
+            <td><button onclick='NOCAdminsubmitApproval(${JSON.stringify(data[i])}, ${i})'>Submit</button></td>
+        </tr>`);
+    }
+});})
+
+            $('#approved_all_show').click(function () {
+                console.log(121)
+                $.getJSON('/api/AllApplications', function (data) {
+                    console.log(data)
+                    console.log(data.length)
+
+                    $('#section-display').css('display', 'block')
+                    $("#tablebody2").html('')
+                    $("#tablehead2").html('')
+                    $("#tablehead2").append(`<tr>
+                <th>S. no</th>
+                <th>Enrollment</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Year</th>
+                <th>Company</th>
+                <th>Offer Letter</th>
+                <th>Dept Approval</th>
+                <th>Tnp approval</th>
+                <th>Application date</th>
+            </tr>`)
+            for (let i = 0; i < data.length; i++) {
+    $('#tablebody2').append(`<tr>
+        <td>${i + 1}</td>
+        <td>${data[i].EnrollmentId}</td>
+        <td>${data[i].Name}</td>
+        <td>${data[i].Email}</td>
+        <td>${data[i].year}</td>
+        <td>${data[i].Company}</td>
+        <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>
+        <td>
+            <select id="deptApprovalSelect${i}">
+                <option value="None" ${!data[i].Dept_approval ? 'selected' : ''}>None</option>
+                <option value="Approved" ${data[i].Dept_approval === 'Approved' ? 'selected' : ''}>Approved</option>
+                <option value="Declined" ${data[i].Dept_approval === 'Declined' ? 'selected' : ''}>Declined</option>
+            </select>
+        </td>
+        <td>
+            <select id="tnpApprovalSelect${i}">
+                <option value="None" ${!data[i].TnP_approval ? 'selected' : ''}>None</option>
+                <option value="Approved" ${data[i].TnP_approval === 'Approved' ? 'selected' : ''}>Approved</option>
+                <option value="Declined" ${data[i].TnP_approval === 'Declined' ? 'selected' : ''}>Declined</option>
+            </select>
+        </td>
+        <td>${data[i].App_Date}</td>
+        <td><button onclick="submitApproval(${i})">Submit</button></td>
+    </tr>`);
+}
+                })
+            })
+
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const nocOptions = document.querySelector('#admin-options'); // Select the NOC Related Options section
+    const noDuesOptions = document.querySelector('#adminNODopt'); // Select the NO Dues Related Options section
+
+    // Function to toggle sidebar and additional options
+    function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        nocOptions.classList.toggle('open'); // Toggle the NOC Related Options section
+        noDuesOptions.classList.toggle('open'); // Toggle the NO Dues Related Options section
+        if (sidebar.classList.contains('open')) {
+            toggleBtn.style.marginLeft = '4.1rem';
+            toggleBtn.style.marginTop = '-1rem';
+        } else {
+            toggleBtn.style.marginLeft = ''; // Reset marginLeft
+            toggleBtn.style.marginTop = ''; // Reset marginTop
+        }
+    }
+
+    // Toggle sidebar and additional options when the toggle button is clicked or touched
+    toggleBtn.addEventListener('click', toggleSidebar);
+    toggleBtn.addEventListener('touchstart', toggleSidebar);
+
+    // Close sidebar and additional options when clicking outside of them
+    $(document).click(function (event) {
+        if (!$(event.target).closest('.sidebar').length) {
+            sidebar.classList.remove('open');
+            toggleBtn.style.marginLeft = ''; // Reset marginLeft
+            toggleBtn.style.marginTop = ''; // Reset marginTop
+            nocOptions.classList.remove('open'); // Hide NOC Related Options
+            noDuesOptions.classList.remove('open'); // Hide NO Dues Related Options
+        }
+    });
+
+    // Close sidebar and additional options when hovering away from them
+    sidebar.addEventListener('mouseleave', function () {
+        sidebar.classList.remove('open');
+        toggleBtn.style.marginLeft = ''; // Reset marginLeft
+        toggleBtn.style.marginTop = ''; // Reset marginTop
+        nocOptions.classList.remove('open'); // Hide NOC Related Options
+        noDuesOptions.classList.remove('open'); // Hide NO Dues Related Options
+    });
+});
+
+    </script>
+     <div class="sidebar-container">
+        <button class="toggle-btn" style="color: black; background: transparent;width:40px;">&#9776;</button>
+        
+    <div class="sidebar">
+        <ul class="items">
+            <li class="active">
+                <a href="">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/api/adminprofile">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+            <li>
+                <a href="http://moodle.mitsgwalior.in/" class="mat">
+                    <i class="material-icons">assignment</i>
+                    <span>Moodle</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://web.mitsgwalior.in/" class="mat">
+                    <i class="material-icons">notes</i>
+                    <span>MITS Gwalior</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="mat" id="complete-profile">
+                    <i class="fas fa-user"></i>
+                    <span>NOC Related Options</span>
+                </a>
+                <div class="additional-options" id="admin-options">
+                    <ul class="items">
+                        <li id="show_all_applications_noc">All Applications</li>
+                        <li id="approved_all_show">Approved</li>
+                        <li>Declined</li>
+                        <!-- Add more options as needed -->
+                    </ul>
+                </div>
+            </li>
+            
+            <li>
+                <a href="#" class="mat" id="compfile">
+                    <i class="fas fa-user"></i>
+                    <span>NO Dues Related Options</span>
+                </a>
+                <div class="additional-options" id="adminNODopt">
+                    <ul class="items">
+                        <li><a href="#">All Applications</a></li>
+                        <li><a href="#">Received No Dues</a></li>
+                        <!-- Add more options as needed -->
+                    </ul>
+                </div>
+            </li>
+            <li class="logout">
+                <a href="/api/adminfp">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+     </div>
+    <div class="main--content">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <span>Admin Dashboard</span>
+                <h2>Total students Registered - {{data}}</h2>
+                <h3>Total students who applied for NOC - {{nocdata}}</h3>
+                <h4>Total students who got NOC - {{noctnp}}</h4>
+                <h3>Total students who applied for NODues - {{nod}}</h3>
+                <h4>Total students who got NODues - {{nodapp}}</h4>
+            </div>
+            <div class="user-info">
+
+                <img src="/Static/Images/mitslogo.png" style=" width: 8rem; height: 8rem;" alt="">
+                <!-- <img src="./biotic_logo.png" alt=""> -->
+            </div>
+        </div>
+        <div class="card-container">
+            <h3 class="main-title">Admin Section</h3>
+            <div class="card-wrapper">
+                <button type="button" id="adminfaculties" class="btn flex items-center box centerAlign ">Faculties</button>
+                <button type="button" id="depatrments" class="btn flex items-center box centerAlign ">Departments</button>
+                <button type="button" id="admincheckstudents" class="btn flex items-center box centerAlign ">All Students</button>
+                <button type="button" id="adminhostle" class="btn flex items-center box centerAlign ">Hostel Students</button>
+            </div>
+        </div>
+
+
+
+        <div class="tabular-wrapper">
+            <h3 class="main-title">Data Will appear here</h3>
+            <div class="table-container">
+                <table>
+                    <thead id="tablehead2">
+                    </thead>
+                    <tbody id="tablebody2">
+                        <!-- Table body content will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+        <input type="text" name="" id="msgss" value="{{message}}" hidden>
+    </div>
+    <footer>
+        <p>Copyright &copy; 2024 <span class="highlight">SDC MITS</span>. All Rights Reserved.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/Static/admindash.js"></script>
+    <script>
+        let msg = document.getElementById('msgss').value
+        if (msg == 'ok')
+            Swal.fire("Application sent succesfully", "Message sent", "success")
+
+        else if (msg == 'error')
+            Swal.fire("Failed", "Message Failed", "error")
+    </script>
+     <script>
+         document.getElementById("complete-profile").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById("admin-options").classList.toggle("open");
+    });
+    document.getElementById("compfile").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById("adminNODopt").classList.toggle("open");
+    });
+    </script>
+</body>
+
+</html>

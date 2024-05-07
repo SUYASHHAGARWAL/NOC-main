@@ -1,0 +1,1295 @@
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 19, 2024 - 03:42:00
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 19, 2024 - 03:42:36
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+1
+In Function Record: ()
+[]
+1
+In Function Record: ()
+[]
+1
+In Function Record: ()
+[]
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['lss39pQnOODsMKqvQ4BwUvMx3ecaqNAkOSrLdZfy3zKfkC7HDwwclhf2xIFg30wW'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ()
+11111111111
+No record found
+1
+2
+Not graduated
+Error list index out of range
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['XI184sjCEmCLIWso9PhnkK8q33pSP3ahDX2XkzFK8O021Ijm1r1JbcegmvCqVFA4'], 'EnrollmentId': ['0901EC221090'], 'password': ['Rishavmudgal88@gmail.com']}>
+0901EC221090
+Rishavmudgal88@gmail.com
+SELECT * FROM nocrest_student WHERE (username = '0901EC221090' OR enrollmentid = '0901EC221090') AND password = 'Rishavmudgal88@gmail.com'
+In Function Record: ()
+11111111111
+No record found
+1
+2
+Not graduated
+Error list index out of range
+<QueryDict: {'csrfmiddlewaretoken': ['XI184sjCEmCLIWso9PhnkK8q33pSP3ahDX2XkzFK8O021Ijm1r1JbcegmvCqVFA4'], 'EnrollmentId': ['0901EC221090'], 'password': ['Rishavmudgal88@gmail.com']}>
+0901EC221090
+Rishavmudgal88@gmail.com
+SELECT * FROM nocrest_student WHERE (username = '0901EC221090' OR enrollmentid = '0901EC221090') AND password = 'Rishavmudgal88@gmail.com'
+In Function Record: ()
+11111111111
+No record found
+1
+2
+Not graduated
+Error list index out of range
+<QueryDict: {'csrfmiddlewaretoken': ['XI184sjCEmCLIWso9PhnkK8q33pSP3ahDX2XkzFK8O021Ijm1r1JbcegmvCqVFA4'], 'EnrollmentId': ['0901EC221090'], 'password': ['Rishavmudgal88@gmail.com']}>
+0901EC221090
+Rishavmudgal88@gmail.com
+SELECT * FROM nocrest_student WHERE (username = '0901EC221090' OR enrollmentid = '0901EC221090') AND password = 'Rishavmudgal88@gmail.com'
+In Function Record: ()
+11111111111
+No record found
+1
+2
+Not graduated
+Error list index out of range
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['6FPGqQKy4C51yx6FWIMiT0AOyRDRiWdrMUQvGX6Gy4tiRjXDOkwEKsGERjQpoyDe'], 'EnrollmentId': ['0901EC221090'], 'password': ['kA2698YE']}>
+0901EC221090
+kA2698YE
+SELECT * FROM nocrest_student WHERE (username = '0901EC221090' OR enrollmentid = '0901EC221090') AND password = 'kA2698YE'
+In Function Record: ()
+11111111111
+No record found
+1
+2
+Not graduated
+Error list index out of range
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['8Qi2dW7LUyDj4PciqmTdnCavNPlQ03mTwRxqm3c2Ve3CQ7tiRiu1deNbyYsdWCqh'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ()
+11111111111
+No record found
+1
+2
+Not graduated
+Error list index out of range
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noc.mitsgwalior.in'. You may need to add 'noc.mitsgwalior.in' to ALLOWED_HOSTS.
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 20, 2024 - 10:55:38
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['ReMTSlDFvqjVBKp7EXaB7W43eSDUCV2yaYyYqp5t0NhbQOoXoRbTKIcHDQdzfCIQ'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ()
+11111111111
+No record found
+1
+2
+Not graduated
+Error list index out of range
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 20, 2024 - 11:04:36
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['ReMTSlDFvqjVBKp7EXaB7W43eSDUCV2yaYyYqp5t0NhbQOoXoRbTKIcHDQdzfCIQ'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ()
+[]
+No record found
+1
+2
+Not graduated
+Error list index out of range
+11111
+Yaha
+khali  
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 20, 2024 - 11:08:07
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 20, 2024 - 11:08:43
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+<QueryDict: {'csrfmiddlewaretoken': ['ReMTSlDFvqjVBKp7EXaB7W43eSDUCV2yaYyYqp5t0NhbQOoXoRbTKIcHDQdzfCIQ'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM noc.nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ()
+[]
+No record found
+1
+2
+Not graduated
+Error list index out of range
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 20, 2024 - 11:16:34
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+<QueryDict: {'csrfmiddlewaretoken': ['ReMTSlDFvqjVBKp7EXaB7W43eSDUCV2yaYyYqp5t0NhbQOoXoRbTKIcHDQdzfCIQ'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ()
+[]
+No record found
+1
+2
+Not graduated
+Error list index out of range
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 289, in ensure_connection
+    self.connect()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 270, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 247, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 358, in __init__
+    self.connect()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 664, in connect
+    self._request_authentication()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 968, in _request_authentication
+    auth_packet = self._process_auth(plugin_name, auth_packet)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 1062, in _process_auth
+    pkt = self._read_packet()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 772, in _read_packet
+    packet.raise_for_error()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1049, "Unknown database 'noc'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/management/commands/runserver.py", line 136, in inner_run
+    self.check_migrations()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/core/management/base.py", line 574, in check_migrations
+    executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/migrations/executor.py", line 18, in __init__
+    self.loader = MigrationLoader(self.connection)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/migrations/loader.py", line 58, in __init__
+    self.build_graph()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/migrations/loader.py", line 235, in build_graph
+    self.applied_migrations = recorder.applied_migrations()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/migrations/recorder.py", line 81, in applied_migrations
+    if self.has_table():
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/migrations/recorder.py", line 57, in has_table
+    with self.connection.cursor() as cursor:
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 330, in cursor
+    return self._cursor()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 306, in _cursor
+    self.ensure_connection()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 288, in ensure_connection
+    with self.wrap_database_errors:
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 289, in ensure_connection
+    self.connect()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/base/base.py", line 270, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/django/db/backends/mysql/base.py", line 247, in get_new_connection
+    connection = Database.connect(**conn_params)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 358, in __init__
+    self.connect()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 664, in connect
+    self._request_authentication()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 968, in _request_authentication
+    auth_packet = self._process_auth(plugin_name, auth_packet)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 1062, in _process_auth
+    pkt = self._read_packet()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/connections.py", line 772, in _read_packet
+    packet.raise_for_error()
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/var/www/html/webmits/.local/lib/python3.10/site-packages/pymysql/err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+django.db.utils.OperationalError: (1049, "Unknown database 'noc'")
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 20, 2024 - 11:23:09
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+<QueryDict: {'csrfmiddlewaretoken': ['ReMTSlDFvqjVBKp7EXaB7W43eSDUCV2yaYyYqp5t0NhbQOoXoRbTKIcHDQdzfCIQ'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+1
+2
+Not graduated
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+
+ Computer Science & Engineering
+check 0
+<QueryDict: {'csrfmiddlewaretoken': ['ReMTSlDFvqjVBKp7EXaB7W43eSDUCV2yaYyYqp5t0NhbQOoXoRbTKIcHDQdzfCIQ'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+1
+2
+Not graduated
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+
+ Computer Science & Engineering
+check 0
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 20, 2024 - 11:40:49
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: ims@mitsgwalior.in
+ims@mitsgwalior.in
+In Function Record: ()
+First Name: ims
+Last Name: mits gwalior
+ims@mitsgwalior.in
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: atul@mitsgwalior.in
+atul@mitsgwalior.in
+In Function Record: ()
+First Name: Atul
+Last Name: Chauhan
+atul@mitsgwalior.in
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['7ZLL5BnuO7qiEmP6l8C66Kw8aKiKJ3gCHhhqmqUURrVVAzjyzJ8fyD6w4aJ9saWm'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+1
+2
+Not graduated
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+
+ Computer Science & Engineering
+check 0
+1111
+Session  
+
+
+1111
+Session  
+
+
+1111
+Session  
+
+
+1111
+Session  
+
+
+1111
+Session  
+
+
+1111
+Session  
+
+
+1111
+Session  
+
+
+1111
+Session  
+
+
+1111
+Session  
+
+
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['s32eJuKnnhSMwtICWf1Soru4MTdeyUjaTd8JQVDLomBM0o19ATo4AI9wt8cBWeAI'], 'EnrollmentId': ['0901CS211123'], 'password': ['Suyash@yashu123']}>
+0901CS211123
+Suyash@yashu123
+SELECT * FROM nocrest_student WHERE (username = '0901CS211123' OR enrollmentid = '0901CS211123') AND password = 'Suyash@yashu123'
+In Function Record: ()
+[]
+No record found
+1
+2
+Not graduated
+Error list index out of range
+NAYA HAI YAAR
+User Email: 2021cs7su@mitsgwl.ac.in
+2021cs7su@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+First Name: 0901CS211123
+Last Name: SUYASH AGARWAL
+2021cs7su@mitsgwl.ac.in
+Dept 6
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+[{'id': 6, 'Dep_Id': '6', 'Department_name': 'Computer Science & Engineering', 'Department': 'CSE'}]
+1
+2
+Not graduated
+1111
+Session 0901CS211123 
+
+
+2021cs7su@mitsgwl.ac.in
+In Function Record: ((12, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '5', 'Approved', '', 'Approved', '', 'Infosys', '-', '6', '2024-02-18', '15:41:47', 'hhhhjb', 'organisation_website', 'on', '100', '2024-02-28', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-20', '20000', 'infosys.com', '3', 'static/SIH-_Cipher_pdf.pdf', '15:43:08.784641', '18:19:07.432218', '2024-02-18', '2024-02-18', 'Suyash Agarwal_0901CS211123_Infosys_noc.pdf'), (11, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9855007', 'Declined', 'not goof for u', '', 'Negative stipend', 'dfgdfgdfg dfg', '-', '6', '2024-02-12', '16:48:39', 'dfgdf', 'organisation_website', 'on', '67', '', 'dfgf', 'sefgdfg', 'fgfgfg', '', '-4555', 'fgf', '3', 'static/65afa5d6c1e87_Case_Study_Brief_and_Submission_Template.zip', '15:42:47.072425', '18:00:19.280784', '2024-02-18', '2024-02-12', ''), (10, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '6', 'Approved', '', 'Approved', '', 'MITS', '-', '6', '2024-02-12', '11:12:33', 'HR manager', 'employee_referral', 'on', '80', '2024-04-17', 'Bangalore', 'Mr Vedant Singh', 'A 10 Ashok Vihar colony, tansen road', '2024-02-13', '12000', 'mits.com', '3', 'static/M.I.T.S_.pdf', '14:13:40.491209', '18:21:32.646835', '2024-02-15', '2024-02-18', 'Suyash Agarwal_0901CS211123_MITS_noc.pdf'), (9, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9065247', 'Declined', 'not good for you', '', '', 'capgemini', '-', '6', '2024-02-11', '21:22:56', 'Tech lead ', 'employee_referral', 'on', '120', '2024-02-28', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-13', '20000', 'capgemini.com', '3', 'static/paper.pdf', '23:34:16.264008', '', '2024-02-11', '', ''), (7, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9312411', 'Approved', '', 'Approved', '', 'DEMO', '-', '6', '2024-02-10', '20:36:58', 'Tech lead ', 'organisation_website', 'on', '100', '2024-03-21', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-22', '20000', 'infosys.com', '3', 'static/Suyash_Agarwal_0901cs211123_Offerletter_HRSKD6J.pdf', '17:59:32.462913', '21:11:58.301624', '2024-02-11', '2024-02-11', 'Suyash Agarwal_0901CS211123_DEMO_noc.pdf'), (6, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy8599667', 'Approved', '', 'Declined', 'bekaar hai', 'xyz', '-', 'B.Tech Computer Science and Engineering', '2024-02-05', '15:24:02', 'hhhhjb', 'organisation_website', 'on', '200', '2024-03-14', 'Gwalior, MP', 'Anu', 'A 10 Ashok Vihar colony, tansen road', '2024-02-05', '20000', 'infosys.com', '4', '', '15:30:31.034659', '23:36:32.521509', '', '2024-02-11', 'Suyash Agarwal_0901CS211123_xyz_noc.pdf'), (2, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy5214735', 'Approved', '', 'Approved', '', 'GOODRICK', '-', 'B.Tech Computer Science and Engineering', '2024-02-05', '12:16:27', 'Tech lead ', 'employee_referral', 'on', '100', '2024-03-28', 'Bangalore', 'Ayush Tiwari', 'A 10 Ashok Vihar colony, tansen road', '2024-02-14', '20000', 'infosys.com', '3', 'static/Game_Theory_in_Network_Security.pdf', '15:36:20.893762', '01:12:25.287748', '', '2024-02-09', 'Suyash Agarwal_0901CS211123_GOODRICK_noc.pdf'), (1, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '5', 'Approved', '', 'Approved', '', 'STUDYCIRCLE', '-', '6', '2024-02-04', '23:10:33', 'Tech lead ', 'employee_referral', 'on', '100', '2024-02-28', 'Gwalior, MP', 'Vinay kumar', 'A 10 Ashok Vihar colony, tansen road', '2024-02-20', '20000', 'infosys.com', '3', 'static/Suyash_Agarwal_0901cs211123_Offerletter.pdf', '14:11:53.132278', '14:18:46.935233', '2024-02-15', '2024-02-15', 'Suyash Agarwal_0901CS211123_STUDYCIRCLE_noc.pdf'))
+xxxxxxxxxx [{'id': 12, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '5', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'Infosys', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-18', 'App_time': '15:41:47', 'Designation_reciever': 'hhhhjb', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '100', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-20', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/SIH-_Cipher_pdf.pdf', 'Time_Dept_approval': '15:43:08.784641', 'Time_Tnp_approval': '18:19:07.432218', 'date_dept_approval': '2024-02-18', 'date_tnp_approval': '2024-02-18', 'noc': 'Suyash Agarwal_0901CS211123_Infosys_noc.pdf'}, {'id': 11, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9855007', 'Dept_approval': 'Declined', 'Dept_Comment': 'not goof for u', 'TnP_approval': '', 'TnP_Comment': 'Negative stipend', 'Company': 'dfgdfgdfg dfg', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-12', 'App_time': '16:48:39', 'Designation_reciever': 'dfgdf', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '67', 'endDate': '', 'location': 'dfgf', 'name_reciever': 'sefgdfg', 'org_address': 'fgfgfg', 'startDate': '', 'stipend': '-4555', 'websitr_org': 'fgf', 'year': '3', 'offerletter': 'static/65afa5d6c1e87_Case_Study_Brief_and_Submission_Template.zip', 'Time_Dept_approval': '15:42:47.072425', 'Time_Tnp_approval': '18:00:19.280784', 'date_dept_approval': '2024-02-18', 'date_tnp_approval': '2024-02-12', 'noc': ''}, {'id': 10, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '6', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'MITS', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-12', 'App_time': '11:12:33', 'Designation_reciever': 'HR manager', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '80', 'endDate': '2024-04-17', 'location': 'Bangalore', 'name_reciever': 'Mr Vedant Singh', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-13', 'stipend': '12000', 'websitr_org': 'mits.com', 'year': '3', 'offerletter': 'static/M.I.T.S_.pdf', 'Time_Dept_approval': '14:13:40.491209', 'Time_Tnp_approval': '18:21:32.646835', 'date_dept_approval': '2024-02-15', 'date_tnp_approval': '2024-02-18', 'noc': 'Suyash Agarwal_0901CS211123_MITS_noc.pdf'}, {'id': 9, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9065247', 'Dept_approval': 'Declined', 'Dept_Comment': 'not good for you', 'TnP_approval': '', 'TnP_Comment': '', 'Company': 'capgemini', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-11', 'App_time': '21:22:56', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '120', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-13', 'stipend': '20000', 'websitr_org': 'capgemini.com', 'year': '3', 'offerletter': 'static/paper.pdf', 'Time_Dept_approval': '23:34:16.264008', 'Time_Tnp_approval': '', 'date_dept_approval': '2024-02-11', 'date_tnp_approval': '', 'noc': ''}, {'id': 7, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9312411', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'DEMO', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-10', 'App_time': '20:36:58', 'Designation_reciever': 'Tech lead ', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '100', 'endDate': '2024-03-21', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-22', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Suyash_Agarwal_0901cs211123_Offerletter_HRSKD6J.pdf', 'Time_Dept_approval': '17:59:32.462913', 'Time_Tnp_approval': '21:11:58.301624', 'date_dept_approval': '2024-02-11', 'date_tnp_approval': '2024-02-11', 'noc': 'Suyash Agarwal_0901CS211123_DEMO_noc.pdf'}, {'id': 6, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy8599667', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Declined', 'TnP_Comment': 'bekaar hai', 'Company': 'xyz', 'Role': '-', 'dept': 'B.Tech Computer Science and Engineering', 'App_Date': '2024-02-05', 'App_time': '15:24:02', 'Designation_reciever': 'hhhhjb', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '200', 'endDate': '2024-03-14', 'location': 'Gwalior, MP', 'name_reciever': 'Anu', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-05', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '4', 'offerletter': '', 'Time_Dept_approval': '15:30:31.034659', 'Time_Tnp_approval': '23:36:32.521509', 'date_dept_approval': '', 'date_tnp_approval': '2024-02-11', 'noc': 'Suyash Agarwal_0901CS211123_xyz_noc.pdf'}, {'id': 2, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy5214735', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'GOODRICK', 'Role': '-', 'dept': 'B.Tech Computer Science and Engineering', 'App_Date': '2024-02-05', 'App_time': '12:16:27', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '100', 'endDate': '2024-03-28', 'location': 'Bangalore', 'name_reciever': 'Ayush Tiwari', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-14', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Game_Theory_in_Network_Security.pdf', 'Time_Dept_approval': '15:36:20.893762', 'Time_Tnp_approval': '01:12:25.287748', 'date_dept_approval': '', 'date_tnp_approval': '2024-02-09', 'noc': 'Suyash Agarwal_0901CS211123_GOODRICK_noc.pdf'}, {'id': 1, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '5', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'STUDYCIRCLE', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-04', 'App_time': '23:10:33', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '100', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Vinay kumar', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-20', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Suyash_Agarwal_0901cs211123_Offerletter.pdf', 'Time_Dept_approval': '14:11:53.132278', 'Time_Tnp_approval': '14:18:46.935233', 'date_dept_approval': '2024-02-15', 'date_tnp_approval': '2024-02-15', 'noc': 'Suyash Agarwal_0901CS211123_STUDYCIRCLE_noc.pdf'}]
+Logout hora bohot bhayankar
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+'AnonymousUser' object has no attribute 'email'
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['QjlKtifY3FEATIsl3tQ9I7zaS2yLAk5xLxCOjMkpdA0suLQkVYrnL4wrcu5LyDyD'], 'EnrollmentId': ['0901CS211123'], 'password': ['1234']}>
+0901CS211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901CS211123' OR enrollmentid = '0901CS211123') AND password = '1234'
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+1
+2
+Not graduated
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+
+ Computer Science & Engineering
+check 0
+1111
+Session  
+
+
+<QueryDict: {'csrfmiddlewaretoken': ['QjlKtifY3FEATIsl3tQ9I7zaS2yLAk5xLxCOjMkpdA0suLQkVYrnL4wrcu5LyDyD'], 'EnrollmentId': ['0901CS211123'], 'password': ['1234']}>
+0901CS211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901CS211123' OR enrollmentid = '0901CS211123') AND password = '1234'
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+1
+2
+Not graduated
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+
+ Computer Science & Engineering
+check 0
+Logout hora bohot bhayankar
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: 2021cs7su@mitsgwl.ac.in
+2021cs7su@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+First Name: 0901CS211123
+Last Name: SUYASH AGARWAL
+2021cs7su@mitsgwl.ac.in
+Dept 6
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+[{'id': 6, 'Dep_Id': '6', 'Department_name': 'Computer Science & Engineering', 'Department': 'CSE'}]
+1
+2
+Not graduated
+1111
+Session 0901CS211123 
+
+
+2021cs7su@mitsgwl.ac.in
+In Function Record: ((12, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '5', 'Approved', '', 'Approved', '', 'Infosys', '-', '6', '2024-02-18', '15:41:47', 'hhhhjb', 'organisation_website', 'on', '100', '2024-02-28', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-20', '20000', 'infosys.com', '3', 'static/SIH-_Cipher_pdf.pdf', '15:43:08.784641', '18:19:07.432218', '2024-02-18', '2024-02-18', 'Suyash Agarwal_0901CS211123_Infosys_noc.pdf'), (11, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9855007', 'Declined', 'not goof for u', '', 'Negative stipend', 'dfgdfgdfg dfg', '-', '6', '2024-02-12', '16:48:39', 'dfgdf', 'organisation_website', 'on', '67', '', 'dfgf', 'sefgdfg', 'fgfgfg', '', '-4555', 'fgf', '3', 'static/65afa5d6c1e87_Case_Study_Brief_and_Submission_Template.zip', '15:42:47.072425', '18:00:19.280784', '2024-02-18', '2024-02-12', ''), (10, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '6', 'Approved', '', 'Approved', '', 'MITS', '-', '6', '2024-02-12', '11:12:33', 'HR manager', 'employee_referral', 'on', '80', '2024-04-17', 'Bangalore', 'Mr Vedant Singh', 'A 10 Ashok Vihar colony, tansen road', '2024-02-13', '12000', 'mits.com', '3', 'static/M.I.T.S_.pdf', '14:13:40.491209', '18:21:32.646835', '2024-02-15', '2024-02-18', 'Suyash Agarwal_0901CS211123_MITS_noc.pdf'), (9, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9065247', 'Declined', 'not good for you', '', '', 'capgemini', '-', '6', '2024-02-11', '21:22:56', 'Tech lead ', 'employee_referral', 'on', '120', '2024-02-28', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-13', '20000', 'capgemini.com', '3', 'static/paper.pdf', '23:34:16.264008', '', '2024-02-11', '', ''), (7, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9312411', 'Approved', '', 'Approved', '', 'DEMO', '-', '6', '2024-02-10', '20:36:58', 'Tech lead ', 'organisation_website', 'on', '100', '2024-03-21', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-22', '20000', 'infosys.com', '3', 'static/Suyash_Agarwal_0901cs211123_Offerletter_HRSKD6J.pdf', '17:59:32.462913', '21:11:58.301624', '2024-02-11', '2024-02-11', 'Suyash Agarwal_0901CS211123_DEMO_noc.pdf'), (6, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy8599667', 'Approved', '', 'Declined', 'bekaar hai', 'xyz', '-', 'B.Tech Computer Science and Engineering', '2024-02-05', '15:24:02', 'hhhhjb', 'organisation_website', 'on', '200', '2024-03-14', 'Gwalior, MP', 'Anu', 'A 10 Ashok Vihar colony, tansen road', '2024-02-05', '20000', 'infosys.com', '4', '', '15:30:31.034659', '23:36:32.521509', '', '2024-02-11', 'Suyash Agarwal_0901CS211123_xyz_noc.pdf'), (2, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy5214735', 'Approved', '', 'Approved', '', 'GOODRICK', '-', 'B.Tech Computer Science and Engineering', '2024-02-05', '12:16:27', 'Tech lead ', 'employee_referral', 'on', '100', '2024-03-28', 'Bangalore', 'Ayush Tiwari', 'A 10 Ashok Vihar colony, tansen road', '2024-02-14', '20000', 'infosys.com', '3', 'static/Game_Theory_in_Network_Security.pdf', '15:36:20.893762', '01:12:25.287748', '', '2024-02-09', 'Suyash Agarwal_0901CS211123_GOODRICK_noc.pdf'), (1, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '5', 'Approved', '', 'Approved', '', 'STUDYCIRCLE', '-', '6', '2024-02-04', '23:10:33', 'Tech lead ', 'employee_referral', 'on', '100', '2024-02-28', 'Gwalior, MP', 'Vinay kumar', 'A 10 Ashok Vihar colony, tansen road', '2024-02-20', '20000', 'infosys.com', '3', 'static/Suyash_Agarwal_0901cs211123_Offerletter.pdf', '14:11:53.132278', '14:18:46.935233', '2024-02-15', '2024-02-15', 'Suyash Agarwal_0901CS211123_STUDYCIRCLE_noc.pdf'))
+xxxxxxxxxx [{'id': 12, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '5', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'Infosys', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-18', 'App_time': '15:41:47', 'Designation_reciever': 'hhhhjb', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '100', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-20', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/SIH-_Cipher_pdf.pdf', 'Time_Dept_approval': '15:43:08.784641', 'Time_Tnp_approval': '18:19:07.432218', 'date_dept_approval': '2024-02-18', 'date_tnp_approval': '2024-02-18', 'noc': 'Suyash Agarwal_0901CS211123_Infosys_noc.pdf'}, {'id': 11, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9855007', 'Dept_approval': 'Declined', 'Dept_Comment': 'not goof for u', 'TnP_approval': '', 'TnP_Comment': 'Negative stipend', 'Company': 'dfgdfgdfg dfg', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-12', 'App_time': '16:48:39', 'Designation_reciever': 'dfgdf', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '67', 'endDate': '', 'location': 'dfgf', 'name_reciever': 'sefgdfg', 'org_address': 'fgfgfg', 'startDate': '', 'stipend': '-4555', 'websitr_org': 'fgf', 'year': '3', 'offerletter': 'static/65afa5d6c1e87_Case_Study_Brief_and_Submission_Template.zip', 'Time_Dept_approval': '15:42:47.072425', 'Time_Tnp_approval': '18:00:19.280784', 'date_dept_approval': '2024-02-18', 'date_tnp_approval': '2024-02-12', 'noc': ''}, {'id': 10, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '6', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'MITS', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-12', 'App_time': '11:12:33', 'Designation_reciever': 'HR manager', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '80', 'endDate': '2024-04-17', 'location': 'Bangalore', 'name_reciever': 'Mr Vedant Singh', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-13', 'stipend': '12000', 'websitr_org': 'mits.com', 'year': '3', 'offerletter': 'static/M.I.T.S_.pdf', 'Time_Dept_approval': '14:13:40.491209', 'Time_Tnp_approval': '18:21:32.646835', 'date_dept_approval': '2024-02-15', 'date_tnp_approval': '2024-02-18', 'noc': 'Suyash Agarwal_0901CS211123_MITS_noc.pdf'}, {'id': 9, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9065247', 'Dept_approval': 'Declined', 'Dept_Comment': 'not good for you', 'TnP_approval': '', 'TnP_Comment': '', 'Company': 'capgemini', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-11', 'App_time': '21:22:56', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '120', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-13', 'stipend': '20000', 'websitr_org': 'capgemini.com', 'year': '3', 'offerletter': 'static/paper.pdf', 'Time_Dept_approval': '23:34:16.264008', 'Time_Tnp_approval': '', 'date_dept_approval': '2024-02-11', 'date_tnp_approval': '', 'noc': ''}, {'id': 7, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9312411', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'DEMO', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-10', 'App_time': '20:36:58', 'Designation_reciever': 'Tech lead ', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '100', 'endDate': '2024-03-21', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-22', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Suyash_Agarwal_0901cs211123_Offerletter_HRSKD6J.pdf', 'Time_Dept_approval': '17:59:32.462913', 'Time_Tnp_approval': '21:11:58.301624', 'date_dept_approval': '2024-02-11', 'date_tnp_approval': '2024-02-11', 'noc': 'Suyash Agarwal_0901CS211123_DEMO_noc.pdf'}, {'id': 6, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy8599667', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Declined', 'TnP_Comment': 'bekaar hai', 'Company': 'xyz', 'Role': '-', 'dept': 'B.Tech Computer Science and Engineering', 'App_Date': '2024-02-05', 'App_time': '15:24:02', 'Designation_reciever': 'hhhhjb', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '200', 'endDate': '2024-03-14', 'location': 'Gwalior, MP', 'name_reciever': 'Anu', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-05', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '4', 'offerletter': '', 'Time_Dept_approval': '15:30:31.034659', 'Time_Tnp_approval': '23:36:32.521509', 'date_dept_approval': '', 'date_tnp_approval': '2024-02-11', 'noc': 'Suyash Agarwal_0901CS211123_xyz_noc.pdf'}, {'id': 2, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy5214735', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'GOODRICK', 'Role': '-', 'dept': 'B.Tech Computer Science and Engineering', 'App_Date': '2024-02-05', 'App_time': '12:16:27', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '100', 'endDate': '2024-03-28', 'location': 'Bangalore', 'name_reciever': 'Ayush Tiwari', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-14', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Game_Theory_in_Network_Security.pdf', 'Time_Dept_approval': '15:36:20.893762', 'Time_Tnp_approval': '01:12:25.287748', 'date_dept_approval': '', 'date_tnp_approval': '2024-02-09', 'noc': 'Suyash Agarwal_0901CS211123_GOODRICK_noc.pdf'}, {'id': 1, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '5', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'STUDYCIRCLE', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-04', 'App_time': '23:10:33', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '100', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Vinay kumar', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-20', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Suyash_Agarwal_0901cs211123_Offerletter.pdf', 'Time_Dept_approval': '14:11:53.132278', 'Time_Tnp_approval': '14:18:46.935233', 'date_dept_approval': '2024-02-15', 'date_tnp_approval': '2024-02-15', 'noc': 'Suyash Agarwal_0901CS211123_STUDYCIRCLE_noc.pdf'}]
+Logout hora bohot bhayankar
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+'AnonymousUser' object has no attribute 'email'
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: atul@mitsgwalior.in
+atul@mitsgwalior.in
+In Function Record: ()
+First Name: moodle
+Last Name: mits
+atul@mitsgwalior.in
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: 2021cs7su@mitsgwl.ac.in
+2021cs7su@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+First Name: 0901CS211123
+Last Name: SUYASH AGARWAL
+2021cs7su@mitsgwl.ac.in
+Dept 6
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+[{'id': 6, 'Dep_Id': '6', 'Department_name': 'Computer Science & Engineering', 'Department': 'CSE'}]
+1
+2
+Not graduated
+1111
+Session 0901CS211123 
+
+
+2021cs7su@mitsgwl.ac.in
+In Function Record: ((12, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '5', 'Approved', '', 'Approved', '', 'Infosys', '-', '6', '2024-02-18', '15:41:47', 'hhhhjb', 'organisation_website', 'on', '100', '2024-02-28', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-20', '20000', 'infosys.com', '3', 'static/SIH-_Cipher_pdf.pdf', '15:43:08.784641', '18:19:07.432218', '2024-02-18', '2024-02-18', 'Suyash Agarwal_0901CS211123_Infosys_noc.pdf'), (11, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9855007', 'Declined', 'not goof for u', '', 'Negative stipend', 'dfgdfgdfg dfg', '-', '6', '2024-02-12', '16:48:39', 'dfgdf', 'organisation_website', 'on', '67', '', 'dfgf', 'sefgdfg', 'fgfgfg', '', '-4555', 'fgf', '3', 'static/65afa5d6c1e87_Case_Study_Brief_and_Submission_Template.zip', '15:42:47.072425', '18:00:19.280784', '2024-02-18', '2024-02-12', ''), (10, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '6', 'Approved', '', 'Approved', '', 'MITS', '-', '6', '2024-02-12', '11:12:33', 'HR manager', 'employee_referral', 'on', '80', '2024-04-17', 'Bangalore', 'Mr Vedant Singh', 'A 10 Ashok Vihar colony, tansen road', '2024-02-13', '12000', 'mits.com', '3', 'static/M.I.T.S_.pdf', '14:13:40.491209', '18:21:32.646835', '2024-02-15', '2024-02-18', 'Suyash Agarwal_0901CS211123_MITS_noc.pdf'), (9, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9065247', 'Declined', 'not good for you', '', '', 'capgemini', '-', '6', '2024-02-11', '21:22:56', 'Tech lead ', 'employee_referral', 'on', '120', '2024-02-28', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-13', '20000', 'capgemini.com', '3', 'static/paper.pdf', '23:34:16.264008', '', '2024-02-11', '', ''), (7, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy9312411', 'Approved', '', 'Approved', '', 'DEMO', '-', '6', '2024-02-10', '20:36:58', 'Tech lead ', 'organisation_website', 'on', '100', '2024-03-21', 'Gwalior, MP', 'Suyash Agarwal', 'A 10 Ashok Vihar colony, tansen road', '2024-02-22', '20000', 'infosys.com', '3', 'static/Suyash_Agarwal_0901cs211123_Offerletter_HRSKD6J.pdf', '17:59:32.462913', '21:11:58.301624', '2024-02-11', '2024-02-11', 'Suyash Agarwal_0901CS211123_DEMO_noc.pdf'), (6, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy8599667', 'Approved', '', 'Declined', 'bekaar hai', 'xyz', '-', 'B.Tech Computer Science and Engineering', '2024-02-05', '15:24:02', 'hhhhjb', 'organisation_website', 'on', '200', '2024-03-14', 'Gwalior, MP', 'Anu', 'A 10 Ashok Vihar colony, tansen road', '2024-02-05', '20000', 'infosys.com', '4', '', '15:30:31.034659', '23:36:32.521509', '', '2024-02-11', 'Suyash Agarwal_0901CS211123_xyz_noc.pdf'), (2, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', 'uy5214735', 'Approved', '', 'Approved', '', 'GOODRICK', '-', 'B.Tech Computer Science and Engineering', '2024-02-05', '12:16:27', 'Tech lead ', 'employee_referral', 'on', '100', '2024-03-28', 'Bangalore', 'Ayush Tiwari', 'A 10 Ashok Vihar colony, tansen road', '2024-02-14', '20000', 'infosys.com', '3', 'static/Game_Theory_in_Network_Security.pdf', '15:36:20.893762', '01:12:25.287748', '', '2024-02-09', 'Suyash Agarwal_0901CS211123_GOODRICK_noc.pdf'), (1, '0901CS211123', 'Suyash Agarwal', '2021cs7su@mitsgwl.ac.in', '5', 'Approved', '', 'Approved', '', 'STUDYCIRCLE', '-', '6', '2024-02-04', '23:10:33', 'Tech lead ', 'employee_referral', 'on', '100', '2024-02-28', 'Gwalior, MP', 'Vinay kumar', 'A 10 Ashok Vihar colony, tansen road', '2024-02-20', '20000', 'infosys.com', '3', 'static/Suyash_Agarwal_0901cs211123_Offerletter.pdf', '14:11:53.132278', '14:18:46.935233', '2024-02-15', '2024-02-15', 'Suyash Agarwal_0901CS211123_STUDYCIRCLE_noc.pdf'))
+xxxxxxxxxx [{'id': 12, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '5', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'Infosys', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-18', 'App_time': '15:41:47', 'Designation_reciever': 'hhhhjb', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '100', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-20', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/SIH-_Cipher_pdf.pdf', 'Time_Dept_approval': '15:43:08.784641', 'Time_Tnp_approval': '18:19:07.432218', 'date_dept_approval': '2024-02-18', 'date_tnp_approval': '2024-02-18', 'noc': 'Suyash Agarwal_0901CS211123_Infosys_noc.pdf'}, {'id': 11, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9855007', 'Dept_approval': 'Declined', 'Dept_Comment': 'not goof for u', 'TnP_approval': '', 'TnP_Comment': 'Negative stipend', 'Company': 'dfgdfgdfg dfg', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-12', 'App_time': '16:48:39', 'Designation_reciever': 'dfgdf', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '67', 'endDate': '', 'location': 'dfgf', 'name_reciever': 'sefgdfg', 'org_address': 'fgfgfg', 'startDate': '', 'stipend': '-4555', 'websitr_org': 'fgf', 'year': '3', 'offerletter': 'static/65afa5d6c1e87_Case_Study_Brief_and_Submission_Template.zip', 'Time_Dept_approval': '15:42:47.072425', 'Time_Tnp_approval': '18:00:19.280784', 'date_dept_approval': '2024-02-18', 'date_tnp_approval': '2024-02-12', 'noc': ''}, {'id': 10, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '6', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'MITS', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-12', 'App_time': '11:12:33', 'Designation_reciever': 'HR manager', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '80', 'endDate': '2024-04-17', 'location': 'Bangalore', 'name_reciever': 'Mr Vedant Singh', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-13', 'stipend': '12000', 'websitr_org': 'mits.com', 'year': '3', 'offerletter': 'static/M.I.T.S_.pdf', 'Time_Dept_approval': '14:13:40.491209', 'Time_Tnp_approval': '18:21:32.646835', 'date_dept_approval': '2024-02-15', 'date_tnp_approval': '2024-02-18', 'noc': 'Suyash Agarwal_0901CS211123_MITS_noc.pdf'}, {'id': 9, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9065247', 'Dept_approval': 'Declined', 'Dept_Comment': 'not good for you', 'TnP_approval': '', 'TnP_Comment': '', 'Company': 'capgemini', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-11', 'App_time': '21:22:56', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '120', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-13', 'stipend': '20000', 'websitr_org': 'capgemini.com', 'year': '3', 'offerletter': 'static/paper.pdf', 'Time_Dept_approval': '23:34:16.264008', 'Time_Tnp_approval': '', 'date_dept_approval': '2024-02-11', 'date_tnp_approval': '', 'noc': ''}, {'id': 7, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy9312411', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'DEMO', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-10', 'App_time': '20:36:58', 'Designation_reciever': 'Tech lead ', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '100', 'endDate': '2024-03-21', 'location': 'Gwalior, MP', 'name_reciever': 'Suyash Agarwal', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-22', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Suyash_Agarwal_0901cs211123_Offerletter_HRSKD6J.pdf', 'Time_Dept_approval': '17:59:32.462913', 'Time_Tnp_approval': '21:11:58.301624', 'date_dept_approval': '2024-02-11', 'date_tnp_approval': '2024-02-11', 'noc': 'Suyash Agarwal_0901CS211123_DEMO_noc.pdf'}, {'id': 6, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy8599667', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Declined', 'TnP_Comment': 'bekaar hai', 'Company': 'xyz', 'Role': '-', 'dept': 'B.Tech Computer Science and Engineering', 'App_Date': '2024-02-05', 'App_time': '15:24:02', 'Designation_reciever': 'hhhhjb', 'apply_through': 'organisation_website', 'declaration': 'on', 'duration': '200', 'endDate': '2024-03-14', 'location': 'Gwalior, MP', 'name_reciever': 'Anu', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-05', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '4', 'offerletter': '', 'Time_Dept_approval': '15:30:31.034659', 'Time_Tnp_approval': '23:36:32.521509', 'date_dept_approval': '', 'date_tnp_approval': '2024-02-11', 'noc': 'Suyash Agarwal_0901CS211123_xyz_noc.pdf'}, {'id': 2, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': 'uy5214735', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'GOODRICK', 'Role': '-', 'dept': 'B.Tech Computer Science and Engineering', 'App_Date': '2024-02-05', 'App_time': '12:16:27', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '100', 'endDate': '2024-03-28', 'location': 'Bangalore', 'name_reciever': 'Ayush Tiwari', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-14', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Game_Theory_in_Network_Security.pdf', 'Time_Dept_approval': '15:36:20.893762', 'Time_Tnp_approval': '01:12:25.287748', 'date_dept_approval': '', 'date_tnp_approval': '2024-02-09', 'noc': 'Suyash Agarwal_0901CS211123_GOODRICK_noc.pdf'}, {'id': 1, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'Email': '2021cs7su@mitsgwl.ac.in', 'App_Id': '5', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': 'Approved', 'TnP_Comment': '', 'Company': 'STUDYCIRCLE', 'Role': '-', 'dept': '6', 'App_Date': '2024-02-04', 'App_time': '23:10:33', 'Designation_reciever': 'Tech lead ', 'apply_through': 'employee_referral', 'declaration': 'on', 'duration': '100', 'endDate': '2024-02-28', 'location': 'Gwalior, MP', 'name_reciever': 'Vinay kumar', 'org_address': 'A 10 Ashok Vihar colony, tansen road', 'startDate': '2024-02-20', 'stipend': '20000', 'websitr_org': 'infosys.com', 'year': '3', 'offerletter': 'static/Suyash_Agarwal_0901cs211123_Offerletter.pdf', 'Time_Dept_approval': '14:11:53.132278', 'Time_Tnp_approval': '14:18:46.935233', 'date_dept_approval': '2024-02-15', 'date_tnp_approval': '2024-02-15', 'noc': 'Suyash Agarwal_0901CS211123_STUDYCIRCLE_noc.pdf'}]
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['rtZo6Mv4UP1EMhWpfoWkTJNxK27LecPFtZfRTU2g1PmeiyKZ6tJSq7TGnx9KaYtT'], 'EnrollmentId': ['0901CS211123'], 'password': ['1234']}>
+0901CS211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901CS211123' OR enrollmentid = '0901CS211123') AND password = '1234'
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+1
+2
+Not graduated
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+
+ Computer Science & Engineering
+check 0
+1111
+Session  
+
+
+Logout hora bohot bhayankar
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['rtZo6Mv4UP1EMhWpfoWkTJNxK27LecPFtZfRTU2g1PmeiyKZ6tJSq7TGnx9KaYtT'], 'EnrollmentId': ['0901CS211123'], 'password': ['1234']}>
+0901CS211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901CS211123' OR enrollmentid = '0901CS211123') AND password = '1234'
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+1
+2
+Not graduated
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+
+ Computer Science & Engineering
+check 0
+Logout hora bohot bhayankar
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: atul@mitsgwalior.in
+atul@mitsgwalior.in
+In Function Record: ()
+First Name: Atul
+Last Name: Chauhan
+atul@mitsgwalior.in
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: 2021mc14an@mitsgwl.ac.in
+2021mc14an@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ()
+First Name: 0901MC211013
+Last Name: ANUJ RATHOR
+2021mc14an@mitsgwl.ac.in
+list index out of range
+11111
+Yaha
+khali  
+<QueryDict: {'csrfmiddlewaretoken': ['2RfTjVWGoURNHYzoD8Oo3paR2JzXPpNRCqRWQ1KYTSTTFD11HLyQG4bFJ80TIC4N'], 'EnrollmentId': ['0901cs211123'], 'password': ['1234']}>
+0901cs211123
+1234
+SELECT * FROM nocrest_student WHERE (username = '0901cs211123' OR enrollmentid = '0901cs211123') AND password = '1234'
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+[{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}]
+1
+2
+Not graduated
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+
+ Computer Science & Engineering
+check 0
+0901CS211123
+{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}
+NAYA HAI YAAR
+User Email: 2021mc14an@mitsgwl.ac.in
+2021mc14an@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ()
+First Name: 0901MC211013
+Last Name: ANUJ RATHOR
+2021mc14an@mitsgwl.ac.in
+list index out of range
+11111
+Yaha
+khali  
+0901CS211123
+{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}
+NAYA HAI YAAR
+User Email: 2021mc14an@mitsgwl.ac.in
+2021mc14an@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ()
+First Name: 0901MC211013
+Last Name: ANUJ RATHOR
+2021mc14an@mitsgwl.ac.in
+list index out of range
+11111
+Yaha
+khali  
+0901CS211123
+{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}
+0901CS211123
+{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}
+0901CS211123
+{'id': 28, 'EnrollmentId': '0901CS211123', 'Name': 'Suyash Agarwal', 'fathers_name': 'D K agarwal', 'Address': 'A 10 Ashok Vihar colony, tansen road', 'contact_Num': '8085735401', 'Email': '2021cs7su@mitsgwl.ac.in', 'Branch': '6', 'Noc_Count': '0', 'password': '1234', 'username': '0'}
+1111
+Session  
+
+
+1111
+Session  
+
+
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: 2021cs133ya@mitsgwl.ac.in
+2021cs133ya@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ()
+First Name: 0901CS211134
+Last Name: YASH AGARWAL
+2021cs133ya@mitsgwl.ac.in
+list index out of range
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+Logout hora bohot bhayankar
+11111
+Yaha
+khali  
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: 2021cs7su@mitsgwl.ac.in
+2021cs7su@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ((28, '0901CS211123', 'Suyash Agarwal', 'D K agarwal', 'A 10 Ashok Vihar colony, tansen road', '8085735401', '2021cs7su@mitsgwl.ac.in', '6', '0', '1234', '0'),)
+First Name: 0901CS211123
+Last Name: SUYASH AGARWAL
+2021cs7su@mitsgwl.ac.in
+Dept 6
+In Function Record: ((6, '6', 'Computer Science & Engineering', 'CSE'),)
+[{'id': 6, 'Dep_Id': '6', 'Department_name': 'Computer Science & Engineering', 'Department': 'CSE'}]
+1
+2
+Not graduated
+Logout hora bohot bhayankar
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+'AnonymousUser' object has no attribute 'email'
+11111
+Yaha
+khali  
+NAYA HAI YAAR
+User Email: 2021cs133ya@mitsgwl.ac.in
+2021cs133ya@mitsgwl.ac.in
+mitsgwl.ac.in
+In Function Record: ()
+First Name: 0901CS211134
+Last Name: YASH AGARWAL
+2021cs133ya@mitsgwl.ac.in
+list index out of range
+11111
+Yaha
+khali  
+Logout hora bohot bhayankar
+11111
+Yaha
+khali  
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 16, 2024 - 18:46:16
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+In Function Record: ((1, 'Dept', '2@gmail.com', '9999999990', '1234', '1001', 'passive', 'B.Tech Computer Science and Engineering'), (2, 'Dept', '2@gmail.com', '9999999991', '1234', '1002', 'Active', 'ai'), (3, 'Dept', '2@gmail.com', '9999999992', '1234', '1003', 'Active', 'mech'), (4, 'Dept', '2@gmail.com', '9999999993', '1234', '1004', 'passive', 'chem'), (5, 'Dept', '2@gmail.com', '9999999994', '1234', '1005', 'Active', 'civil'), (6, 'Dept', '2@gmail.com', '9999999995', '1234', '1006', 'Active', 'elec'), (7, 'Dept', '2@gmail.com', '9999999996', '1234', '1007', 'Active', 'it'), (8, 'Lib', '2@gmail.com', '999999997', '1234', '1008', 'passive', 'Lib'), (9, 'Acc', '2@gmail.com', '9999999998', '1234', '1009', 'Active', 'acc'), (10, 'Tnp', '2@gmail.com', '9999999999', '1234', '1010', 'Active', 'tnp'), (11, 'Hostel', '200@gmail.com', '9999999910', '1234', '1011', 'Active', 'Hostel'), (19, 'Tnp', 'vk@mitsgwalior.in', '8085735401', '1234', '', 'Active', 'Tnp'), (22, 'Exam', 's@gmail.com', '6666666666', '1234', '1012', 'Active', 'Exam'), (27, 'Dept', 'suyu.yt7@gmail.com', '8109878420', '1234', '', 'Active', 'CSE'), (1001, '', '', '', '', '', 'Active', ''), (1002, '', '', '', '', '', 'Active', ''), (1003, 'Dept', 'suyash1606.agarwal@gmail.com', '8109878420', '1234', '', 'passive', 'CSE'), (1004, 'Tnp', 'sdc@mitsgwalior.in', '7869714932', '123456', '1020', 'Active', 'Tnp'), (1005, '', '', '', '', '', '', ''), (1006, '', '', '', '', '', '', ''), (1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'), (1008, 'Tnp', '2021mc14an@mitsgwl.ac.in', '7869714932', 'Mits@123', '', 'passive', 'CSE'))
+[{'id': 1, 'Role': 'Dept', 'Email': '2@gmail.com', 'Contact': '9999999990', 'Password': '1234', 'admin_id': '1001', 'status': 'passive', 'dept': 'B.Tech Computer Science and Engineering'}, {'id': 2, 'Role': 'Dept', 'Email': '2@gmail.com', 'Contact': '9999999991', 'Password': '1234', 'admin_id': '1002', 'status': 'Active', 'dept': 'ai'}, {'id': 3, 'Role': 'Dept', 'Email': '2@gmail.com', 'Contact': '9999999992', 'Password': '1234', 'admin_id': '1003', 'status': 'Active', 'dept': 'mech'}, {'id': 4, 'Role': 'Dept', 'Email': '2@gmail.com', 'Contact': '9999999993', 'Password': '1234', 'admin_id': '1004', 'status': 'passive', 'dept': 'chem'}, {'id': 5, 'Role': 'Dept', 'Email': '2@gmail.com', 'Contact': '9999999994', 'Password': '1234', 'admin_id': '1005', 'status': 'Active', 'dept': 'civil'}, {'id': 6, 'Role': 'Dept', 'Email': '2@gmail.com', 'Contact': '9999999995', 'Password': '1234', 'admin_id': '1006', 'status': 'Active', 'dept': 'elec'}, {'id': 7, 'Role': 'Dept', 'Email': '2@gmail.com', 'Contact': '9999999996', 'Password': '1234', 'admin_id': '1007', 'status': 'Active', 'dept': 'it'}, {'id': 8, 'Role': 'Lib', 'Email': '2@gmail.com', 'Contact': '999999997', 'Password': '1234', 'admin_id': '1008', 'status': 'passive', 'dept': 'Lib'}, {'id': 9, 'Role': 'Acc', 'Email': '2@gmail.com', 'Contact': '9999999998', 'Password': '1234', 'admin_id': '1009', 'status': 'Active', 'dept': 'acc'}, {'id': 10, 'Role': 'Tnp', 'Email': '2@gmail.com', 'Contact': '9999999999', 'Password': '1234', 'admin_id': '1010', 'status': 'Active', 'dept': 'tnp'}, {'id': 11, 'Role': 'Hostel', 'Email': '200@gmail.com', 'Contact': '9999999910', 'Password': '1234', 'admin_id': '1011', 'status': 'Active', 'dept': 'Hostel'}, {'id': 19, 'Role': 'Tnp', 'Email': 'vk@mitsgwalior.in', 'Contact': '8085735401', 'Password': '1234', 'admin_id': '', 'status': 'Active', 'dept': 'Tnp'}, {'id': 22, 'Role': 'Exam', 'Email': 's@gmail.com', 'Contact': '6666666666', 'Password': '1234', 'admin_id': '1012', 'status': 'Active', 'dept': 'Exam'}, {'id': 27, 'Role': 'Dept', 'Email': 'suyu.yt7@gmail.com', 'Contact': '8109878420', 'Password': '1234', 'admin_id': '', 'status': 'Active', 'dept': 'CSE'}, {'id': 1001, 'Role': '', 'Email': '', 'Contact': '', 'Password': '', 'admin_id': '', 'status': 'Active', 'dept': ''}, {'id': 1002, 'Role': '', 'Email': '', 'Contact': '', 'Password': '', 'admin_id': '', 'status': 'Active', 'dept': ''}, {'id': 1003, 'Role': 'Dept', 'Email': 'suyash1606.agarwal@gmail.com', 'Contact': '8109878420', 'Password': '1234', 'admin_id': '', 'status': 'passive', 'dept': 'CSE'}, {'id': 1004, 'Role': 'Tnp', 'Email': 'sdc@mitsgwalior.in', 'Contact': '7869714932', 'Password': '123456', 'admin_id': '1020', 'status': 'Active', 'dept': 'Tnp'}, {'id': 1005, 'Role': '', 'Email': '', 'Contact': '', 'Password': '', 'admin_id': '', 'status': '', 'dept': ''}, {'id': 1006, 'Role': '', 'Email': '', 'Contact': '', 'Password': '', 'admin_id': '', 'status': '', 'dept': ''}, {'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}, {'id': 1008, 'Role': 'Tnp', 'Email': '2021mc14an@mitsgwl.ac.in', 'Contact': '7869714932', 'Password': 'Mits@123', 'admin_id': '', 'status': 'passive', 'dept': 'CSE'}]
+22
+6265250648
+2021cs7su@mitsgwl.ac.in
+HUIHUIHUI
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+HUIHUIHUI22
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+
+
+ Tnp
+data 6
+count q 2
+3
+7
+3
+Tnp
+
+
+
+ []
+select * from nocrest_application_table where Dept_approval='Approved' and Tnp_approval = '' order by App_Date desc 
+In Function Record: ((32, '0901CS211090', 'Rahul Rawat', '2021cs29ra@mitsgwl.ac.in', '2', 'Approved', '', '', '', 'sdf', '-', '6', '2024-03-15', '16:39:54', 'Garage Owner', 'other', 'on', '5', '2024-03-29', 'sdf', 'Babu Rao Ganpat Rao Apte', 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', '2024-03-28', '658919198198', 'jai ho', '2', 'static/UC_1_qpEPoT0.pdf', '16:50:36.261233', '17:10:01.339337', '2024-03-16', '2024-03-16', 'Rahul Rawat_0901CS211090_sdf_noc.pdf'), (33, '0901CS211090', 'Rahul Rawat', '2021cs29ra@mitsgwl.ac.in', '3', 'Approved', '', '', '', 'sdf', '-', '6', '2024-03-15', '16:39:58', 'Garage Owner', 'other', 'on', '5', '2024-03-29', 'sdf', 'Babu Rao Ganpat Rao Apte', 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', '2024-03-28', '658919198198', 'jai ho', '2', 'static/UC_1_tDqCafQ.pdf', '17:11:55.448248', '17:28:17.392860', '2024-03-16', '2024-03-16', 'Rahul Rawat_0901CS211090_sdf_noc.pdf'))
+xxxxxxxxxx [{'id': 32, 'EnrollmentId': '0901CS211090', 'Name': 'Rahul Rawat', 'Email': '2021cs29ra@mitsgwl.ac.in', 'App_Id': '2', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': '', 'TnP_Comment': '', 'Company': 'sdf', 'Role': '-', 'dept': '6', 'App_Date': '2024-03-15', 'App_time': '16:39:54', 'Designation_reciever': 'Garage Owner', 'apply_through': 'other', 'declaration': 'on', 'duration': '5', 'endDate': '2024-03-29', 'location': 'sdf', 'name_reciever': 'Babu Rao Ganpat Rao Apte', 'org_address': 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', 'startDate': '2024-03-28', 'stipend': '658919198198', 'websitr_org': 'jai ho', 'year': '2', 'offerletter': 'static/UC_1_qpEPoT0.pdf', 'Time_Dept_approval': '16:50:36.261233', 'Time_Tnp_approval': '17:10:01.339337', 'date_dept_approval': '2024-03-16', 'date_tnp_approval': '2024-03-16', 'noc': 'Rahul Rawat_0901CS211090_sdf_noc.pdf'}, {'id': 33, 'EnrollmentId': '0901CS211090', 'Name': 'Rahul Rawat', 'Email': '2021cs29ra@mitsgwl.ac.in', 'App_Id': '3', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': '', 'TnP_Comment': '', 'Company': 'sdf', 'Role': '-', 'dept': '6', 'App_Date': '2024-03-15', 'App_time': '16:39:58', 'Designation_reciever': 'Garage Owner', 'apply_through': 'other', 'declaration': 'on', 'duration': '5', 'endDate': '2024-03-29', 'location': 'sdf', 'name_reciever': 'Babu Rao Ganpat Rao Apte', 'org_address': 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', 'startDate': '2024-03-28', 'stipend': '658919198198', 'websitr_org': 'jai ho', 'year': '2', 'offerletter': 'static/UC_1_tDqCafQ.pdf', 'Time_Dept_approval': '17:11:55.448248', 'Time_Tnp_approval': '17:28:17.392860', 'date_dept_approval': '2024-03-16', 'date_tnp_approval': '2024-03-16', 'noc': 'Rahul Rawat_0901CS211090_sdf_noc.pdf'}]
+1111
+v hjbvuafvb dfjbvb Tnp
+32
+Approved 
+Babu Rao Ganpat Rao Apte Garage Owner sdf 2024-03-28 2024-03-29 6 Rahul Rawat 0901CS211090
+2021cs29ra@mitsgwl.ac.in
+2024-03-16 18:46:37.954699
+3
+/var/www/html/webmits/Noc-main
+File Path: /var/www/html/webmits/Noc-main/nocrest/Static/Images/signature.png
+/var/www/html/webmits/Noc-main/qrcode.png
+/var/www/html/webmits/Noc-main
+STREAM b'IHDR' 16 13
+STREAM b'IDAT' 41 504
+STREAM b'IHDR' 16 13
+STREAM b'IDAT' 41 504
+/var/www/html/webmits/Noc-main/Rahul Rawat_0901CS211090_sdf_noc.pdf
+Testing
+Email send
+22
+6265250648
+2021cs7su@mitsgwl.ac.in
+HUIHUIHUI
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+HUIHUIHUI22
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+
+
+ Tnp
+data 6
+count q 1
+4
+7
+4
+Tnp
+
+
+
+ []
+select * from nocrest_application_table where Dept_approval='Approved' and Tnp_approval = '' order by App_Date desc 
+In Function Record: ((33, '0901CS211090', 'Rahul Rawat', '2021cs29ra@mitsgwl.ac.in', '3', 'Approved', '', '', '', 'sdf', '-', '6', '2024-03-15', '16:39:58', 'Garage Owner', 'other', 'on', '5', '2024-03-29', 'sdf', 'Babu Rao Ganpat Rao Apte', 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', '2024-03-28', '658919198198', 'jai ho', '2', 'static/UC_1_tDqCafQ.pdf', '17:11:55.448248', '17:28:17.392860', '2024-03-16', '2024-03-16', 'Rahul Rawat_0901CS211090_sdf_noc.pdf'),)
+xxxxxxxxxx [{'id': 33, 'EnrollmentId': '0901CS211090', 'Name': 'Rahul Rawat', 'Email': '2021cs29ra@mitsgwl.ac.in', 'App_Id': '3', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': '', 'TnP_Comment': '', 'Company': 'sdf', 'Role': '-', 'dept': '6', 'App_Date': '2024-03-15', 'App_time': '16:39:58', 'Designation_reciever': 'Garage Owner', 'apply_through': 'other', 'declaration': 'on', 'duration': '5', 'endDate': '2024-03-29', 'location': 'sdf', 'name_reciever': 'Babu Rao Ganpat Rao Apte', 'org_address': 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', 'startDate': '2024-03-28', 'stipend': '658919198198', 'websitr_org': 'jai ho', 'year': '2', 'offerletter': 'static/UC_1_tDqCafQ.pdf', 'Time_Dept_approval': '17:11:55.448248', 'Time_Tnp_approval': '17:28:17.392860', 'date_dept_approval': '2024-03-16', 'date_tnp_approval': '2024-03-16', 'noc': 'Rahul Rawat_0901CS211090_sdf_noc.pdf'}]
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 16, 2024 - 18:47:08
+Django version 4.2.7, using settings 'NOC.settings'
+Starting development server at http://127.0.0.1:4252/
+Quit the server with CONTROL-C.
+
+22
+6265250648
+2021cs7su@mitsgwl.ac.in
+HUIHUIHUI
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+HUIHUIHUI22
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+
+
+ Tnp
+data 6
+count q 1
+4
+7
+4
+Tnp
+
+
+
+ []
+select * from nocrest_application_table where Dept_approval='Approved' and Tnp_approval = '' order by App_Date desc 
+In Function Record: ((33, '0901CS211090', 'Rahul Rawat', '2021cs29ra@mitsgwl.ac.in', '3', 'Approved', '', '', '', 'sdf', '-', '6', '2024-03-15', '16:39:58', 'Garage Owner', 'other', 'on', '5', '2024-03-29', 'sdf', 'Babu Rao Ganpat Rao Apte', 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', '2024-03-28', '658919198198', 'jai ho', '2', 'static/UC_1_tDqCafQ.pdf', '17:11:55.448248', '17:28:17.392860', '2024-03-16', '2024-03-16', 'Rahul Rawat_0901CS211090_sdf_noc.pdf'),)
+xxxxxxxxxx [{'id': 33, 'EnrollmentId': '0901CS211090', 'Name': 'Rahul Rawat', 'Email': '2021cs29ra@mitsgwl.ac.in', 'App_Id': '3', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': '', 'TnP_Comment': '', 'Company': 'sdf', 'Role': '-', 'dept': '6', 'App_Date': '2024-03-15', 'App_time': '16:39:58', 'Designation_reciever': 'Garage Owner', 'apply_through': 'other', 'declaration': 'on', 'duration': '5', 'endDate': '2024-03-29', 'location': 'sdf', 'name_reciever': 'Babu Rao Ganpat Rao Apte', 'org_address': 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', 'startDate': '2024-03-28', 'stipend': '658919198198', 'websitr_org': 'jai ho', 'year': '2', 'offerletter': 'static/UC_1_tDqCafQ.pdf', 'Time_Dept_approval': '17:11:55.448248', 'Time_Tnp_approval': '17:28:17.392860', 'date_dept_approval': '2024-03-16', 'date_tnp_approval': '2024-03-16', 'noc': 'Rahul Rawat_0901CS211090_sdf_noc.pdf'}]
+22
+6265250648
+2021cs7su@mitsgwl.ac.in
+HUIHUIHUI
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+HUIHUIHUI22
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+
+
+ Tnp
+data 6
+count q 1
+4
+7
+4
+Tnp
+
+
+
+ []
+select * from nocrest_application_table where Dept_approval='Approved' and Tnp_approval = '' order by App_Date desc 
+In Function Record: ((33, '0901CS211090', 'Rahul Rawat', '2021cs29ra@mitsgwl.ac.in', '3', 'Approved', '', '', '', 'sdf', '-', '6', '2024-03-15', '16:39:58', 'Garage Owner', 'other', 'on', '5', '2024-03-29', 'sdf', 'Babu Rao Ganpat Rao Apte', 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', '2024-03-28', '658919198198', 'jai ho', '2', 'static/UC_1_tDqCafQ.pdf', '17:11:55.448248', '17:28:17.392860', '2024-03-16', '2024-03-16', 'Rahul Rawat_0901CS211090_sdf_noc.pdf'),)
+xxxxxxxxxx [{'id': 33, 'EnrollmentId': '0901CS211090', 'Name': 'Rahul Rawat', 'Email': '2021cs29ra@mitsgwl.ac.in', 'App_Id': '3', 'Dept_approval': 'Approved', 'Dept_Comment': '', 'TnP_approval': '', 'TnP_Comment': '', 'Company': 'sdf', 'Role': '-', 'dept': '6', 'App_Date': '2024-03-15', 'App_time': '16:39:58', 'Designation_reciever': 'Garage Owner', 'apply_through': 'other', 'declaration': 'on', 'duration': '5', 'endDate': '2024-03-29', 'location': 'sdf', 'name_reciever': 'Babu Rao Ganpat Rao Apte', 'org_address': 'Near cheapstore, Krishna Nagar Colony, Tikamgarh', 'startDate': '2024-03-28', 'stipend': '658919198198', 'websitr_org': 'jai ho', 'year': '2', 'offerletter': 'static/UC_1_tDqCafQ.pdf', 'Time_Dept_approval': '17:11:55.448248', 'Time_Tnp_approval': '17:28:17.392860', 'date_dept_approval': '2024-03-16', 'date_tnp_approval': '2024-03-16', 'noc': 'Rahul Rawat_0901CS211090_sdf_noc.pdf'}]
+1111
+v hjbvuafvb dfjbvb Tnp
+33
+Approved 
+Babu Rao Ganpat Rao Apte Garage Owner sdf 2024-03-28 2024-03-29 6 Rahul Rawat 0901CS211090
+2021cs29ra@mitsgwl.ac.in
+2024-03-16 18:48:50.583173
+4
+/var/www/html/webmits/Noc-main
+File Path: /var/www/html/webmits/Noc-main/nocrest/Static/Images/signature.png
+/var/www/html/webmits/Noc-main/nocrest/Static/Images/qrcode.png
+/var/www/html/webmits/Noc-main
+STREAM b'IHDR' 16 13
+STREAM b'IDAT' 41 504
+STREAM b'IHDR' 16 13
+STREAM b'IDAT' 41 504
+/var/www/html/webmits/Noc-main/nocrest/Static/Rahul Rawat_0901CS211090_sdf_noc.pdf
+Testing
+Email send
+22
+6265250648
+2021cs7su@mitsgwl.ac.in
+HUIHUIHUI
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+HUIHUIHUI22
+In Function Record: ((1007, 'Tnp', '2021cs7su@mitsgwl.ac.in', '6265250648', 'Suyash@123', '', 'passive', 'Tnp'),)
+[{'id': 1007, 'Role': 'Tnp', 'Email': '2021cs7su@mitsgwl.ac.in', 'Contact': '6265250648', 'Password': 'Suyash@123', 'admin_id': '', 'status': 'passive', 'dept': 'Tnp'}]
+
+
+ Tnp
+data 6
+count q 0
+5
+7
+5
+Tnp
+
+
+
+ []
+select * from nocrest_application_table where Dept_approval='Approved' and Tnp_approval = '' order by App_Date desc 
+In Function Record: ()
+xxxxxxxxxx []
+/var/www/html/webmits/Noc-main/Static/ /var/www/html/webmits/Noc-main/Templates/
+/var/www/html/webmits/Noc-main/nocrest/Static/
+Performing system checks...
+
+System check identified no issues (0 silenced).
+Error: That port is already in use.

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/Static/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Flex container */
+        .form-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* Flex items */
+        .form-box {
+            flex: 1 1 calc(50% - 20px);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-box {
+                flex: none;
+            }
+        }
+
+        /* Apply styles to form elements */
+        .form-box label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-box input[type="text"],
+        .form-box input[type="password"],
+        .form-box button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-box button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-box button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Password input wrapper */
+        .password-input {
+            position: relative;
+        }
+
+        /* Toggle password icon */
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            color: black;
+            background: transparent;
+            width: 40px;
+        }
+
+        /* Error message */
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            .sidebar-container {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .main--content {
+                margin-left: 0;
+            }
+
+            .toggle-btn {
+                left: 10px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            /* Show sidebar when active class is added */
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main--content {
+                width: 100%;
+                height: auto;
+                padding-top: 3.5rem;
+            }
+
+            .modal-content {
+                margin-left: 0px;
+                flex-wrap: wrap;
+            }
+
+            .randomclass {
+                flex-wrap: wrap;
+            }
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 1000px) {
+            .modal-content {
+                margin-left: 0px;
+            }
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 5.9rem;
+            height: 100vh;
+            padding: 0 1.7rem;
+            color: white;
+            overflow: hidden;
+            transition: all 0.5s linear;
+            background: rgba(113, 99, 186, 255);
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .star-rating {
+            display: flex;
+        }
+    </style>
+
+</head>
+
+<body>
+    <button class="toggle-btn" onclick="toggleSidebar()">&#9776;</button>
+    <div class="sidebar">
+        <ul class="items">
+            <li class="active">
+                <a href="/api/studentlogin">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="" id="profile-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="http://moodle.mitsgwalior.in/" class="mat">
+                    <i class="material-icons">assignment</i>
+                    <span>Moodle</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="https://web.mitsgwalior.in/" class="mat">
+                    <i class="material-icons">notes</i>
+                    <span>MITS Gwalior</span>
+                </a>
+            </li>
+            <li class="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span><a href="{% url 'logout' %}">Logout</a></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main--content">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <span>Student Profile</span>
+                <h2>{{record.EnrollmentId}} {{record.Name}}</h2>
+            </div>
+            <div class="user-info">
+                <img src="/Static/Images/mitslogo.png" style="width: 8rem; height: 8rem;" alt="">
+            </div>
+        </div>
+        <div class="card-container">
+            <h3 class="main-title">Student's Section</h3>
+            <div class="card-wrapper">
+                <form id="internship-feedback-form" class="form-flex" method="post" action="/api/internshipfeedback">
+                    {% csrf_token %}
+                    <div class="form-box">
+                        <label for="intern-enrollment-id">Intern Enrollment ID</label>
+                        <input class="filledornot" type="text" id="intern_enrollment_id" readonly name="intern_enrollment_id"
+                            placeholder="{{record.EnrollmentId}}" value="{{ record.EnrollmentId }}">
+                    </div>
+                    <div class="form-box">
+                        <label for="department">Department</label>
+                        <input class="filledornot" type="text" readonly id="department" name="department"
+                            placeholder="{{branchstud}}" value="{{ branchstud }}">
+                    </div>
+                    <div class="form-box">
+                        <label for="noc-approval-id">NOC Approval ID</label>
+                        <input class="filledornot" type="number" readonly id="noc_approval_id" name="noc_approval_id"
+                            placeholder="{{Appid }}" value="{{ Appid }}">
+                    </div>
+                    <div class="form-box">
+                        <label for="company-name">Company Name</label>
+                        <input class="filledornot" type="text" id="company_name" readonly name="company_name"
+                            placeholder="{{record.Company}}" value="{{ record.Company }}">
+                    </div>
+                    
+
+                    <div style="display: flex; margin-right: 2rem;">Company Experience
+                            <input type="radio" class="star-rating" id="company-experience-rating-5" name="company_experience_rating"
+                                value="1">
+                            <label for="company-experience-rating-5" class="fas fa-star"></label>
+                            <input type="radio" class="star-rating" id="company-experience-rating-4" name="company_experience_rating"
+                                value="2">
+                            <label for="company-experience-rating-4" class="fas fa-star"></label>
+                            <input type="radio" class="star-rating" id="company-experience-rating-3" name="company_experience_rating"
+                                value="3">
+                            <label for="company-experience-rating-3" class="fas fa-star"></label>
+                            <input type="radio" class="star-rating" id="company-experience-rating-2" name="company_experience_rating"
+                                value="4">
+                            <label for="company-experience-rating-2" class="fas fa-star"></label>
+                            <input type="radio" class="star-rating" id="company-experience-rating-1" name="company_experience_rating"
+                                value="5">
+                            <label for="company-experience-rating-1" class="fas fa-star"></label>
+                        </div>
+
+
+                        <div style="display: flex; margin-right: 2rem;">Work Environment rating
+                        <input type="radio" class="star-rating" id="work-environment-rating-5" name="work_environment_rating" value="1">
+                        <label for="work-environment-rating-5" class="fas fa-star"></label>
+
+                        <input type="radio" class="star-rating" id="work-environment-rating-4" name="work_environment_rating" value="2">
+                        <label for="work-environment-rating-4" class="fas fa-star"></label>
+
+                        <input type="radio" class="star-rating" id="work-environment-rating-3" name="work_environment_rating" value="3">
+                        <label for="work-environment-rating-3" class="fas fa-star"></label>
+
+                        <input type="radio" class="star-rating" id="work-environment-rating-2" name="work_environment_rating" value="4">
+                        <label for="work-environment-rating-2" class="fas fa-star"></label>
+
+                        <input type="radio" class="star-rating" id="work-environment-rating-1" name="work_environment_rating" value="5">
+                        <label for="work-environment-rating-1" class="fas fa-star"></label>
+                    </div>
+                   
+                    <div style="display: flex; margin-right: 2rem;">Supervisor Rating
+                            <input type="radio" class="star-rating" id="supervisor-rating-5" name="supervisor_rating" value="1">
+                            <label for="supervisor-rating-5" class="fas fa-star"></label>
+                            <input type="radio" class="star-rating" id="supervisor-rating-4" name="supervisor_rating" value="2">
+                            <label for="supervisor-rating-4" class="fas fa-star"></label>
+                            <input type="radio" class="star-rating" id="supervisor-rating-3" name="supervisor_rating" value="3">
+                            <label for="supervisor-rating-3" class="fas fa-star"></label>
+                            <input type="radio" class="star-rating" id="supervisor-rating-2" name="supervisor_rating" value="4">
+                            <label for="supervisor-rating-2" class="fas fa-star"></label>
+                            <input type="radio" class="star-rating" d="supervisor-rating-1" name="supervisor_rating" value="5">
+                            <label for="supervisor-rating-1" class="fas fa-star"></label>
+                        </div>
+                    <div class="form-box">
+                        <label for="comments">Comments</label>
+                        <textarea class="filledornot" id="comments" name="comments"
+                            placeholder="Comments">{{ comments }}</textarea>
+                    </div>
+                    <div class="form-box">
+                        <label for="hr-name">HR Name</label>
+                        <input class="filledornot" type="text" id="hr_name" name="hr_name" placeholder="HR Name"
+                            value="{{ hr_name }}">
+                    </div>
+                    <div class="form-box">
+                        <label for="hr-contact-email">HR Contact Email</label>
+                        <input class="filledornot" type="text" id="hr_contact_email" name="hr_contact_email"
+                            placeholder="HR Contact Email" value="{{ hr_contact_email }}">
+                    </div>
+                    <div class="form-box">
+                        <label for="hr-contact-number">HR Contact Number</label>
+                        <input class="filledornot" type="text" id="hr_contact_number" name="hr_contact_number"
+                            placeholder="HR Contact Number" value="{{ hr_contact_number }}">
+                    </div>
+                    <div class="form-box">
+                        <button type="submit" onclick="return validateForm()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <input type="text" name="" id="msgss" value="{{message}}" hidden>
+
+
+</body>
+<script>
+
+
+    let msg = document.getElementById('msgss').value
+    if (msg == 'ok')
+        Swal.fire({
+            title: "Feedback Saved!!",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Return to Dashboard",
+            cancelButtonText: "LogOut"
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location.href = "/api/studentlogin";
+            }
+        });
+
+    else if (msg == 'error')
+        Swal.fire("Failed", "You have applied before", "error")
+
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+</script>
+</html>

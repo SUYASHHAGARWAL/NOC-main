@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of companies</title>
+    <link rel="stylesheet" href="/Static/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Flex container */
+        .header-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000; /* Ensure it's on top of other content */
+            background-color: #fff;
+            padding: 10px;
+            text-align: center;
+            display: flex; /* Use flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+        }
+
+        .main--content {
+            padding-top: 80px; /* Adjust padding to make space for the fixed header */
+            padding: 20px;
+            margin-top: 6rem;
+            width: 100vw;
+            margin-left: 0;
+        }
+
+        .company-stats {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        /* Responsive styles */
+        @media only screen and (max-width: 768px) {
+            .main--content {
+                padding-top: 120px; /* Adjust padding for smaller screens */
+                margin-top: 6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-wrapper">
+        <div class="user-info">
+            <img src="/Static/Images/mitslogo.png" style="width: 80px; height: 80px;" alt="">
+            <h1>MADHAV INSTITUTE OF TECHNOLOGY AND SCIENCE</h1>
+        </div>
+    </div>
+    <div class="main--content">
+        <div class="company-stats">
+            <h3 class="main-title">Company Statistics</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Total Students</th>
+                        <th>Minimum Stipend</th>
+                        <th>Maximum Stipend</th>
+                        <th>Average Stipend</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for company, data in company_counts.items %}
+                    <tr>
+                        <td>{{ company }}</td>
+                        <td>{{ data.total_students }}</td>
+                        <td>{{ data.min_stipend }}</td>
+                        <td>{{ data.max_stipend }}</td>
+                        <td>{{ data.average_stipend }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

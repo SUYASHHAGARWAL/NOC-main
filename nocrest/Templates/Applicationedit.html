@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Static/DisplayById.css">
+    <link rel="stylesheet" href="/Static/Dashboard.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .maincontainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box {
+            width: 90vw; /* Set width to 80% of viewport width */
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%; /* Use 100% width to fill the container */
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .btn {
+            width: 30%;
+            margin: 10px;
+        }
+
+        #Dept_comment {
+            width: 100%; /* Make the input field full width */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="maincontainer">
+        <div class="box">
+            <form method="post" action="/api/editsavedept" id="formid">
+                {% csrf_token %}
+                <!-- Your form content goes here -->
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <input type="hidden" name="idbb" value="{{data.id}}"/>
+                    <input type="hidden" id="randomdept" name="randomdept" value="{{dept}}"></input>
+                    <input type="hidden" id="Email" name="Email" placeholder="{{data.Email}}" value="{{data.Email}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="recname" name="name_reciever" placeholder="{{data.name_reciever}}" value="{{data.name_reciever}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="Designation_reciever" name="Designation_reciever" placeholder="{{data.Designation_reciever}}" value="{{data.Designation_reciever}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="Company" name="Company" placeholder="{{data.Company}}" value="{{data.Company}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="startDate" name="startDate" placeholder="{{data.startDate}}" value="{{data.startDate}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="endDate" name="endDate" placeholder="{{data.endDate}}" value="{{data.endDate}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="Name" name="Name" placeholder="{{data.Name}}" value="{{data.Name}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="EnrollmentId" name="EnrollmentId" placeholder="{{data.EnrollmentId}}" value="{{data.EnrollmentId}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="Branch" name="Branch" placeholder="{{data.dept}}" value="{{data.dept}}">                    <div style="overflow-x: auto;">
+                    <input type="hidden" id="location" name="location" placeholder="{{data.location}}" value="{{data.location}}">                    <div style="overflow-x: auto;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Enrollment Id</th>
+                                    <th>Email Id</th>
+                                    <th>Phone</th>
+                                    <th>Applying for Company</th>
+                                    <th>Application Date</th>
+                                    <th>Application Time</th>
+                                    <th>Reciever Name</th>
+                                    <th>Reciever's Designation</th>
+                                    <th>Location</th>
+                                    <th>Apllied through</th>
+                                    <th>Duration</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Year of study</th>
+    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{data.Name}}</td>
+                                    <td>{{data.EnrollmentId}}</td>
+                                    <td>{{data.Email}}</td>
+                                    <td>{{data.mobile}}</td>
+                                    <td>{{data.Company}}</td>
+                                    <td>{{data.App_Date}}</td>
+                                    <td>{{data.App_time}}</td>
+                                    <td>{{data.name_reciever}}</td>
+                                    <td>{{data.Designation_reciever}}</td>
+                                    <td>{{data.location}}</td>
+                                    <td>{{data.apply_through}}</td>
+                                    <td>{{data.duration}}</td>
+                                    <td>{{data.startDate}}</td>
+                                    <td>{{data.endDate}}</td>
+                                    <td>{{data.year}}</td>
+                                    <td>{{data.Branch}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="flex: 1; min-width: 45%;">
+                        <input type="radio" id="Dept_approval" name="Dept_approval" value="Approved">
+                        <label for="html">Approve</label><br>
+                        <input type="radio" id="Dept_approval" name="Dept_approval" value="Denied">
+                        <label for="html">Deny Approval</label><br>
+                    </div>
+                    <div style="flex: 1; min-width: 45%;">
+                        <label for="Dept_comment">Departmental Comments (Optional)</label>
+                        <input type="text" id="Dept_comment" name="Dept_comment" placeholder="">
+                    </div>
+    
+                </div>
+                <div>
+                    <input type="hidden" id="contact" name="contact" placeholder="{{contact}}" value="{{contact}}">                    <div style="overflow-x: auto;">
+
+                </div>
+               <div style="display: flex; justify-content: space-around;">
+                
+                <div class="col-md-6 btn flex items-center box centerAlign" style="background-color: rgb(72, 108, 57)">
+                    <button style="width: 30%; background-color: transparent;" type="submit" value="edit" name="btn">Submit</button>
+                </div>
+                <div class="col-md-6 btn flex items-center box centerAlign" style="background-color: rgb(195, 74, 30)">
+                    <button type="submit" name="btn" style="width: 30%; background-color: transparent;" value="delete">Delete</button>
+                </div>
+               </div>
+                
+                <div class="col-md-12" style="display: flex;justify-content:center; align-items: center; ">
+                    <b>{{message}}</b>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    var div = document.getElementById('randomdept')
+    var content = div.getAttribute('value')
+    console.log(content)
+    var ctc = document.getElementById('contact')
+    var c = ctc.getAttribute('value')
+    console.log(c)
+    var deptValue = content;
+
+    document.getElementById("formid").action += deptValue;
+</script>    
+</body>
+
+</html>

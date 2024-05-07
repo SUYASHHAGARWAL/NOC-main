@@ -1,0 +1,654 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+}
+
+.sidebar {
+  position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 5.9rem;
+    height: 100vh;
+    padding: 0 1.7rem;
+    color: white;
+    overflow: hidden;
+    transition: all 0.5s linear;
+    background: rgba(113, 99, 186, 255);
+    z-index: 1000;
+    overflow-y: scroll;
+}
+
+.sidebar:hover {
+  width: 15rem;
+  transition: 0.5;
+}
+
+.logo {
+  height: 80px;
+  padding: 16px;
+}
+
+.items {
+  height: 88%;
+  position: relative;
+  list-style: none;
+  padding: 0;
+}
+
+.items li {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  transition: all 0.5s ease-in-out;
+}
+
+.items li:hover,
+.active {
+  background-color: #e0e0e058;
+}
+
+.items a {
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.items a span {
+  overflow: hidden;
+}
+
+.menu a i {
+  font-size: 1.2rem;
+}
+
+.logout {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.mat {
+  margin-left: -0.4rem;
+  gap: 0.69rem;
+}
+
+.main--content {
+  position: relative;
+  background-color: #ebe9e9;
+  width: 100%;
+  padding: 1rem;
+  margin-left: 5.2rem;
+}
+
+.header-wrapper img {
+  width: 6.5rem;
+  height: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.625rem 2rem;
+  margin-bottom: 1rem;
+}
+
+.header-title {
+  color: rgba(113, 99, 186, 255);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-box {
+  background: rgb(237, 237, 237);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  color: rgba(113, 99, 186, 255);
+  gap: 5px;
+  padding: 0.25rem 0.75rem;
+}
+
+.search-box input {
+  background: transparent;
+  padding: 0.62rem;
+}
+
+.search-box i {
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+}
+
+.search-box i:hover {
+  transform: scale(1.2);
+}
+
+.card-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.main-title {
+  color: rgba(113, 99, 186, 255);
+  padding-bottom: 0.625rem;
+  font-size: 15px;
+}
+
+.card-1 {
+  background: rgb(229, 223, 223);
+  border-radius: 10px;
+  padding: 1.2rem;
+  width: 15.1rem;
+  height: 9.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.5s ease-in-out;
+}
+
+.card-1:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-1-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 200;
+}
+
+.amount-value {
+  font-size: 24px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+}
+
+.icon {
+  color: white;
+  padding: 0.8rem;
+  height: 2.75rem;
+  width: 2.7rem;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 1rem;
+  background-color: red;
+}
+
+.card-detail {
+  font-size: 18px;
+  color: #777777;
+  letter-spacing: 2px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.light-red {
+  background: rgb(251, 233, 254);
+}
+
+.light-purple {
+  background: rgb(254, 226, 254);
+}
+
+.light-green {
+  background: rgb(235, 254, 235);
+}
+
+.light-blue {
+  background: rgb(236, 236, 254);
+}
+
+.dark-red {
+  background: red;
+}
+
+.dark-purple {
+  background: purple;
+}
+
+.dark-green {
+  background: green;
+}
+
+.dark-blue {
+  background: blue;
+}
+
+.tabular-wrapper {
+  background: white;
+  margin-top: 1rem;
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+.table-container {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* thead {
+  background: rgba(113, 99, 186, 255);
+  color: white;
+} */
+
+th {
+  background:  rgb(161, 150, 219);
+  padding: 15px;
+  text-align: left;
+}
+
+tbody {
+  background: #f2f2f2;
+}
+
+td {
+  padding: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background: rgb(225, 218, 218);
+}
+tr:nth-child(odd) {
+  background: white;
+}
+
+tfoot {
+  background: rgba(113, 99, 186, 255);
+  font-weight: bold;
+  color: white;
+}
+
+tfoot td {
+  padding: 15px;
+}
+
+.table-container button {
+  color: green;
+  background: none;
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modala {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin-top: 1%;
+  padding: 15px;
+  border: 1px solid #888;
+  width: 40rem;
+  border-radius: 0.9rem;
+}
+
+.modal-content h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-bottom: 1rem;
+}
+
+.modal-content p {
+  font-size: 1rem;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: -1rem;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+}
+
+/* Responsive Styles */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 4rem;
+    padding: 0 1rem;
+  }
+
+  .sidebar:hover {
+    width: 10rem;
+  }
+
+  .logo {
+    padding: 8px;
+  }
+
+  .items li {
+    padding: 0.75rem;
+    margin: 0.25rem 0;
+  }
+
+  .items a {
+    font-size: 12px;
+  }
+
+  .header-wrapper img {
+    width: 5.5rem;
+    height: 1.8rem;
+  }
+
+  .header-wrapper {
+    padding: 0.5rem 1.5rem;
+  }
+
+  .main-title {
+    font-size: 14px;
+  }
+
+  .card-1 {
+    width: 100%;
+  }
+
+  .card-wrapper {
+    gap: 0.5rem;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .table-container button {
+    font-size: 12px;
+  }
+  .main--content{
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 3rem;
+    padding: 0.5rem;
+  }
+
+  .sidebar:hover {
+    width: 8rem;
+  }
+
+  .logo {
+    padding: 6px;
+  }
+
+  .items li {
+    padding: 0.5rem;
+    margin: 0.25rem 0;
+  }
+
+  .items a {
+    font-size: 10px;
+  }
+
+  .header-wrapper img {
+    width: 4.5rem;
+    height: 1.5rem;
+  }
+
+
+  .header-wrapper {
+    padding: 0.375rem 1rem;
+  }
+
+  .main-title {
+    font-size: 12px;
+  }
+
+  .card-1 {
+    width: 100%;
+    padding: 0.8rem;
+    height: auto;
+  }
+
+  .card-wrapper {
+    gap: 0.5rem;
+  }
+
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .table-container button {
+    font-size: 10px;
+  }
+  .search-box{
+    width: 12rem;
+  }
+  .main--content{
+    width: 89%;
+  }
+  .sidebar{
+    width: 5rem;
+  }
+  .modal-content{
+    width: 22rem;
+    margin-left: 4%;
+  }
+}
+.min-h-screen{
+  min-height: 100vh;
+}
+.bg-red{
+  background-color: red;
+}
+.mx-auto{
+  margin-left: auto;
+  margin-right: auto;
+}
+.flex{
+  display: flex;
+}
+
+.items-center{
+  align-items: center;
+}
+
+.justify-center{
+  justify-content: center;
+}
+
+.justify-between{
+  justify-content: space-between;
+}
+.font-bold{
+  font-weight: bold;
+}
+.flex-col{
+  flex-direction: column;
+}
+.my-1{
+  margin-top: 8%;
+  margin-bottom: 8%;
+  font-size: 3rem;
+}
+.my-2{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 3rem;
+}
+.px-2{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.text-blue{
+  color: rgb(81, 88, 229);
+}
+.btn{
+  padding: 7px 12px;
+  border: 2px solid rgb(116, 24, 162);
+  border-radius: 8px;
+  color: blueviolet;
+  background:transparent;
+  cursor: pointer;
+  transition: .5s;
+}
+.btn:hover{
+  color:wheat;
+  background:blueviolet;
+}
+.btn1{
+  color:wheat;
+  background:blueviolet;
+  cursor: pointer;
+  transition: .5s;
+  border: none;
+  border: 2px solid rgb(116, 24, 162);
+}
+.btn1:hover{
+  color: blueviolet;
+  background:transparent;
+  
+}
+.overflow-hidden{
+  overflow: hidden;
+}
+.ft2rem{
+  font-size: 2rem;
+
+}
+.developer-info{
+  margin-right: 5rem;
+
+}
+.ft4-items{
+  width: 10rem;
+}
+.ft4-items a{
+  color: white;
+  text-decoration: none;
+}
+.dialog-box{
+  background-color: white;
+  position:absolute ;
+  top:50%;
+  left: 50%;
+}
+
+
+
+input[type=text], select, textarea {
+  width: 100%; /* Full width */
+  padding: 12px; /* Some padding */ 
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 16px; /* Bottom margin */
+  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+input[type=number], select, textarea {
+  width: 100%; /* Full width */
+  padding: 12px; /* Some padding */ 
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 16px; /* Bottom margin */
+  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+input[type=date], select, textarea {
+  width: 100%; /* Full width */
+  padding: 12px; /* Some padding */ 
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 16px; /* Bottom margin */
+  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+/* Style the submit button with a specific background color etc */
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+/* Add a background color and some padding around the form */
+.applyform {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  margin-bottom: 5rem;
+}

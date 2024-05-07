@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Project Update</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        h1 {
+            margin: 0;
+            color: purple;
+        }
+        p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+        }
+        .section-heading {
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .content {
+            background-color: rgb(255, 154, 154);
+        }
+        .info-table {
+            width: 100%;
+        }
+        .info-table td {
+            padding: 8px 12px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+        }
+        .info-table td:first-child {
+            font-weight: bold;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <table cellspacing="0" cellpadding="0">
+        <tr class="section-heading">
+            <td colspan="2">
+                <h1>MITS NOC portal - Application Approved</h1>
+            </td>
+        </tr>
+        <tr class="content">
+            <td colspan="2">
+                <p>Dear Student,</p>
+                <p>We hope this email finds you well. We regret to inform you that your NOC is declined.</p><br>
+                <table class="info-table">
+                    <tr>
+                        <td>Concerned department:</td>
+                        <td style="background-color: #c98a8a;">{{dept}}</td>
+                    </tr>
+                    <tr>
+                        <td>Comment:</td>
+                        <td style="background-color: #c98a8a;">{{comment}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="background-color: #e8e8e8b6; text-align: center;">
+                <p>Regards<br>NOC Portal - MITS</p>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

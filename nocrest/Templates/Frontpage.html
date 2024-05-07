@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
+    <link rel="stylesheet" href="/Static/style.css"> 
+    <link rel="stylesheet" href="/Static/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/Static/vendor.bundle.base.css"><!-- Include your original stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome CSS -->
+    <style>
+        /* Retained styles from the original code */
+        .hidden_one {
+            display: none;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-wrapper {
+            background-image: url('https://mitsgwalior.in/images/banner.jpg');
+            background-position: center;
+        }
+
+        .auth .auth-form-light {
+            background: #d7f0ff;
+        }
+
+        .form-control {
+            border-color: #014387;
+        }
+        .password-toggle {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjust as needed */
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 1; /* Ensure the icon appears above the input */
+}
+
+
+        .toggle-password.hide-password::before {
+            content: "\f070"; /* Unicode for closed eye icon */
+        }
+
+        .toggle-password.show-password::before {
+            content: "\f06e"; /* Unicode for open eye icon */
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth">
+                <div class="row flex-grow">
+                    <div class="col-lg-4 mx-auto">
+
+                        <div class="auth-form-light text-left p-5">
+                            <div class="brand-logo">
+                                <img src="https://web.mitsgwalior.in/images/mits-logo.png">
+                            </div>
+                            <h4>Welcome to MITS NOC Portal </h4>
+                            <h6 class="font-weight-light">Sign in to continue.</h6>
+
+                            <form method="post" action="/api/studentlogin">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input type="text" required class="form-control form-control-lg"
+                                        id="EnrollmentId" name="EnrollmentId" placeholder="Enrollment Number">
+                                </div>
+
+                                <div class="form-group password-toggle">
+                                    <input type="password" class="form-control form-control-lg" required
+                                        name="password" id="password" placeholder="Password">
+                                    <i class="toggle-password fas fa-eye" id="togglePassword"></i>
+                                </div>
+                                
+                                
+                                
+                                <button type="submit" class="btn btn-gradient-primary me-2" id="submitBtn">Submit</button>
+                                {% block content %}
+                                <div class="mt-3">
+                                    <a href="{% url 'social:begin' 'google-oauth2' %}"><button class="btn btn-gradient-danger"
+                                            type="button">Login With Google</button></a>
+                                </div>
+                                {% endblock %}
+                                <div class="mt-3" style="display: flex; justify-content: center; align-items: center;">
+                                    <span style="font-weight: bold;">{{msg}}</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.classList.toggle('hide-password');
+    });
+
+</script>
+</html>

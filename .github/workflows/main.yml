@@ -1,0 +1,23 @@
+name: Test CSRF Token
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test_csrf_token:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get CSRF Token
+        run: |
+          CSRF_TOKEN=$(curl -c cookies.txt -s https://noc.mitsgwalior.in/67fgs47dg/ | grep csrftoken | awk '{print $7}')
+          echo "CSRF_TOKEN=$CSRF_TOKEN" >> $GITHUB_ENV
+
+      - name: Show CSRF Token
+        run: |
+          echo "CSRF Token: $CSRF_TOKEN"
+
+      - name: Check out code
+        uses: actions/checkout@v2

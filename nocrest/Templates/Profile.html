@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/Static/Dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* Flex container */
+        .form-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Flex items */
+        .form-box {
+            flex: 1 1 calc(50% - 20px); 
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+  .form-box {
+    flex: none; 
+  }
+}
+        /* Apply styles to form elements */
+        .form-box label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-box input[type="text"],
+        .form-box input[type="password"],
+        .form-box button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-box button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-box button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 5.9rem;
+        height: 100vh;
+        padding: 0 1.7rem;
+        color: white;
+        overflow: hidden;
+        transition: all 0.5s linear;
+        background: rgba(113, 99, 186, 255);
+        z-index: 1000;
+    }
+
+    /* Styles for sidebar items */
+    .sidebar ul.items {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar ul.items li {
+        padding: 10px;
+        border-bottom: 1px solid #555;
+        /* Adjust border color as needed */
+    }
+
+    .sidebar ul.items li:last-child {
+        border-bottom: none;
+    }
+
+    .sidebar ul.items li a {
+        color: #fff;
+        /* Adjust text color as needed */
+        text-decoration: none;
+    }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1001;
+    /* Ensure above sidebar */
+    color: #fff;
+    /* Adjust color as needed */
+    transition: margin-left 0.5s ease, margin-top 0.5s ease; /* Add transition properties */
+}
+.toggle-btn {
+    display: none; /* Hide toggle button by default */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .toggle-btn {
+        display: block; /* Show toggle button for mobile screens */
+    }
+}
+        /* Password input wrapper */
+        .password-input {
+            position: relative;
+        }
+
+        /* Toggle password icon */
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        
+
+        /* Error message */
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        /* Show sidebar when active class is added */
+        .sidebar.active {
+            transform: translateX(0);
+        }
+    }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            
+            .main--content{
+            margin-left: 0;
+        }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            /* Show sidebar when active class is added */
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main--content {
+            width: 100%;
+            /* Take up full width */
+            height: calc(100vh - 3.5rem);
+            /* Take up full height minus the height of the header */
+            padding-top: 3.5rem;
+            /* Height of the header */
+        }
+
+            .modal-content {
+                margin-left: 0px;
+                flex-wrap: wrap;
+            }
+
+            .randomclass {
+                flex-wrap: wrap;
+            }
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 1000px) {
+            .modal-content {
+                margin-left: 0px;
+            }
+        }
+        
+        
+
+    </style>
+
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+
+$(document).ready(function () {
+        document.querySelector('.toggle-btn').addEventListener('click', function () {
+            document.querySelector('.sidebar').classList.toggle('open');
+            if (document.querySelector('.sidebar').classList.contains('open')) {
+                document.querySelector('.toggle-btn').style.marginLeft = '4.1rem';
+                document.querySelector('.toggle-btn').style.marginTop = '-1rem';
+            } else {
+                document.querySelector('.toggle-btn').style.marginLeft = ''; // reset marginLeft
+                document.querySelector('.toggle-btn').style.marginTop = ''; // reset marginTop
+            }
+        });})
+        </script>
+    <button class="toggle-btn" style="color: black; background: transparent;width:40px;">&#9776;</button>
+    <div class="sidebar">
+        <ul class="items">
+            <li >
+                <a href="/api/studentlogin">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="" id="profile-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="http://moodle.mitsgwalior.in/" class="mat">
+                    <i class="material-icons">assignment</i>
+                    <span>Moodle</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="https://web.mitsgwalior.in/" class="mat">
+                    <i class="material-icons">notes</i>
+                    <span>MITS Gwalior</span>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="/api/companydata" class="mat">
+                    <i class="material-icons">computer</i>
+                    <span>Companies</span>
+                </a>
+            </li>
+            <li>
+                <a href="/api/show_feedback" class="mat">
+                    <i class="material-icons">computer</i>
+                    <span>FeedBacks</span>
+                </a>
+            </li>
+            <li class="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span><a href="{% url 'logout' %}">Logout</a></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main--content">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <span>Student Profile</span>
+                <h2>{{record.EnrollmentId}} {{record.Name}}</h2>
+            </div>
+            <div class="user-info">
+                <img src="/Static/Images/mitslogo.png" style="width: 8rem; height: 8rem;" alt="">
+            </div>
+        </div>
+        <div class="card-container">
+            <h3 class="main-title">Student's Section</h3>
+            <div class="card-wrapper">
+                <form id="student-form" class="form-flex" method="post" action="/api/studentdataedit">
+                    {% csrf_token %}
+                    <input type="hidden" name="idbb" value="{{record.id}}" />
+                    <div class="form-box">
+                        <label for="fathername">Father's Name</label>
+                        <input class="filledornot" type="text" id="fathers_name" name="fathers_name"
+                            placeholder="{{record.fathers_name}}" value="{{record.fathers_name}}">
+                    </div>
+                    <div class="form-box">
+                        <label for="address">Address</label>
+                        <input class="filledornot" type="text" id="Address" name="Address"
+                            placeholder="{{record.Address}}" value="{{record.Address}}">
+                    </div>
+                    <div class="form-box">
+                        <label for="location">Contact Number</label>
+                        <input class="filledornot" type="text" id="contact_Num" name="contact_Num"
+                            placeholder="{{record.contact_Num}}" value="{{record.contact_Num}}">
+                    </div>
+                    <div class="form-box">
+                        <label for="dept">Department</label>
+                        <input class="filledornot" readonly type="text" id="dept" name="Branch" placeholder="{{Branch}}"
+                            value="{{record.Branch}}">
+                    </div>
+                    <div class="form-box">
+                        <label for="password">Password</label>
+                        <div class="password-input">
+                            <input class="filledornot" type="password" id="password" name="password"
+                                placeholder="{{record.password}}" value="{{record.password}}">
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-box">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input class="filledornot" type="password" id="confirm-password" name="confirm-password"
+                            placeholder="Confirm Password">
+                    </div>
+                    <div class="form-box">
+                        <button type="submit" onclick="return validateForm()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var icon = document.querySelector(".toggle-password i");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        function validateForm() {
+            var contactNum = document.getElementById("contact_Num").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirm-password").value;
+
+            // Check contact number length
+            if (contactNum.length !== 10) {
+                alert("Contact number must be 10 digits");
+                return false;
+            }
+
+            // Check password and confirm password match
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return false;
+            }
+
+            return true;
+        }
+        
+    </script>
+</body>
+
+</html>
