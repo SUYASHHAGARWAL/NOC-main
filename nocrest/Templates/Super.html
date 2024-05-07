@@ -212,12 +212,12 @@ function NOCsendPostRequest(data, status, role) {
 
     var csrftoken = getCookie('csrftoken');
     $('<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">').appendTo(form);
-    $('<input type="hidden" name="Role" value="' + role + '">').appendTo(form);
+    $('<input type="hidden" name="tnp_approval" value="' + role + '">').appendTo(form);
     $('<input type="hidden" name="Email" value="' + data.Email + '">').appendTo(form);
     $('<input type="hidden" name="Contact" value="' + data.Contact + '">').appendTo(form);
     $('<input type="hidden" name="id" value="' + data.id + '">').appendTo(form);
     $('<input type="hidden" name="dept" value="' + data.dept + '">').appendTo(form);
-    $('<input type="hidden" name="status" value="' + status + '">').appendTo(form);
+    $('<input type="hidden" name="dept_approval" value="' + status + '">').appendTo(form);
     $('<input type="hidden" name="clicked" value="{{clicked}}">').appendTo(form);
 
     // Append additional data
@@ -225,8 +225,12 @@ function NOCsendPostRequest(data, status, role) {
     $('<input type="hidden" name="ReceiverName" value="' + data.name_reciever + '">').appendTo(form);
     $('<input type="hidden" name="Designation" value="' + data.Designation_reciever + '">').appendTo(form);
     $('<input type="hidden" name="Company" value="' + data.Company + '">').appendTo(form);
-    $('<input type="hidden" name="Location" value="' + data.location + '">').appendTo(form);
     // Add more data as needed
+    $('<input type="hidden" name="Location" value="' + data.location + '">').appendTo(form);
+    $('<input type="hidden" name="startdate" value="' + data.startDate + '">').appendTo(form);
+    $('<input type="hidden" name="endDate" value="' + data.endDate + '">').appendTo(form);
+    $('<input type="hidden" name="EnrollmentId" value="' + data.EnrollmentId + '">').appendTo(form);
+    $('<input type="hidden" name="App_Id" value="' + data.App_Id + '">').appendTo(form);
 
     $('body').append(form);
     form.submit();
@@ -717,7 +721,7 @@ function NOCsendPostRequest(data, status, role) {
     <div class="main--content">
         <div class="header-wrapper">
             <div class="header-title">
-                <span>Admin Dashboard</span>
+                <span>Admin Dashboard - {{name}}</span>
                 <h2>Total students Registered - {{data}}</h2>
                 <h3>Total students who applied for NOC - {{nocdata}}</h3>
                 <h4>Total students who got NOC - {{noctnp}}</h4>

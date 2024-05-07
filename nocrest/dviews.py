@@ -9,10 +9,9 @@ from .models import Student
 from .serializers import contactserialiser
 from .serializers import Batchserialiser
 from .serializers import internfeedback
+from .serializers import BonafideModel
 from nocrest.models import Admins
-from nocrest.models import Department
 from nocrest.models import Application_table
-from django.contrib.auth import authenticate
 from nocrest.models import NoDues_application_table
 from . import tuple_to_dict
 import datetime
@@ -25,7 +24,6 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect
 from rest_framework.response import Response
 import random
-from django.http import HttpResponseRedirect
 from django.core.mail import send_mail, EmailMessage
 from xhtml2pdf import pisa
 from io import BytesIO
@@ -37,7 +35,6 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
-from xhtml2pdf import pisa
 from django.template.loader import get_template
 from django.http import HttpResponse
 from datetime import datetime
@@ -57,7 +54,6 @@ def view_logs(request):
 
 def trigger_pull(request):
     try:
-        # Execute git pull command
         result = subprocess.run(['git', 'pull'], cwd='/var/www/html/webmits/Noc-main', capture_output=True, text=True)
         subprocess.run(['pm2', 'restart','noc'], cwd='/var/www/html/webmits/Noc-main', capture_output=True, text=True)
         return JsonResponse({'status': 'success', 'output': result.stdout})
@@ -77,9 +73,7 @@ def home(req):
     print(email)
     # print(name)
     print(username)
-    
-    if(em == 'mitsgl.a.in'):
-        print("Tulla")
+    if(em == 'mitsgwl.ac.in'):
         q = "SELECT * FROM nocrest_student WHERE (Email = '{0}')".format(email)
         cursor = connection.cursor()
         cursor.execute(q)
@@ -97,13 +91,9 @@ def home(req):
         cursor.execute(q)
         record = tuple_to_dict.ParseDictMultipleRecord(cursor)
         print("AAGELA")
-        print(record[0]['Role'])
         if(record):
             req.session['Admincontact'] = record[0]['Contact']
-            if(record[0]['Role']=='admin'):
-                return redirect ('/api/superadmin')
-            else:
-                return redirect ('/api/adminDash')
+            return redirect ('/api/adminDash')
         else:
             return render(req, "ADSignup.html")
   except Exception as e:
@@ -115,8 +105,7 @@ def login(request):
 def custom_logout(request):
   try:
     logout(request)
-    # Redirect to the front page or any other desired page
-    return redirect('/')  # Replace 'frontpage' with the actual name or URL of your front page
+    return redirect('/')  
   except Exception as e:
       print(e)
 
@@ -124,19 +113,11 @@ def upload_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded_file = request.FILES['file']
 
-        # Check if the uploaded file is an Excel file
         if not uploaded_file.name.endswith('.xlsx'):
             return JsonResponse({'status': 'Invalid file format. Please upload an Excel file.'}, status=400)
-
-        # Read the Excel file into a DataFrame
         df = pd.read_excel(uploaded_file)
-
-        # Convert the DataFrame to a dictionary
         data_dict = df.to_dict(orient='records')
-
-        # Now you can store the data_dict in the database
         for record in data_dict:
-            # Assuming you have a model called YourModel
             Graduated.objects.create(**record)
             print(record)
         return JsonResponse({'status': 'File uploaded and data stored successfully'})
@@ -153,7 +134,6 @@ def Adsignup(req):
 @api_view(['GET','POST'])
 def Frontpage(req):
     try:
-        
         req.session['Admincontact'] = ''
         req.session['Adminpass'] = ''
         req.session['Adminemail'] = ''
@@ -235,7 +215,6 @@ def StudentLogin(req):
             return render(req, "Dashboard.html", {'record': record[0] ,"check": check,'branchstud':rec[0]['Department_name'] })
     except Exception as e:
         print("Error", e)
-        return redirect('/')
 
 
 try:
@@ -371,8 +350,6 @@ def DashLogin(req):
     print(22)
     try:
         if(req.session['Adminemail']):
-            if(req.session['Adminemail'] == 'atul@mitsgwalior.in'):
-                return redirect('/api/superadmin')
             contact = req.session['Admincontact']
             email = req.session['Adminemail']
             print(contact)
@@ -449,7 +426,7 @@ def DashLogin(req):
                         result = tuple_to_dict.ParseDictMultipleRecord(cursor)
                         if(result):
                             print(i)
-                            print("sample",result)
+                            print("LODA",result)
                             r += result
                     print(len(r))
                     r2 = []
@@ -461,7 +438,7 @@ def DashLogin(req):
                         result = tuple_to_dict.ParseDictMultipleRecord(cursor)
                         if(result):
                             print(i)
-                            print("sample",result)
+                            print("LODA",result)
                             r2 += result
                     print(len(r2))
                     qry = "select count(*) from nocrest_application_table"
@@ -487,7 +464,7 @@ def DashLogin(req):
                         result = tuple_to_dict.ParseDictMultipleRecord(cursor)
                         if(result):
                             print(i)
-                            print("sample",result)
+                            print("LODA",result)
                             r3 += result
                     print(len(r3))
                     print("HELLO4")
@@ -570,7 +547,7 @@ def DeptLogin(req):
                         result = tuple_to_dict.ParseDictMultipleRecord(cursor)
                         if(result):
                             print(i)
-                            print("sample",result)
+                            print("LODA",result)
                             r += result
                     print(len(r))
                     r2 = []
@@ -582,7 +559,7 @@ def DeptLogin(req):
                         result = tuple_to_dict.ParseDictMultipleRecord(cursor)
                         if(result):
                             print(i)
-                            print("sample",result)
+                            print("LODA",result)
                             r2 += result
                     print(len(r2))
                     qry = "select count(*) from nocrest_application_table"
@@ -605,7 +582,7 @@ def DeptLogin(req):
                         result = tuple_to_dict.ParseDictMultipleRecord(cursor)
                         if(result):
                             print(i)
-                            print("sample",result)
+                            print("LODA",result)
                             r3 += result
                     print(len(r3))
                     return redirect ('/api/adminDash')
@@ -625,8 +602,10 @@ def DeptLogin(req):
         return JsonResponse({'error': str(e)}, status=500)
 
 
+from django.core.files.storage import FileSystemStorage
 @api_view(['GET','POST','DELETE'])
 def SubmitApplication(req):
+    print("al;klgnargh")
     try:
         print("Apply kaarne aa gaya hu ")
         if req.method == 'POST':
@@ -648,11 +627,12 @@ def SubmitApplication(req):
             Stipend = req.POST.get('stipend')
             if 'offerletter' in req.FILES:
                 offerLetter_file = req.FILES['offerletter']
-    # Continue with your code to save or process the file
+                fs = FileSystemStorage()
+                filename = fs.save(offerLetter_file.name, offerLetter_file)
+                offerLetter_file_path = fs.url(filename)
             else:
-    # Handle the case where the file is not uploaded
-                offerLetter_file = None 
-            print(offerLetter_file)
+                offerLetter_file_path = None 
+            print(offerLetter_file_path)
             Declaration = req.POST.get('declaration')
             appid=name[1]+name[2]+str(random.randint(100000,9999999))
             current_datetime = datetime.now()
@@ -681,7 +661,7 @@ def SubmitApplication(req):
                 org_address = Org_address,
                 websitr_org =Websitr_org,
                 apply_through = Apply_through,
-                offerletter = offerLetter_file,
+                offerletter = offerLetter_file_path,
                 stipend = Stipend,
                 declaration =Declaration,
                 App_Id=appid,
@@ -714,6 +694,7 @@ def SubmitApplication(req):
             except Exception as email_exception:
                 print("Email sending failed:", email_exception)
                 return HttpResponse(email_exception)
+            print("bv sfibaubgvabgvaioygb  GFIB ")
             return render(req, "Dashboard.html", {'message': 'ok'})
         else:
             return HttpResponse("Method not allowed", status=405)
@@ -721,6 +702,60 @@ def SubmitApplication(req):
         print("Error:", e)
         return HttpResponse("An error occurred", status=500)
 
+
+@api_view(['GET','POST','DELETE'])
+def ApplyBonafide(req):
+    try:
+        print("Hello")
+        if req.method == 'POST':
+            print("hola amigos")
+            Name = req.POST.get('student_name')
+            Enroll = req.POST.get('EnrollmentId')
+            f_name = req.POST.get('fathers_name')
+            sem = req.POST.get('Semester')
+            Email = req.POST.get('email')
+            session = req.POST.get('session')
+            dept = req.POST.get('Branch')
+            current_datetime = datetime.now()
+            date = current_datetime.date()
+            print(dept)
+            print("123")
+            q = "select * from nocrest_department where Dep_Id = '{0}'".format(dept)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print(rec[0]['Department_name'])
+            bonafidedata = BonafideModel(
+                student_name = Name,
+                EnrollmentId = Enroll,
+                fathers_name = f_name,
+                Semester = sem,
+                email = Email,
+                session = session,
+                application_date = date,
+                Branch = rec[0]['Department_name'],
+            )
+            bonafidedata.save()
+            current_directory = os.getcwd()
+            html_template = get_template(os.path.join(current_directory,'nocrest/Static/Appliedbonaf.html'))
+
+        
+            context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+            html_content = html_template.render(context)
+            subject = 'Testing'
+            message = 'Successfully applied for NO Dues'
+            from_email = 'suyashu1606.agarwal@gmail.com'
+            recipient_list = [Email]
+
+            email = EmailMessage(subject, message, from_email, recipient_list)
+            email.content_subtype = "html"
+            email.body = html_content
+            email.send()
+            print("Mail Sent")
+            print("Application data Saved")
+            return render(req, "Dashboard.html", {'message': 'ok'})
+    except Exception as e:
+        print("Error",e)
 
 @api_view(['GET','POST','DELETE'])
 def SubmitNoDuesApp(req):
@@ -830,7 +865,7 @@ def ShowAppliedstudent(req):
                     result = tuple_to_dict.ParseDictMultipleRecord(cursor)
                     if(result):
                         print(i)
-                        print("sample",result)
+                        print("LODA",result)
                         rec += result
                 return JsonResponse(rec,safe=False)
             print("\n\n\n",rec)
@@ -954,7 +989,7 @@ def AppliedDisapprovedStud(req):
                     result = tuple_to_dict.ParseDictMultipleRecord(cursor)
                     if(result):
                         print(i)
-                        print("sample",result)
+                        print("LODA",result)
                         r += result
                 print(r)
 
@@ -1020,6 +1055,35 @@ def ChekPreviousApp(req):
             print(email)
 
             q = "select * from nocrest_application_table where email='{0}'  order by App_Date desc, App_time desc".format(email)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print("xxxxxxxxxx",records)
+            if(records):
+                return JsonResponse(records,safe=False)
+            else:
+                return render(req,"Adminfp.html")
+    except Exception as e:
+        print("Error", e)
+
+@api_view(['GET','POST','DELETE'])
+def BonafStatus(req):
+    print(1111)
+    try:
+         if req.session['Enrollment'] == '':
+                return redirect('/')
+         if req.method == 'GET':
+            username = req.session['Enrollment']
+            print("Session",req.session['Enrollment'],"\n\n")
+            q="select Email from nocrest_student where EnrollmentId='{0}' ".format(username)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            records = tuple_to_dict.ParseDictSingleRecord(cursor)
+
+            email=records['Email']
+            print(email)
+
+            q = "select * from nocrest_bonafidemodel where email='{0}'  order by application_date desc".format(email)
             cursor = connection.cursor()
             cursor.execute(q)
             records = tuple_to_dict.ParseDictMultipleRecord(cursor)
@@ -1147,7 +1211,7 @@ def EditSaveDept(request):
             approved_by = approveerole+'_'+approveename
             print(approved_by)
             print(approval, comment)
-            qry = "select * from nocrest_department where Dep_Id = '{0}'".format(6)
+            qry = "select * from nocrest_department where Dep_Id = '{0}'".format(department)
             cursor = connection.cursor()
             cursor.execute(qry)
             rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
@@ -1233,7 +1297,6 @@ def EditSaveDept(request):
                             cat.Tnp_approved_by = approved_by
                             cat.save()
                             print("Email send")
-
                         elif request.POST['approval'] == 'allow':
                                 cat = Application_table.objects.get(pk=request.POST['idbb'])
                                 cat.Dept_approval = request.POST['approval']
@@ -1281,7 +1344,8 @@ def EditSaveDept(request):
                         cat.date_dept_approval = apr_time.date()
                         cat.D_approved_by = approved_by
                         cat.allow_edit = request.POST['approval']
-                        cat.save()        
+                        cat.save()
+                        
                 else:
                         cat.Dept_approval = request.POST['approval']
                         cat.Dept_Comment = request.POST['comment']
@@ -1304,6 +1368,248 @@ def EditSaveDept(request):
 
 
         return redirect('/api/adminDash?clicked=6')
+    except Exception as e:
+        print("Error:", e)
+        return JsonResponse({'success': False, 'error': str(e)})  # Return an error response if needed
+    
+@api_view(['GET', 'POST', 'DELETE'])
+def AdminApproval(request):
+    try:
+        if request.method == 'POST':
+            tnp_approval = request.POST.get('tnp_approval')
+            email = request.POST.get('Email')
+            contact = request.POST.get('Contact')
+            id = request.POST.get('id')
+            dept = request.POST.get('dept')
+            dept_approval = request.POST.get('dept_approval')
+            clicked = request.POST.get('clicked')
+
+            name = request.POST.get('Name')
+            receiver_name = request.POST.get('ReceiverName')
+            designation = request.POST.get('Designation')
+            company = request.POST.get('Company')
+            location = request.POST.get('Location')
+            startdate = request.POST.get('startdate')
+            endDate = request.POST.get('endDate')
+            EnrollmentId = request.POST.get('EnrollmentId')
+            App_Id = request.POST.get('App_Id')
+
+            # Print the received data
+            print("tnp_approval:", tnp_approval)
+            print("Email:", email)
+            print("Contact:", contact)
+            print("ID:", id)
+            print("Department:", dept)
+            print("dept_approval:", dept_approval)
+            print("Clicked:", clicked)
+            print("Name:", name)
+            print("Receiver Name:", receiver_name)
+            print("Designation:", designation)
+            print("Company:", company)
+            print("Location:", location)
+            if(dept_approval == 'Approved' and tnp_approval == 'Approved') :
+                apr_time = datetime.now()
+                today_date = apr_time.date()
+                qry = "select * from nocrest_department where Dep_Id = '{0}'".format(dept)
+                cursor = connection.cursor()
+                cursor.execute(qry)
+                rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+                print(rec[0]['Department_name'])
+                stud_branch = rec[0]['Department_name']
+                q="select count(*) from nocrest_application_table where tnp_approval = 'approved'"
+                cursor=connection.cursor()
+                cursor.execute(q)
+                record=tuple_to_dict.ParseDictSingleRecord(cursor)
+                apid = record['count(*)'] + 1
+                drct = 'nocrest/Static/Images'
+                logo = 'nocrest/Static/Images/mits_logo.png'
+                fname = 'signature.png'
+                current_directory = os.getcwd()
+                print(current_directory)
+                file_path = os.path.join(current_directory,drct, fname)
+                logo_path = os.path.join(current_directory,logo)
+                print("File Path:", file_path)
+                link = f"https://noc.mitsgwalior.in/verifyNOC/?enrollment_number={apid}"  # Replace with your custom link
+                qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+                )
+                qr.add_data(link)
+                qr.make(fit=True)
+                qr_img = qr.make_image(fill_color="black", back_color="white")
+                qr_img_path = f"nocrest/Static/Images/qrcode.png"  # Replace with the path to save the QR code image
+                qrrpath = os.path.join(current_directory,qr_img_path)
+                qr_img_path = qrrpath
+                qr_img.save(qr_img_path)
+                print(qr_img_path)            
+                html_template = get_template(os.path.join(current_directory,'nocrest/Static/confnoc.html'))
+                context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+                html_content = html_template.render(context)
+                my_model_data = {'Name': receiver_name,
+                                                'designation': designation,
+                                                'company': company,
+                                                'location': location,
+                                                'today_date': today_date,
+                                                'start_date': startdate,
+                                                'end_date': endDate,
+                                                'stud_branch': stud_branch,
+                                                'stud_name': name,
+                                                'stud_enr': EnrollmentId,
+                                                'apid':App_Id,
+                                                'file_path':file_path,
+                                                'qr_img_path':qr_img_path,
+                                                'logo_path':logo_path}
+
+                subject = 'Testing'
+                message = 'Successfully applied for NO Dues'
+                from_email = 'sdc@mitsgwalior.in'
+                recipient_list = [email]
+                email = EmailMessage(subject, message, from_email, recipient_list)
+                email.content_subtype = "html"
+                email.body = html_content
+                filename = f'{name}_{EnrollmentId}_{company}_noc.pdf'
+                pdf_file_path = generate_dynamic_pdf(my_model_data, filename)
+                print(pdf_file_path)
+                print(subject)
+                email.attach_file(pdf_file_path)
+                email.send()
+                cat = Application_table.objects.get(pk=request.POST['id'])
+                cat.Dept_approval = dept_approval
+                cat.TnP_approval = tnp_approval
+                cat.D_approved_by = request.POST['approval']
+                cat.Tnp_approved_by = request.POST['approval']
+            return redirect('/api/superadmin')
+
+            # Now you can use the extracted data as needed
+            # Example:
+            # Save the data to the database, perform operations, etc.
+
+            return JsonResponse({'message': 'Data received successfully'}, status=200)
+    except Exception as e:
+        print("Error:", e)
+        return JsonResponse({'error': 'An error occurred'}, status=500)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def BonaEdit(request):
+    try:
+        if request.method == 'POST':
+            print(1111)
+            department = request.POST.get('randomdept')
+            print("v hjbvuafvb dfjbvb", department)
+            print(request.POST.get('idbb'))
+            today_date = datetime.now().date()
+            Email = request.POST.get('email')
+            stud_enr = request.POST.get('enrollmentId')
+            stud_name = request.POST.get('studentName')
+            father_name = request.POST.get('fathersname')
+            semester = request.POST.get('semester')
+            session = request.POST.get('session')
+            stud_branch = request.POST.get('dept')
+            approval = request.POST.get('approval')
+            comment = request.POST.get('comment')
+            print(approval, comment, stud_enr)
+            qry = "select * from nocrest_department where Dep_Id = '{0}'".format(6)
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print(rec)
+            print(rec[0]['Department_name'])
+            print(rec[0]['programmme'])
+            stud_branch = rec[0]['Department_name']
+            print(stud_branch, Email, stud_enr)
+            apr_time = datetime.now()
+            print(apr_time)
+
+            cat = BonafideModel.objects.get(pk=request.POST['idbb'])
+            try:
+                if request.POST['approval'] == 'Approved':
+                    # Update database fields
+                    cat.dept_approval = request.POST['approval']
+                    cat.dept_comment = request.POST['comment']
+                    cat.approval_date = apr_time.date()
+                    cat.save()
+
+                    # Render approveBonaf.html template
+                    current_directory = os.getcwd()
+                    approve_bonaf_template_path = os.path.join(current_directory, 'nocrest/Static/approveBonaf.html')
+                    approve_bonaf_template = get_template(approve_bonaf_template_path)
+                    approve_bonaf_context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+                    approve_bonaf_html_content = approve_bonaf_template.render(approve_bonaf_context)
+
+                    # Render BonafidePdf.html template to generate PDF
+                    bonafide_pdf_template_path = os.path.join(current_directory, 'nocrest/Static/BonafidePdf.html')
+                    bonafide_pdf_template = get_template(bonafide_pdf_template_path)
+                    bonafide_pdf_context = {
+                        'studname': stud_name,
+                        'studenr': stud_enr,
+                        'programme': rec[0]['programmme'],
+                        'fathername': father_name,
+                        'studbranch': stud_branch,
+                        'semester': semester,
+                        'session': session
+                    }
+                    bonafide_pdf_html_content = bonafide_pdf_template.render(bonafide_pdf_context)
+
+                    # Convert Bonafide PDF HTML content to PDF
+                    result = BytesIO()
+                    pdf = pisa.pisaDocument(BytesIO(bonafide_pdf_html_content.encode("UTF-8")), result)
+
+                    if not pdf.err:
+                        bonafide_pdf_content = result.getvalue()
+
+                        # Save Bonafide PDF to file system
+                        pdfs_directory = os.path.join(current_directory, 'pdfs')
+                        os.makedirs(pdfs_directory, exist_ok=True)
+                        bonafide_pdf_file_name = f"{stud_name}_{stud_enr}_bonafide.pdf"
+                        bonafide_pdf_file_path = os.path.join(pdfs_directory, bonafide_pdf_file_name)
+                        with open(bonafide_pdf_file_path, 'wb') as pdf_file:
+                            pdf_file.write(bonafide_pdf_content)
+
+                        # Attach Bonafide PDF to email
+                        email_subject = 'Testing'
+                        email_body = 'Successfully applied for NO Dues'
+                        from_email = 'suyashu1606.agarwal@gmail.com'
+                        recipient_list = [Email]
+
+                        email = EmailMessage(email_subject, email_body, from_email, recipient_list)
+                        email.attach_file(bonafide_pdf_file_path)  # Attach Bonafide PDF
+                        email.content_subtype = "html"
+                        email.body = approve_bonaf_html_content  # Set approveBonaf.html content as email body
+
+                        # Send email
+                        email.send()
+                        print("Mail Sent")
+
+                    else:
+                        print("Failed to generate Bonafide PDF.")
+
+
+
+
+                    
+                else:
+                        cat.dept_approval = request.POST['approval']
+                        cat.dept_comment = request.POST['comment']
+                        cat.approval_date = apr_time.date()
+                        cat.save()
+                        current_directory = os.getcwd()
+                        html_template = get_template(os.path.join(current_directory,'nocrest/Static/denyBonaf.html'))
+                        context = {'dept': department, 'comment':request.POST['comment'] }
+                        html_content = html_template.render(context)
+                        subject = 'Testing'
+                        message = 'Bonafide Application Declined!'
+                        from_email = 'sdc@mitsgwalior.in'
+                        email = EmailMessage(subject, message, from_email)
+                        email.content_subtype = "html"
+                        email.body = html_content
+                        email.send()
+
+            
+            except Exception as e:
+                    print("Error:", e)
+        return redirect('/api/adminDash?clicked=3')
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'success': False, 'error': str(e)})  # Return an error response if needed
@@ -1332,7 +1638,6 @@ def Status(request):
           print("Error", e)
 
 
-
 import os
 def render_html_to_pdf(template_path, context,folderpath ,filename):
   try:
@@ -1346,7 +1651,6 @@ def render_html_to_pdf(template_path, context,folderpath ,filename):
 
             os.makedirs(folderpath, exist_ok=True)
 
-            # Combine folder path and filename
             if filename:
                 with open(filename, 'wb') as pdf_file:
                     pdf_file.write(pdf_content)
@@ -1715,7 +2019,24 @@ def AllApplications(req):
             # if req.session['Adminemail'] == '':
             #     print("session khali")
             #     return redirect('/')
-            qry = "select * from nocrest_application_table where Dept_approval = '' and Tnp_approval = '' order by App_Date desc"
+            qry = "select * from nocrest_application_table where Dept_approval = '' and TnP_approval = '' order by App_Date desc"
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print("xxxxxxxxxx",records)
+            print(len(records))
+            return JsonResponse(records,safe=False)
+            
+    except Exception as e:
+        print("Error", e)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def BonafApplications(req):
+    try:
+            # if req.session['Adminemail'] == '':
+            #     print("session khali")
+            #     return redirect('/')
+            qry = "select * from nocrest_bonafidemodel where dept_approval = '' order by application_date desc"
             cursor = connection.cursor()
             cursor.execute(qry)
             records = tuple_to_dict.ParseDictMultipleRecord(cursor)
@@ -1731,26 +2052,15 @@ def AllApplications(req):
 def AdminProfile(req):
     try:
             print("AAGAYA ANDAR")
-            
             if req.session['Admincontact'] == '':
-                if req.session['Adminemail'] == '':
-                    return redirect('/')
-            enr = req.session['Adminemail']
-            qry = "select * from nocrest_admins where email = '{0}'".format(enr)
+                return redirect('/')
+            enr = req.session['Admincontact']
+            qry = "select * from nocrest_admins where Contact = '{0}'".format(enr)
             cursor = connection.cursor()
             cursor.execute(qry)
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
-            if(rec):
-                return render(req, 'ADprofile.html',{'record':rec})
-            else:
-                enr = req.session['Admincontact']
-                qry = "select * from nocrest_admins where Contact = '{0}'".format(enr)
-                cursor = connection.cursor()
-                cursor.execute(qry)
-                rec = tuple_to_dict.ParseDictSingleRecord(cursor)
-                print(rec)
-                return render(req, 'ADprofile.html',{'record':rec})
+            return render(req, 'ADprofile.html',{'record':rec})
     except Exception as e:
 
         print("Error",e)
@@ -1850,7 +2160,6 @@ def NOCEditApp(req):
             return redirect('/api/studentlogin')
     except Exception as e:
         print("Error:", e)
-
 
 @api_view(['GET', 'POST', 'DELETE'])
 def InternFeedback(req):
@@ -1953,7 +2262,7 @@ def FDelete(request):
             print(row_id)
             data = Admins.objects.get(pk=request.GET['id'])
             data.delete()
-            return redirect('/api/superadmin')
+            return JsonResponse({'message': 'Row deleted successfully'}, status=200)
     except Exception as e:
         print("Error", e)
 
@@ -2027,12 +2336,6 @@ def AdminHostle(req):
 @api_view(['GET','POST','DELETE'])
 def SuperAdmin(req):
     try:
-        # if req.session['Adminemail'] == '':
-        #     return redirect('/')
-        qr = "SELECT COUNT(*) FROM nocrest_admins where  "
-        cursor = connection.cursor()
-        cursor.execute(qr)
-        result = cursor.fetchone()  # Fetches the first row of the result
         qr = "SELECT COUNT(*) FROM nocrest_student"
         cursor = connection.cursor()
         cursor.execute(qr)
@@ -2082,124 +2385,3 @@ def SuperAdmin(req):
         return render(req, "Super.html",{"data":num,"nocdata":nocnum,"noctnp":noctnp,"nod":nod,"nodapp":noduapp})
     except Exception as e:
         print("Error",e)
-        return redirect('/')
-@api_view(['GET', 'POST', 'DELETE'])
-def AdminApproval(request):
-    try:
-        if request.method == 'POST':
-            tnp_approval = request.POST.get('tnp_approval')
-            email = request.POST.get('Email')
-            contact = request.POST.get('Contact')
-            id = request.POST.get('id')
-            dept = request.POST.get('dept')
-            dept_approval = request.POST.get('dept_approval')
-            clicked = request.POST.get('clicked')
-
-            name = request.POST.get('Name')
-            receiver_name = request.POST.get('ReceiverName')
-            designation = request.POST.get('Designation')
-            company = request.POST.get('Company')
-            location = request.POST.get('Location')
-            startdate = request.POST.get('startdate')
-            endDate = request.POST.get('endDate')
-            EnrollmentId = request.POST.get('EnrollmentId')
-            App_Id = request.POST.get('App_Id')
-
-            # Print the received data
-            print("tnp_approval:", tnp_approval)
-            print("Email:", email)
-            print("Contact:", contact)
-            print("ID:", id)
-            print("Department:", dept)
-            print("dept_approval:", dept_approval)
-            print("Clicked:", clicked)
-            print("Name:", name)
-            print("Receiver Name:", receiver_name)
-            print("Designation:", designation)
-            print("Company:", company)
-            print("Location:", location)
-
-            return
-            if(dept_approval == 'Approved' and tnp_approval == 'Approved') :
-                apr_time = datetime.now()
-                today_date = apr_time.date()
-                qry = "select * from nocrest_department where Dep_Id = '{0}'".format(dept)
-                cursor = connection.cursor()
-                cursor.execute(qry)
-                rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                print(rec[0]['Department_name'])
-                stud_branch = rec[0]['Department_name']
-                q="select count(*) from nocrest_application_table where tnp_approval = 'approved'"
-                cursor=connection.cursor()
-                cursor.execute(q)
-                record=tuple_to_dict.ParseDictSingleRecord(cursor)
-                apid = record['count(*)'] + 1
-                drct = 'nocrest/Static/Images'
-                logo = 'nocrest/Static/Images/mits_logo.png'
-                fname = 'signature.png'
-                current_directory = os.getcwd()
-                print(current_directory)
-                file_path = os.path.join(current_directory,drct, fname)
-                logo_path = os.path.join(current_directory,logo)
-                print("File Path:", file_path)
-                link = f"https://noc.mitsgwalior.in/verifyNOC/?enrollment_number={apid}"  # Replace with your custom link
-                qr = qrcode.QRCode(
-                version=1,
-                error_correction=qrcode.constants.ERROR_CORRECT_L,
-                box_size=10,
-                border=4,
-                )
-                qr.add_data(link)
-                qr.make(fit=True)
-                qr_img = qr.make_image(fill_color="black", back_color="white")
-                qr_img_path = f"nocrest/Static/Images/qrcode.png"  # Replace with the path to save the QR code image
-                qrrpath = os.path.join(current_directory,qr_img_path)
-                qr_img_path = qrrpath
-                qr_img.save(qr_img_path)
-                print(qr_img_path)            
-                html_template = get_template(os.path.join(current_directory,'nocrest/Static/confnoc.html'))
-                context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
-                html_content = html_template.render(context)
-                my_model_data = {'Name': receiver_name,
-                                                'designation': designation,
-                                                'company': company,
-                                                'location': location,
-                                                'today_date': today_date,
-                                                'start_date': startdate,
-                                                'end_date': endDate,
-                                                'stud_branch': stud_branch,
-                                                'stud_name': name,
-                                                'stud_enr': EnrollmentId,
-                                                'apid':App_Id,
-                                                'file_path':file_path,
-                                                'qr_img_path':qr_img_path,
-                                                'logo_path':logo_path}
-
-                subject = 'Testing'
-                message = 'Successfully applied for NO Dues'
-                from_email = 'sdc@mitsgwalior.in'
-                recipient_list = [email]
-                email = EmailMessage(subject, message, from_email, recipient_list)
-                email.content_subtype = "html"
-                email.body = html_content
-                filename = f'{name}_{EnrollmentId}_{company}_noc.pdf'
-                pdf_file_path = generate_dynamic_pdf(my_model_data, filename)
-                print(pdf_file_path)
-                print(subject)
-                email.attach_file(pdf_file_path)
-                email.send()
-                cat = Application_table.objects.get(pk=request.POST['id'])
-                cat.Dept_approval = dept_approval
-                cat.TnP_approval = tnp_approval
-                cat.D_approved_by = request.POST['approval']
-                cat.Tnp_approved_by = request.POST['approval']
-            return redirect('/api/superadmin')
-
-            # Now you can use the extracted data as needed
-            # Example:
-            # Save the data to the database, perform operations, etc.
-
-            return JsonResponse({'message': 'Data received successfully'}, status=200)
-    except Exception as e:
-        print("Error:", e)
-        return JsonResponse({'error': 'An error occurred'}, status=500)
