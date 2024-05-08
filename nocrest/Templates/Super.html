@@ -231,6 +231,7 @@ function NOCsendPostRequest(data, status, role) {
     $('<input type="hidden" name="endDate" value="' + data.endDate + '">').appendTo(form);
     $('<input type="hidden" name="EnrollmentId" value="' + data.EnrollmentId + '">').appendTo(form);
     $('<input type="hidden" name="App_Id" value="' + data.App_Id + '">').appendTo(form);
+    $('<input type="hidden" name="adminname" value="' + '{{name}}' + '">').appendTo(form);
 
     $('body').append(form);
     form.submit();

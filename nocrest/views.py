@@ -100,6 +100,7 @@ def home(req):
         print(record[0]['Role'])
         if(record):
             req.session['Admincontact'] = record[0]['Contact']
+            req.session['Adminname'] = record[0]['name']
             if(record[0]['Role']=='admin'):
                 return redirect ('/api/superadmin')
             else:
@@ -2029,10 +2030,7 @@ def SuperAdmin(req):
     try:
         # if req.session['Adminemail'] == '':
         #     return redirect('/')
-        qr = "SELECT COUNT(*) FROM nocrest_admins where  "
-        cursor = connection.cursor()
-        cursor.execute(qr)
-        result = cursor.fetchone()  # Fetches the first row of the result
+        ADname = req.session['Adminname']
         qr = "SELECT COUNT(*) FROM nocrest_student"
         cursor = connection.cursor()
         cursor.execute(qr)
@@ -2079,7 +2077,7 @@ def SuperAdmin(req):
         else:
             print("No rows returned.")
 
-        return render(req, "Super.html",{"data":num,"nocdata":nocnum,"noctnp":noctnp,"nod":nod,"nodapp":noduapp})
+        return render(req, "Super.html",{"data":num,"nocdata":nocnum,"noctnp":noctnp,"nod":nod,"nodapp":noduapp,"name":ADname})
     except Exception as e:
         print("Error",e)
         return redirect('/')
@@ -2104,7 +2102,8 @@ def AdminApproval(request):
             endDate = request.POST.get('endDate')
             EnrollmentId = request.POST.get('EnrollmentId')
             App_Id = request.POST.get('App_Id')
-
+            approveby = request.POST.get('adminname')
+            AByAdmin = 'admin_'  + approveby 
             # Print the received data
             print("tnp_approval:", tnp_approval)
             print("Email:", email)
@@ -2118,8 +2117,8 @@ def AdminApproval(request):
             print("Designation:", designation)
             print("Company:", company)
             print("Location:", location)
+            print("approveby:", approveby)
 
-            return
             if(dept_approval == 'Approved' and tnp_approval == 'Approved') :
                 apr_time = datetime.now()
                 today_date = apr_time.date()
@@ -2170,7 +2169,7 @@ def AdminApproval(request):
                                                 'stud_branch': stud_branch,
                                                 'stud_name': name,
                                                 'stud_enr': EnrollmentId,
-                                                'apid':App_Id,
+                                                'apid':apid,
                                                 'file_path':file_path,
                                                 'qr_img_path':qr_img_path,
                                                 'logo_path':logo_path}
@@ -2191,8 +2190,10 @@ def AdminApproval(request):
                 cat = Application_table.objects.get(pk=request.POST['id'])
                 cat.Dept_approval = dept_approval
                 cat.TnP_approval = tnp_approval
-                cat.D_approved_by = request.POST['approval']
-                cat.Tnp_approved_by = request.POST['approval']
+                cat.D_approved_by = AByAdmin
+                cat.Tnp_approved_by = AByAdmin
+                cat.save()
+                print("Saved")
             return redirect('/api/superadmin')
 
             # Now you can use the extracted data as needed
