@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from rest_framework.decorators import api_view
 import tempfile
 from django.contrib.auth import logout
+from .serializers import BonafideModel
 
 from io import BytesIO
 from .models import Student
@@ -723,6 +724,61 @@ def SubmitApplication(req):
         return HttpResponse("An error occurred", status=500)
 
 
+
+@api_view(['GET','POST','DELETE'])
+def ApplyBonafide(req):
+    try:
+        print("Hello")
+        if req.method == 'POST':
+            print("hola amigos")
+            Name = req.POST.get('student_name')
+            Enroll = req.POST.get('EnrollmentId')
+            f_name = req.POST.get('fathers_name')
+            sem = req.POST.get('Semester')
+            Email = req.POST.get('email')
+            session = req.POST.get('session')
+            dept = req.POST.get('Branch')
+            current_datetime = datetime.now()
+            date = current_datetime.date()
+            print(dept)
+            print("123")
+            q = "select * from nocrest_department where Dep_Id = '{0}'".format(dept)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print(rec[0]['Department_name'])
+            bonafidedata = BonafideModel(
+                student_name = Name,
+                EnrollmentId = Enroll,
+                fathers_name = f_name,
+                Semester = sem,
+                email = Email,
+                session = session,
+                application_date = date,
+                Branch = rec[0]['Department_name'],
+            )
+            bonafidedata.save()
+            current_directory = os.getcwd()
+            html_template = get_template(os.path.join(current_directory,'nocrest/Static/Appliedbonaf.html'))
+
+        
+            context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+            html_content = html_template.render(context)
+            subject = 'Testing'
+            message = 'Successfully applied for NO Dues'
+            from_email = 'suyashu1606.agarwal@gmail.com'
+            recipient_list = [Email]
+
+            email = EmailMessage(subject, message, from_email, recipient_list)
+            email.content_subtype = "html"
+            email.body = html_content
+            email.send()
+            print("Mail Sent")
+            print("Application data Saved")
+            return render(req, "Dashboard.html", {'message': 'ok'})
+    except Exception as e:
+        print("Error",e)
+
 @api_view(['GET','POST','DELETE'])
 def SubmitNoDuesApp(req):
     try:
@@ -1031,6 +1087,38 @@ def ChekPreviousApp(req):
                 return render(req,"Adminfp.html")
     except Exception as e:
         print("Error", e)
+
+        
+@api_view(['GET','POST','DELETE'])
+def BonafStatus(req):
+    print(1111)
+    try:
+         if req.session['Enrollment'] == '':
+                return redirect('/')
+         if req.method == 'GET':
+            username = req.session['Enrollment']
+            print("Session",req.session['Enrollment'],"\n\n")
+            q="select Email from nocrest_student where EnrollmentId='{0}' ".format(username)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            records = tuple_to_dict.ParseDictSingleRecord(cursor)
+
+            email=records['Email']
+            print(email)
+
+            q = "select * from nocrest_bonafidemodel where email='{0}'  order by application_date desc".format(email)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print("xxxxxxxxxx",records)
+            if(records):
+                return JsonResponse(records,safe=False)
+            else:
+                return render(req,"Adminfp.html")
+    except Exception as e:
+        print("Error", e)
+
+
 @api_view(['GET','POST','DELETE'])
 def ShowGradStuds(req):
     print(1111)
@@ -1305,6 +1393,135 @@ def EditSaveDept(request):
 
 
         return redirect('/api/adminDash?clicked=6')
+    except Exception as e:
+        print("Error:", e)
+        return JsonResponse({'success': False, 'error': str(e)})  # Return an error response if needed
+
+
+@api_view(['GET', 'POST', 'DELETE'])
+def BonaEdit(request):
+    try:
+        if request.method == 'POST':
+            print(1111)
+            department = request.POST.get('randomdept')
+            print("v hjbvuafvb dfjbvb", department)
+            print(request.POST.get('idbb'))
+            today_date = datetime.now().date()
+            Email = request.POST.get('email')
+            stud_enr = request.POST.get('enrollmentId')
+            stud_name = request.POST.get('studentName')
+            father_name = request.POST.get('fathersname')
+            semester = request.POST.get('semester')
+            session = request.POST.get('session')
+            stud_branch = request.POST.get('dept')
+            approval = request.POST.get('approval')
+            comment = request.POST.get('comment')
+            print(approval, comment, stud_enr)
+            qry = "select * from nocrest_department where Dep_Id = '{0}'".format(6)
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print(rec)
+            print(rec[0]['Department_name'])
+            print(rec[0]['programmme'])
+            stud_branch = rec[0]['Department_name']
+            print(stud_branch, Email, stud_enr)
+            apr_time = datetime.now()
+            print(apr_time)
+
+            cat = BonafideModel.objects.get(pk=request.POST['idbb'])
+            try:
+                if request.POST['approval'] == 'Approved':
+                    # Update database fields
+                    cat.dept_approval = request.POST['approval']
+                    cat.dept_comment = request.POST['comment']
+                    cat.approval_date = apr_time.date()
+                    cat.save()
+                    # Render approveBonaf.html template
+                    current_directory = os.getcwd()
+                    logo = 'nocrest/Static/Images/final_MD_Sign.png'
+                    Mitslogo = 'nocrest/Static/Images/mits_logo.png'
+                    logo_path = os.path.join(current_directory,logo)
+                    Mits_logo_path = os.path.join(current_directory,Mitslogo)
+                    approve_bonaf_template_path = os.path.join(current_directory, 'nocrest/Static/approveBonaf.html')
+                    approve_bonaf_template = get_template(approve_bonaf_template_path)
+                    approve_bonaf_context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+                    approve_bonaf_html_content = approve_bonaf_template.render(approve_bonaf_context)
+
+                    # Render BonafidePdf.html template to generate PDF
+                    bonafide_pdf_template_path = os.path.join(current_directory, 'nocrest/Static/BonafidePdf.html')
+                    bonafide_pdf_template = get_template(bonafide_pdf_template_path)
+                    bonafide_pdf_context = {
+                        'studname': stud_name,
+                        'studenr': stud_enr,
+                        'programme': rec[0]['programmme'],
+                        'fathername': father_name,
+                        'studbranch': stud_branch,
+                        'semester': semester,
+                        'session': session,
+                        'logo_path':logo_path,
+                        'mitspath':Mits_logo_path
+                    }
+                    bonafide_pdf_html_content = bonafide_pdf_template.render(bonafide_pdf_context)
+
+                    # Convert Bonafide PDF HTML content to PDF
+                    result = BytesIO()
+                    pdf = pisa.pisaDocument(BytesIO(bonafide_pdf_html_content.encode("UTF-8")), result)
+
+                    if not pdf.err:
+                        bonafide_pdf_content = result.getvalue()
+
+                        # Save Bonafide PDF to file system
+                        pdfs_directory = os.path.join(current_directory, 'pdfs')
+                        os.makedirs(pdfs_directory, exist_ok=True)
+                        bonafide_pdf_file_name = f"{stud_name}_{stud_enr}_bonafide.pdf"
+                        bonafide_pdf_file_path = os.path.join(pdfs_directory, bonafide_pdf_file_name)
+                        with open(bonafide_pdf_file_path, 'wb') as pdf_file:
+                            pdf_file.write(bonafide_pdf_content)
+
+                        # Attach Bonafide PDF to email
+                        email_subject = 'Testing'
+                        email_body = 'Successfully applied for NO Dues'
+                        from_email = 'suyashu1606.agarwal@gmail.com'
+                        recipient_list = [Email]
+
+                        email = EmailMessage(email_subject, email_body, from_email, recipient_list)
+                        email.attach_file(bonafide_pdf_file_path)  # Attach Bonafide PDF
+                        email.content_subtype = "html"
+                        email.body = approve_bonaf_html_content  # Set approveBonaf.html content as email body
+
+                        # Send email
+                        email.send()
+                        print("Mail Sent")
+
+                    else:
+                        print("Failed to generate Bonafide PDF.")
+
+
+
+
+                    
+                else:
+                        cat.dept_approval = request.POST['approval']
+                        cat.dept_comment = request.POST['comment']
+                        cat.approval_date = apr_time.date()
+                        cat.save()
+                        current_directory = os.getcwd()
+                        html_template = get_template(os.path.join(current_directory,'nocrest/Static/denyBonaf.html'))
+                        context = {'dept': department, 'comment':request.POST['comment'] }
+                        html_content = html_template.render(context)
+                        subject = 'Testing'
+                        message = 'Bonafide Application Declined!'
+                        from_email = 'sdc@mitsgwalior.in'
+                        email = EmailMessage(subject, message, from_email)
+                        email.content_subtype = "html"
+                        email.body = html_content
+                        email.send()
+
+            
+            except Exception as e:
+                    print("Error:", e)
+        return redirect('/api/adminDash?clicked=3')
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'success': False, 'error': str(e)})  # Return an error response if needed
@@ -1717,6 +1934,23 @@ def AllApplications(req):
             #     print("session khali")
             #     return redirect('/')
             qry = "select * from nocrest_application_table where Dept_approval = '' and Tnp_approval = '' order by App_Date desc"
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print("xxxxxxxxxx",records)
+            print(len(records))
+            return JsonResponse(records,safe=False)
+            
+    except Exception as e:
+        print("Error", e)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def BonafApplications(req):
+    try:
+            # if req.session['Adminemail'] == '':
+            #     print("session khali")
+            #     return redirect('/')
+            qry = "select * from nocrest_bonafidemodel where dept_approval = '' order by application_date desc"
             cursor = connection.cursor()
             cursor.execute(qry)
             records = tuple_to_dict.ParseDictMultipleRecord(cursor)

@@ -1094,6 +1094,7 @@ def BonafStatus(req):
                 return render(req,"Adminfp.html")
     except Exception as e:
         print("Error", e)
+        
 @api_view(['GET','POST','DELETE'])
 def ShowGradStuds(req):
     print(1111)
