@@ -1425,10 +1425,17 @@ def BonaEdit(request):
             print(rec[0]['Department_name'])
             print(rec[0]['programmme'])
             stud_branch = rec[0]['Department_name']
+            qry = "select count(*) from nocrest_bonafidemodel where dept_approval='Approved'"
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            apid = tuple_to_dict.ParseDictSingleRecord(cursor)
+            print("gwvdvubwbbf  yfebfebf8og7gw",apid['count(*)'])
             print(stud_branch, Email, stud_enr)
             apr_time = datetime.now()
             print(apr_time)
-
+            date = apr_time.date()
+            print(date)
+            apid = apid['count(*)'] + 1
             cat = BonafideModel.objects.get(pk=request.POST['idbb'])
             try:
                 if request.POST['approval'] == 'Approved':
@@ -1460,7 +1467,9 @@ def BonaEdit(request):
                         'semester': semester,
                         'session': session,
                         'logo_path':logo_path,
-                        'mitspath':Mits_logo_path
+                        'mitspath':Mits_logo_path,
+                        'apid':apid,
+                        'date':date
                     }
                     bonafide_pdf_html_content = bonafide_pdf_template.render(bonafide_pdf_context)
 
