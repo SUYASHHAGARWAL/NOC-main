@@ -650,9 +650,7 @@ def SubmitApplication(req):
             Stipend = req.POST.get('stipend')
             if 'offerletter' in req.FILES:
                 offerLetter_file = req.FILES['offerletter']
-    # Continue with your code to save or process the file
             else:
-    # Handle the case where the file is not uploaded
                 offerLetter_file = None 
             print(offerLetter_file)
             Declaration = req.POST.get('declaration')
@@ -660,7 +658,6 @@ def SubmitApplication(req):
             current_datetime = datetime.now()
             current_date = current_datetime.date()
             current_time = current_datetime.time()
-
             print(current_date, current_time)
             current_date_str = current_datetime.strftime("%Y-%m-%d")
             current_time_str = current_datetime.strftime("%H:%M:%S")
@@ -672,7 +669,6 @@ def SubmitApplication(req):
                 Email=email,
                 dept=dept,
                 year=Year,
-
                 Company=companyname,
                 location = Location,
                 name_reciever = Name_reciever,
@@ -690,7 +686,6 @@ def SubmitApplication(req):
                 App_Date=dateapp,
                 App_time=time,
             )
-
             contactdata.save()
             try:
              current_directory = os.getcwd()
@@ -704,13 +699,9 @@ def SubmitApplication(req):
                 message = 'Successfully applied for NO Dues'
                 from_email = 'suyashu1606.agarwal@gmail.com'
                 recipient_list = [email]
-
                 email = EmailMessage(subject, message, from_email, recipient_list)
                 email.content_subtype = "html"
                 email.body = html_content
-
-            # Attempt to send email
-
                 email.send()
                 print("Mail Sent")
             except Exception as email_exception:
@@ -740,13 +731,6 @@ def ApplyBonafide(req):
             dept = req.POST.get('Branch')
             current_datetime = datetime.now()
             date = current_datetime.date()
-            print(dept)
-            print("123")
-            q = "select * from nocrest_department where Dep_Id = '{0}'".format(dept)
-            cursor = connection.cursor()
-            cursor.execute(q)
-            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-            print(rec[0]['Department_name'])
             bonafidedata = BonafideModel(
                 student_name = Name,
                 EnrollmentId = Enroll,
@@ -755,20 +739,17 @@ def ApplyBonafide(req):
                 email = Email,
                 session = session,
                 application_date = date,
-                Branch = rec[0]['Department_name'],
+                Branch = dept,
             )
             bonafidedata.save()
             current_directory = os.getcwd()
             html_template = get_template(os.path.join(current_directory,'nocrest/Static/Appliedbonaf.html'))
-
-        
             context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
             html_content = html_template.render(context)
             subject = 'Testing'
             message = 'Successfully applied for NO Dues'
             from_email = 'suyashu1606.agarwal@gmail.com'
             recipient_list = [Email]
-
             email = EmailMessage(subject, message, from_email, recipient_list)
             email.content_subtype = "html"
             email.body = html_content
@@ -1439,78 +1420,74 @@ def BonaEdit(request):
             cat = BonafideModel.objects.get(pk=request.POST['idbb'])
             try:
                 if request.POST['approval'] == 'Approved':
-                    # Update database fields
-                    cat.dept_approval = request.POST['approval']
-                    cat.dept_comment = request.POST['comment']
-                    cat.approval_date = apr_time.date()
-                    cat.save()
-                    # Render approveBonaf.html template
-                    current_directory = os.getcwd()
-                    logo = 'nocrest/Static/Images/final_MD_Sign.png'
-                    Mitslogo = 'nocrest/Static/Images/mits_logo.png'
-                    logo_path = os.path.join(current_directory,logo)
-                    Mits_logo_path = os.path.join(current_directory,Mitslogo)
-                    approve_bonaf_template_path = os.path.join(current_directory, 'nocrest/Static/approveBonaf.html')
-                    approve_bonaf_template = get_template(approve_bonaf_template_path)
-                    approve_bonaf_context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
-                    approve_bonaf_html_content = approve_bonaf_template.render(approve_bonaf_context)
+                        # Update database fields
+                        cat.dept_approval = request.POST['approval']
+                        cat.dept_comment = request.POST['comment']
+                        cat.approval_date = apr_time.date()
+                        cat.save()
+                        # Render approveBonaf.html template
+                        current_directory = os.getcwd()
+                        logo = 'nocrest/Static/Images/final_MD_Sign.png'
+                        Mitslogo = 'nocrest/Static/Images/mits_logo.png'
+                        logo_path = os.path.join(current_directory,logo)
+                        Mits_logo_path = os.path.join(current_directory,Mitslogo)
+                        approve_bonaf_template_path = os.path.join(current_directory, 'nocrest/Static/approveBonaf.html')
+                        approve_bonaf_template = get_template(approve_bonaf_template_path)
+                        approve_bonaf_context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+                        approve_bonaf_html_content = approve_bonaf_template.render(approve_bonaf_context)
 
-                    # Render BonafidePdf.html template to generate PDF
-                    bonafide_pdf_template_path = os.path.join(current_directory, 'nocrest/Static/BonafidePdf.html')
-                    bonafide_pdf_template = get_template(bonafide_pdf_template_path)
-                    bonafide_pdf_context = {
-                        'studname': stud_name,
-                        'studenr': stud_enr,
-                        'programme': rec[0]['programmme'],
-                        'fathername': father_name,
-                        'studbranch': stud_branch,
-                        'semester': semester,
-                        'session': session,
-                        'logo_path':logo_path,
-                        'mitspath':Mits_logo_path,
-                        'apid':apid,
-                        'date':date
-                    }
-                    bonafide_pdf_html_content = bonafide_pdf_template.render(bonafide_pdf_context)
+                        # Render BonafidePdf.html template to generate PDF
+                        bonafide_pdf_template_path = os.path.join(current_directory, 'nocrest/Static/BonafidePdf.html')
+                        bonafide_pdf_template = get_template(bonafide_pdf_template_path)
+                        bonafide_pdf_context = {
+                            'studname': stud_name,
+                            'studenr': stud_enr,
+                            'programme': rec[0]['programmme'],
+                            'fathername': father_name,
+                            'studbranch': stud_branch,
+                            'semester': semester,
+                            'session': session,
+                            'logo_path':logo_path,
+                            'mitspath':Mits_logo_path,
+                            'apid':apid,
+                            'date':date
+                        }
+                        bonafide_pdf_html_content = bonafide_pdf_template.render(bonafide_pdf_context)
 
-                    # Convert Bonafide PDF HTML content to PDF
-                    result = BytesIO()
-                    pdf = pisa.pisaDocument(BytesIO(bonafide_pdf_html_content.encode("UTF-8")), result)
+                        # Convert Bonafide PDF HTML content to PDF
+                        result = BytesIO()
+                        pdf = pisa.pisaDocument(BytesIO(bonafide_pdf_html_content.encode("UTF-8")), result)
 
-                    if not pdf.err:
-                        bonafide_pdf_content = result.getvalue()
+                        if not pdf.err:
+                            bonafide_pdf_content = result.getvalue()
 
-                        # Save Bonafide PDF to file system
-                        pdfs_directory = os.path.join(current_directory, 'pdfs')
-                        os.makedirs(pdfs_directory, exist_ok=True)
-                        bonafide_pdf_file_name = f"{stud_name}_{stud_enr}_bonafide.pdf"
-                        bonafide_pdf_file_path = os.path.join(pdfs_directory, bonafide_pdf_file_name)
-                        with open(bonafide_pdf_file_path, 'wb') as pdf_file:
-                            pdf_file.write(bonafide_pdf_content)
+                            # Save Bonafide PDF to file system
+                            pdfs_directory = os.path.join(current_directory, 'pdfs')
+                            os.makedirs(pdfs_directory, exist_ok=True)
+                            bonafide_pdf_file_name = f"{stud_name}_{stud_enr}_bonafide.pdf"
+                            bonafide_pdf_file_path = os.path.join(pdfs_directory, bonafide_pdf_file_name)
+                            with open(bonafide_pdf_file_path, 'wb') as pdf_file:
+                                pdf_file.write(bonafide_pdf_content)
 
-                        # Attach Bonafide PDF to email
-                        email_subject = 'Testing'
-                        email_body = 'Successfully applied for NO Dues'
-                        from_email = 'suyashu1606.agarwal@gmail.com'
-                        recipient_list = [Email]
+                            # Attach Bonafide PDF to email
+                            email_subject = 'Testing'
+                            email_body = 'Successfully applied for NO Dues'
+                            from_email = 'suyashu1606.agarwal@gmail.com'
+                            recipient_list = [Email]
 
-                        email = EmailMessage(email_subject, email_body, from_email, recipient_list)
-                        email.attach_file(bonafide_pdf_file_path)  # Attach Bonafide PDF
-                        email.content_subtype = "html"
-                        email.body = approve_bonaf_html_content  # Set approveBonaf.html content as email body
+                            email = EmailMessage(email_subject, email_body, from_email, recipient_list)
+                            email.attach_file(bonafide_pdf_file_path)  # Attach Bonafide PDF
+                            email.content_subtype = "html"
+                            email.body = approve_bonaf_html_content  # Set approveBonaf.html content as email body
 
-                        # Send email
-                        email.send()
-                        print("Mail Sent")
+                            # Send email
+                            email.send()
+                            print("Mail Sent")
 
-                    else:
-                        print("Failed to generate Bonafide PDF.")
-
-
-
-
-                    
-                else:
+                        else:
+                            print("Failed to generate Bonafide PDF.")
+                elif request.POST['approval'] == 'declined':
+                        print("Decline horha hai")
                         cat.dept_approval = request.POST['approval']
                         cat.dept_comment = request.POST['comment']
                         cat.approval_date = apr_time.date()
@@ -1522,11 +1499,12 @@ def BonaEdit(request):
                         subject = 'Testing'
                         message = 'Bonafide Application Declined!'
                         from_email = 'sdc@mitsgwalior.in'
-                        email = EmailMessage(subject, message, from_email)
+                        recipient_list = [Email]
+                        email = EmailMessage(subject, message, from_email,recipient_list)
                         email.content_subtype = "html"
                         email.body = html_content
                         email.send()
-
+                        print("DENIED BONAF")
             
             except Exception as e:
                     print("Error:", e)
@@ -1959,13 +1937,32 @@ def BonafApplications(req):
             # if req.session['Adminemail'] == '':
             #     print("session khali")
             #     return redirect('/')
-            qry = "select * from nocrest_bonafidemodel where dept_approval = '' order by application_date desc"
+            dept = req.GET['dept']
+            print('DEPARTMENT',dept)
+            q = "select * from nocrest_department where department = '{0}'".format(dept)
             cursor = connection.cursor()
-            cursor.execute(qry)
-            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
-            print("xxxxxxxxxx",records)
-            print(len(records))
-            return JsonResponse(records,safe=False)
+            cursor.execute(q)
+            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print(rec)
+            print(len(rec))
+            r = []
+            for i in range(len(rec)):
+                    m = rec[i]['id']
+                    q = "select * from nocrest_bonafidemodel where Branch='{0}' and dept_approval = '' order by application_date desc".format(m)
+                    cursor = connection.cursor()
+                    cursor.execute(q)
+                    result = tuple_to_dict.ParseDictMultipleRecord(cursor)
+                    if(result):
+                        print(i)
+                        print("sample",result)
+                        r += result
+            print('RRRRRRRRRRRRR',r)
+            print()
+            print()
+            print()
+            print()
+           
+            return JsonResponse(r,safe=False)
             
     except Exception as e:
         print("Error", e)

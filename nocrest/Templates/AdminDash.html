@@ -963,7 +963,7 @@
 
             $('#BonaCheck').click(function () {
                 console.log(121);
-                $.getJSON('/api/BonafApplications', function (data) {
+                $.getJSON('/api/BonafApplications?dept={{record.dept}}', function (data) {
                     destroyDataTable();
                     console.log(data);
                     console.log(data.length);
@@ -1017,6 +1017,56 @@
                     <td>
                         <button type="button" name="btn" value="edit" class="action-button" onclick='BonafApproval(${JSON.stringify(data[i])}, ${i},)'>Submit</button>
                     </td>
+                </tr>`);
+                    }
+
+                    initializeDataTable();
+                });
+            })
+            $('#bonaApproved').click(function () {
+                console.log(121);
+                $.getJSON('/api/A_prpprovedBonafides', function (data) {
+                    destroyDataTable();
+                    console.log(data);
+                    console.log(data.length);
+                    document.getElementById('myTable').hidden = false;
+
+                    $('#section-display').css('display', 'block');
+                    var table = $("#myTable").DataTable();
+
+                    table.destroy();
+                    $('#lamand').html(`
+            <tr>
+                <th>S. no</th>
+                <th>Enrollment</th>
+                <th>Name</th>
+                <th>Fathers Name</th>
+                <th>Year of study</th>
+                <th>Status</th>
+                <th>Application Date</th>
+                <th>Approval Date/th>
+            </tr>`);
+                    console.log('kake')
+                    document.getElementById('tablebody2').innerHTML = ''
+                    document.getElementById('tablebody3').innerHTML = ''
+                    document.getElementById('tablebody4').innerHTML = ''
+                    document.getElementById('tablebody5').innerHTML = ''
+                    $("#tablebody2").html(``);
+                    $("#tablebody3").html('');
+                    $("#tablebody4").html('');
+                    $("#tablebody5").html('');
+                    console.log('jaiii')
+
+                    for (var i = 0; i < data.length; i++) {
+                        var approvalValue = data[i].approval ? data[i].approval : "none"; // Get the existing value or default to "none"
+                        $('#tablebody2').append(`<tr>
+                    <td>${i + 1}</td>
+                    <td>${data[i].EnrollmentId}</td>
+                    <td>${data[i].student_name}</td>
+                    <td>${data[i].fathers_name}</td>
+                    <td>${data[i].Semester}</td>
+                    <td>${data[i].dept_approval}</td>
+                    
                 </tr>`);
                     }
 
