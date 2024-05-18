@@ -16,7 +16,7 @@ class contactserialiser(serializers.ModelSerializer):
 class Newuserserialiser(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = ('id','Dep_Id','Department_name')
+        fields = ('id','Dep_Id','Department_name','Department','programmme')
 
 class Batchserialiser(serializers.ModelSerializer):
     class Meta:
