@@ -284,26 +284,23 @@
         }
 
         function submitApproval(data, index) {
-    var rowData = data;
+            var rowData = data;
+    console.log("rowData", rowData);
     var id = rowData.id;
+    console.log(id);
     var dept = rowData.dept;
+    console.log(dept);
     var contact = rowData.contact;
-    var approval = $('#approval_' + index).val();
+    var approval = $('#approval_' + index).val(); // Get the selected value from the dropdown
     var comment = $('#comment_' + index).val();
-    var customComment = $('#custom_comment_' + index).val(); // Get the value from the custom comment textbox
-
-    // Check if either comment or customComment has a value
-    if ((!comment || comment.trim() === '') && (!customComment || customComment.trim() === '')) {
-        alert('Please enter a comment.');
-        return;
-    }
-
-    // If custom comment is entered, use it; otherwise, use the selected comment
-    if (!comment || comment.trim() === '') {
-        comment = customComment;
-    }
-
     if (approval === 'Approved' || approval === 'declined' || approval === 'allow') {
+        if ((approval === 'declined'  || approval === 'allow') && comment.trim() === '') {
+            alert('Please enter a comment.');
+            return;
+        }
+        console.log(id);
+        console.log(comment);
+        console.log(rowData);
         sendPostRequest(rowData, approval, comment);
     } else {
         alert('Please select an approval status.');
@@ -521,18 +518,10 @@
                         </select>
                     </td>
                     <td>
-                        <select id="comment_${i}" onchange="toggleCustomComment(${i})">
-                            <option value="" ${approvalValue === "none" ? "selected" : ""}>Select</option>
-                            <option value="Data is not according to format">Data is not according to format</option>
-                            <option value="Correct Company's Address">Correct Company's Address</option>
-                            <option value="Correct Company name">Correct Company name</option>
-                            <option value="Correct Reciever's Designation">Correct Reciever's Designation</option>
-                            <option value="There is a spelling mistake">Spelling Mistake</option>
-                        </select>
-                        <input type="text" id="custom_comment_${i}" placeholder="Enter custom comment" >
+                        <input type="text" id="comment_${i}" placeholder="Enter your comment">
                     </td>
                     <td>
-                        <button type="button" name="btn" value="edit" class="action-button" onclick='submitApproval(${JSON.stringify(data[i])}, ${i})'>Submit</button>
+                        <button type="button" name="btn" value="edit" class="action-button" onclick='submitApproval(${JSON.stringify(data[i])}, ${i},)'>Submit</button>
                     </td>
                 </tr>`);
             }
@@ -1025,7 +1014,7 @@
             })
             $('#bonaApproved').click(function () {
                 console.log(121);
-                $.getJSON('/api/A_prpprovedBonafides', function (data) {
+                $.getJSON('/api/A_prpprovedBonafides?dept={{record.dept}}', function (data) {
                     destroyDataTable();
                     console.log(data);
                     console.log(data.length);
@@ -1044,7 +1033,7 @@
                 <th>Year of study</th>
                 <th>Status</th>
                 <th>Application Date</th>
-                <th>Approval Date/th>
+                <th>Approval Date</th>
             </tr>`);
                     console.log('kake')
                     document.getElementById('tablebody2').innerHTML = ''
@@ -1066,6 +1055,62 @@
                     <td>${data[i].fathers_name}</td>
                     <td>${data[i].Semester}</td>
                     <td>${data[i].dept_approval}</td>
+                    <td>${data[i].application_date}</td>
+                    <td>${data[i].approval_date}</td>
+                    
+                </tr>`);
+                    }
+
+                    initializeDataTable();
+                });
+            })
+
+
+            $('#declined_bonafide').click(function () {
+                console.log(121);
+                $.getJSON('/api/D_eclineddBonafides?dept={{record.dept}}', function (data) {
+                    destroyDataTable();
+                    console.log(data);
+                    console.log(data.length);
+                    document.getElementById('myTable').hidden = false;
+
+                    $('#section-display').css('display', 'block');
+                    var table = $("#myTable").DataTable();
+
+                    table.destroy();
+                    $('#lamand').html(`
+            <tr>
+                <th>S. no</th>
+                <th>Enrollment</th>
+                <th>Name</th>
+                <th>Fathers Name</th>
+                <th>Year of study</th>
+                <th>Status</th>
+                <th>Application Date</th>
+                <th>Declined on</th>
+            </tr>`);
+                    console.log('kake')
+                    document.getElementById('tablebody2').innerHTML = ''
+                    document.getElementById('tablebody3').innerHTML = ''
+                    document.getElementById('tablebody4').innerHTML = ''
+                    document.getElementById('tablebody5').innerHTML = ''
+                    $("#tablebody2").html(``);
+                    $("#tablebody3").html('');
+                    $("#tablebody4").html('');
+                    $("#tablebody5").html('');
+                    console.log('jaiii')
+
+                    for (var i = 0; i < data.length; i++) {
+                        var approvalValue = data[i].approval ? data[i].approval : "none"; // Get the existing value or default to "none"
+                        $('#tablebody2').append(`<tr>
+                    <td>${i + 1}</td>
+                    <td>${data[i].EnrollmentId}</td>
+                    <td>${data[i].student_name}</td>
+                    <td>${data[i].fathers_name}</td>
+                    <td>${data[i].Semester}</td>
+                    <td>${data[i].dept_approval}</td>
+                    <td>${data[i].application_date}</td>
+                    <td>${data[i].approval_date}</td>
                     
                 </tr>`);
                     }
@@ -1328,7 +1373,7 @@
         </div> -->
 
         <div class="tabular-wrapper">
-            <h3 id="datawillappear" class="main-title">NOC Data</h3>
+            <h3 id="datawillappear" class="main-title">Data</h3>
             <div class="table-container" style="overflow-x: auto; ">
                 <table id="myTable" hidden style="overflow-y: auto;">
                     <thead id="lamand">

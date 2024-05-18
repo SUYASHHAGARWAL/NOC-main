@@ -1967,6 +1967,79 @@ def BonafApplications(req):
     except Exception as e:
         print("Error", e)
 
+
+@api_view(['GET', 'POST', 'DELETE'])
+def ApprovedBonafApplications(req):
+    try:
+            # if req.session['Adminemail'] == '':
+            #     print("session khali")
+            #     return redirect('/')
+            dept = req.GET['dept']
+            print('DEPARTMENT',dept)
+            q = "select * from nocrest_department where department = '{0}'".format(dept)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print(rec)
+            print(len(rec))
+            r = []
+            for i in range(len(rec)):
+                    m = rec[i]['id']
+                    q = "select * from nocrest_bonafidemodel where Branch='{0}' and dept_approval = 'Approved' order by application_date desc".format(m)
+                    cursor = connection.cursor()
+                    cursor.execute(q)
+                    result = tuple_to_dict.ParseDictMultipleRecord(cursor)
+                    if(result):
+                        print(i)
+                        print("sample",result)
+                        r += result
+            print('RRRRRRRRRRRRR',r)
+            print()
+            print()
+            print()
+            print()
+           
+            return JsonResponse(r,safe=False)
+            
+    except Exception as e:
+        print("Error", e)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def DeclinedBonafApplications(req):
+    try:
+            # if req.session['Adminemail'] == '':
+            #     print("session khali")
+            #     return redirect('/')
+            dept = req.GET['dept']
+            print('DEPARTMENT',dept)
+            q = "select * from nocrest_department where department = '{0}'".format(dept)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print(rec)
+            print(len(rec))
+            r = []
+            for i in range(len(rec)):
+                    m = rec[i]['id']
+                    q = "select * from nocrest_bonafidemodel where Branch='{0}' and dept_approval = 'declined' order by application_date desc".format(m)
+                    cursor = connection.cursor()
+                    cursor.execute(q)
+                    result = tuple_to_dict.ParseDictMultipleRecord(cursor)
+                    if(result):
+                        print(i)
+                        print("sample",result)
+                        r += result
+            print('RRRRRRRRRRRRR',r)
+            print()
+            print()
+            print()
+            print()
+           
+            return JsonResponse(r,safe=False)
+            
+    except Exception as e:
+        print("Error", e)
+
         
 @api_view(['GET','POST','DELETE'])
 def AdminProfile(req):
