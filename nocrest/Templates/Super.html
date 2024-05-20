@@ -162,6 +162,49 @@
     .additional-options.open {
         display: block;
     }
+    
+.custom-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 800px;
+        max-height: 80%;
+        overflow-y: auto;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+    }
+
+    .custom-innerbox {
+        padding: 20px;
+        position: relative;
+    }
+
+    .custom-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .custom-close:hover {
+        color: red;
+    }
+
+    .custom-form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .custom-form-column {
+        flex: 1;
+        min-width: 45%; /* Adjust as needed */
+    }
 </style>
 
 <body>
@@ -352,6 +395,8 @@ function NOCsendPostRequest(data, status, role) {
                 <th>Department ID</th>
                 <th>Department Name</th>
                 <th>Department</th>
+                <th>Programme</th>
+                <th>Edit</th>
             </tr>
         `);
 
@@ -363,6 +408,10 @@ function NOCsendPostRequest(data, status, role) {
                     <td>${data[i].Dep_Id}</td>
                     <td>${data[i].Department_name}</td>
                     <td>${data[i].Department}</td>
+                    <td>${data[i].programmme}</td>
+                    <td>
+                        <button id="bonafapply" type="button" class="btn flex items-center box centerAlign ">Edit</button>
+                        </td>
                 </tr>
             `);
         }
@@ -745,7 +794,59 @@ function NOCsendPostRequest(data, status, role) {
             </div>
         </div>
 
-
+        <div id="popupForm" class="custom-popup bonafapply" style="display: none;">
+            <div class="custom-innerbox">
+                <form method="post" enctype="multipart/form-data" action="/api/ApplyBonafied">{% csrf_token %}
+                    <div class="custom-form-row">
+                        <div class="custom-form-column">
+                            <label for="studentName">Student Name:</label>
+                            <input type="text" readonly id="student_name" name="student_name" placeholder="{{record.Name}}" value="{{record.Name}}">
+                        </div> 
+                        <div class="custom-form-column">
+                            <label for="studentID">Enrollment Id</label>
+                            <input type="text" readonly id="EnrollmentId" name="EnrollmentId" placeholder="{{record.EnrollmentId}}" value="{{record.EnrollmentId}}">
+                        </div>
+                    </div>
+                    <div class="custom-form-row">
+                        <div class="custom-form-column">
+                            <label for="fatherName">Father's Name:</label>
+                            <input type="text" id="fathers_name" name="fathers_name" placeholder="{{record.fathers_name}}" value="{{record.fathers_name}}">
+                        </div>
+                        <div class="custom-form-column">
+                            <label for="semester">Semester</label>
+                            <select id="Semester" name="Semester">
+                                <option value="">select</option>
+                                <option value="Year 1st Semester 1st">Year 1st Semester 1st</option>
+                                <option value="Year 1st Semester 2nd">Year 1st Semester 2nd</option>
+                                <option value="Year 2nd Semester 3rd">Year 2nd Semester 3rd</option>
+                                <option value="Year 2nd Semester 4th">Year 2nd Semester 4th</option>
+                                <option value="Year 3rd Semester 5th">Year 3rd Semester 5th</option>
+                                <option value="Year 3rd Semester 6th">Year 3rd Semester 6th</option>
+                                <option value="Year 4th Semester 7th">Year 4th Semester 7th</option>
+                                <option value="Year 4th Semester 8th">Year 4th Semester 8th</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="custom-form-row">
+                        <div class="custom-form-column">
+                            <label for="email">Email Address:</label>
+                            <input type="text" readonly id="email" name="email" placeholder="{{record.Email}}" value="{{record.Email}}">
+                        </div>
+                        <div class="custom-form-column">
+                            <label for="session">Session:</label>
+                            <input type="text" id="session" name="session">
+                        </div> 
+                    </div>
+                    <!-- Add more fields as needed -->
+                    <input type="text" id="Branch" hidden name="Branch" value="{{record.Branch}}">
+                    <!-- Submit button to submit the application -->
+                    <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
+                </form>
+                <!-- Close button for the popup -->
+                <span class="custom-close" onclick="closePopupForm()">×</span>
+            </div>
+        </div>
+        
 
         <div class="tabular-wrapper">
             <h3 class="main-title">Data Will appear here</h3>
@@ -785,6 +886,19 @@ function NOCsendPostRequest(data, status, role) {
     document.getElementById("compfile").addEventListener("click", function(event) {
         event.preventDefault();
         document.getElementById("adminNODopt").classList.toggle("open");
+    });
+
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+    function closePopupForm() {
+        document.getElementById("popupForm").style.display = "none";
+    }
+    var bonafapplyButton = document.getElementById("bonafapply");
+    var popupForm = document.getElementById("popupForm");
+
+    bonafapplyButton.addEventListener("click", function() {
+        popupForm.style.display = "block";
     });
     </script>
 </body>
