@@ -111,6 +111,7 @@ path('logout/', custom_logout, name='logout'),
     re_path(r'^api/ALldepartments',views.ShowDepartments),
     re_path(r'^api/DelFaculty',views.FDelete),
     re_path(r'^api/editAppNocStud',views.NOCEditApp),
+    re_path(r'^api/Edit_dept_admin',views.EditDeptAdmin),
 
 ]
 

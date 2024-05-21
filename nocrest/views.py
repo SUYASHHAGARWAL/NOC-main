@@ -2165,6 +2165,24 @@ def NOCEditApp(req):
     except Exception as e:
         print("Error:", e)
 
+@api_view(['GET', 'POST', 'DELETE'])
+def EditDeptAdmin(req):
+    try:
+        print("aagaya hoon department badalne")
+        if req.method == 'POST':
+            add = req.POST.get('deptname')
+            nmrcv = req.POST.get('department')
+            dsrcv = req.POST.get('programme')
+            Application_edit = Department.objects.get(pk =req.POST.get('deptid') )
+            Application_edit.Department_name = add
+            Application_edit.Department = nmrcv
+            Application_edit.programmme = dsrcv
+            Application_edit.save()
+
+            return redirect('/api/superadmin')
+    except Exception as e:
+        print("Error:", e)
+
 
 @api_view(['GET', 'POST', 'DELETE'])
 def InternFeedback(req):
