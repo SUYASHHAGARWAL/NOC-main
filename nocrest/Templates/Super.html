@@ -236,6 +236,78 @@
         padding: 8px;
         box-sizing: border-box;
     }
+    .custom-PaddDepartmentBtn {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1000;
+    width: 50%;
+    max-width: 600px;
+}
+
+.custom-innerbox {
+    position: relative;
+}
+
+.custom-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.custom-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.custom-form-column {
+    flex: 1;
+    margin-right: 8px;
+    min-width: 0; /* Prevents overflow */
+}
+
+.custom-form-column:last-child {
+    margin-right: 0;
+}
+
+.custom-form-control {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.custom-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-btn:hover {
+    background-color: #0056b3;
+}
+
+.custom-centerAlign {
+    justify-content: center;
+    text-align: center;
+}
+
 </style>
 
 <body>
@@ -302,7 +374,16 @@ function Editpopup(i) {
     popup.style.display = 'block';
 }
 
+function AddPopupDept() {
+    console.log('Opening Add Department Popup');
+    const PPpopup = document.getElementById('PaddDepartmentBtn');
+    PPpopup.style.display = 'block';
+}
 
+function closePopup() {
+    const PPpopup = document.getElementById('PaddDepartmentBtn');
+    PPpopup.style.display = 'none';
+}
 function NOCsendPostRequest(data, status, role) {
     console.log("Sending POST request");
     console.log(data);
@@ -433,17 +514,16 @@ function NOCsendPostRequest(data, status, role) {
 });
 
 
-            $('#depatrments').click(function () {
+$('#depatrments').click(function () {
     console.log(121);
     $.getJSON('/api/ALldepartments', function (data) {
         console.log(data);
         console.log(data.length);
-        Newdata = data
+        Newdata = data;
         $('#section-display').css('display', 'block');
         $("#tablebody2").html('');
-        $("#tablehead2").html('')
-        $("#tablehead2").html(''); // Clear existing table header
-
+        $("#tablehead2").html('');
+        
         // Add dynamic table header
         $("#tablehead2").append(`
             <tr>
@@ -466,21 +546,18 @@ function NOCsendPostRequest(data, status, role) {
                     <td>${data[i].Department}</td>
                     <td>${data[i].programmme}</td>
                     <td>
-                        <button onclick="Editpopup('${i}')" type="button" class="btn flex items-center box centerAlign ">Edit</button>
-                        </td>
+                        <button onclick="Editpopup('${i}')" type="button" class="btn flex items-center box centerAlign">Edit</button>
+                    </td>
                 </tr>
             `);
         }
+
+        // Add button to add new department
         $('#tablebody2').append(`
             <tr>
-                <td colspan="4"><button id="addDepartmentBtn">Add a Department</button></td>
+                <td colspan="6"><button type="button" onclick="AddPopupDept()" class="btn flex items-center box centerAlign">Add Department</button></td>
             </tr>
         `);
-
-        // Bind click event to the "Add a Department" button
-        $('#addDepartmentBtn').click(function() {
-            // Code to add a department goes here
-        });
     });
 });
 
@@ -882,8 +959,7 @@ function NOCsendPostRequest(data, status, role) {
             </div>
         </div>
         
-
-
+        
         <div class="tabular-wrapper">
             <h3 class="main-title">Data Will appear here</h3>
             <div class="table-container">
@@ -900,7 +976,38 @@ function NOCsendPostRequest(data, status, role) {
 
 
         <input type="text" name="" id="msgss" value="{{message}}" hidden>
+        <div class="custom-PaddDepartmentBtn" id="PaddDepartmentBtn" style="display: none;">
+            <div class="custom-innerbox">
+                <span class="custom-close" onclick="closePopup()">&times;</span> <!-- Cross button -->
+                <form method="post" enctype="multipart/form-data" action="/api/PaddDEPT" style="padding: 16px;">
+                    <h1>Add Department Data</h1>
+                    {% csrf_token %}
+                    <div class="custom-form-row">
+                        <div class="custom-form-column">
+                            <label for="name">Name</label>
+                            <input type="text" id="naaam" name="deptname" class="custom-form-control">
+                        </div>
+                        <div class="custom-form-column">
+                            <label for="org_address">Department</label>
+                            <input type="text" id="cmpnm" name="department" class="custom-form-control">
+                        </div>
+                        <div class="custom-form-column">
+                            <label for="companyname">Programme</label>
+                            <input type="text" id="addorg" name="programme" class="custom-form-control">
+                        </div>
+                    </div>
+                    <input type="submit" class="custom-btn custom-flex custom-items-center custom-box custom-centerAlign" value="Submit" style="margin-top: 16px;">
+                </form>
+            </div>
+        </div>
+        
+        
+        
+    
     </div>
+
+    
+
     <footer>
         <p>Copyright &copy; 2024 <span class="highlight">SDC MITS</span>. All Rights Reserved.</p>
     </footer>

@@ -2183,6 +2183,31 @@ def EditDeptAdmin(req):
     except Exception as e:
         print("Error:", e)
 
+@api_view(['GET', 'POST', 'DELETE'])
+def AddDeptAdmin(req):
+    try:
+        print("aagaya hoon department badalne")
+        if req.method == 'POST':
+            qry = 'select count(*) from nocrest_department'
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            rec = tuple_to_dict.ParseDictSingleRecord(cursor)
+            print(rec['count(*)'])
+            id= rec['count(*)'] + 1
+            add = req.POST.get('deptname')
+            nmrcv = req.POST.get('department')
+            dsrcv = req.POST.get('programme')
+            data = Department(
+                Dep_Id = id,
+                Department_name = add,
+                Department = nmrcv,
+                programmme = dsrcv
+            )
+            data.save()
+            return redirect('/api/superadmin')
+    except Exception as e:
+        print("Error:", e)
+
 
 @api_view(['GET', 'POST', 'DELETE'])
 def InternFeedback(req):
