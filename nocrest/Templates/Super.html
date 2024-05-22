@@ -927,6 +927,7 @@ $('#depatrments').click(function () {
             </div>
         </div>
 
+        <input type="text" name="" id="msgss" value="{{message}}" hidden>
 
         <div class="popup" id="popup" style="display: none;">
             <div class="innerbox">
@@ -1014,12 +1015,38 @@ $('#depatrments').click(function () {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/Static/admindash.js"></script>
     <script>
+
+
         let msg = document.getElementById('msgss').value
-        if (msg == 'ok')
-            Swal.fire("Application sent succesfully", "Message sent", "success")
+        if (msg == 'ok') {
+    Swal.fire({
+        title: "Applied Succesfully. ",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Return to Dashboard",
+        cancelButtonText: 'LogOut',
+        cancelButtonHtml: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "/api/studentlogin";
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            window.location.href = "/"; 
+        }
+    });
+}
 
         else if (msg == 'error')
-            Swal.fire("Failed", "Message Failed", "error")
+            Swal.fire({
+                title: "Already Exists!",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Return to Dashboard",
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    window.location.href = "/api/superadmin";
+                }
+            })
     </script>
      <script>
          document.getElementById("complete-profile").addEventListener("click", function(event) {

@@ -2197,13 +2197,21 @@ def AddDeptAdmin(req):
             add = req.POST.get('deptname')
             nmrcv = req.POST.get('department')
             dsrcv = req.POST.get('programme')
-            data = Department(
-                Dep_Id = id,
-                Department_name = add,
-                Department = nmrcv,
-                programmme = dsrcv
-            )
-            data.save()
+            
+            qry = 'SELECT * FROM nocrest_department WHERE Department_name = %s AND Department = %s'
+            cursor = connection.cursor()
+            cursor.execute(qry, (add, nmrcv))
+            rec = tuple_to_dict.ParseDictSingleRecord(cursor)
+            if rec:
+                return render(req, "Super.html", {'message': 'error'})
+            else:
+                data = Department(
+                    Dep_Id = id,
+                    Department_name = add,
+                    Department = nmrcv,
+                    programmme = dsrcv
+                )
+                data.save()
             return redirect('/api/superadmin')
     except Exception as e:
         print("Error:", e)
