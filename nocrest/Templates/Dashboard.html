@@ -281,6 +281,15 @@ footer {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        $(document).ready(function () {
+            var nodform = document.getElementById('noc-modala')
+            var ggform = document.getElementById('exitsurvey')
+            ggform.addEventListener('click', function(event) {
+                nodform.style.display = 'flex';
+            })
+        })
+    </script>
+    <script>
 
 
 var Newdata = {}
@@ -534,8 +543,7 @@ $(document).ready(function () {
                     class="btn flex items-center box centerAlign ">Check NOC Status</button>
 
 
-                <button id="nocapply" type="button" class="btn flex items-center box centerAlign ">Apply for No
-                    Dues</button>
+                <button id="exitsurvey" type="button" class="btn flex items-center box centerAlign ">Exit Survey</button>
 
                 <button id="noduesstatus" type="button" class="btn flex items-center box centerAlign ">Check No Dues
                     Status</button>
@@ -551,17 +559,7 @@ $(document).ready(function () {
 
 
 
-        <div id="profile-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h3>Profile Details</h3>
-                <p>Name: {{record.Name}}</p>
-                <p>Contact/Email: {{record.Email}} / {{record.contact_Num}}</p>
-                <p>Father's Name: {{record.fathers_name}}</p>
-                <p>Branch: {{record.Branch}}</p>
-                <p>Enrollment: {{record.EnrollmentId}}</p>
-            </div>
-        </div>
+        
 
         <div class="tabular-wrapper">
             <h3 id="datawillappear" class="main-title">NOC Data</h3>
@@ -773,47 +771,87 @@ $(document).ready(function () {
 
 
 
-    <div id="noc-modala" class="modala">
-        <div class="modal-content">
+    <div id="noc-modala" class="modala" style="display: none; justify-content: center;">
+        <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
             <span class="closer">&times;</span>
-            <h3>Form for NoDues</h3>
-            <h4>Kindly check detais, before hitting submit</h4>
+            <h3>Exit Survey</h3>
+            <h4>Kindly check details before hitting submit</h4>
             <div>
-
                 <div class="applyform">
                     <form method="post" action="/api/submitnoduesapp">
                         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <!-- Existing fields -->
                             <div style="display: flex; flex-direction: column;">
                                 <label for="name">Name</label>
-                                <input required type="text" id="name" name="name" placeholder="{{record.Name}}"
-                                    value="{{record.Name}}">
+                                <input readonly required type="text" id="name" name="name" placeholder="{{record.Name}}" value="{{record.Name}}">
                             </div>
                             <div style="display: flex; flex-direction: column;">
                                 <label for="EnrollmentId">Enrollment Id</label>
-                                <input type="text" id="EnrollmentId" name="EnrollmentId"
-                                    placeholder="{{record.EnrollmentId}}" value="{{record.EnrollmentId}}">
+                                <input type="text" id="EnrollmentId" name="EnrollmentId" placeholder="{{record.EnrollmentId}}" value="{{record.EnrollmentId}}">
                             </div>
                             <div style="display: flex; flex-direction: column;">
-                                <label for="Email">EmailId</label>
-                                <input type="text" id="Email" name="Email" placeholder="{{record.Email}}"
-                                    value="{{record.Email}}">
+                                <label for="Email">Email Id</label>
+                                <input type="text" id="Email" name="Email" placeholder="{{record.Email}}" value="{{record.Email}}">
                             </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="Branch">Department</label>
-                                <input type="text" id="Branch" name="department" placeholder="record.Branch"
-                                    value="{{record.Branch}}">
-                            </div>
+                            <input type="text" id="Branch" name="department" placeholder="record.Branch" hidden value="{{record.Branch}}">
                             <div style="display: flex; flex-direction: column;">
                                 <label for="mobile">Phone</label>
-                                <input type="text" id="mobile" name="mobile" placeholder="record.mobile"
-                                    value="{{record.mobile}}">
+                                <input type="text" id="mobile" name="mobile" placeholder="record.contact_Num" value="{{record.contact_Num}}">
                             </div>
-
                             <div style="display: flex; flex-direction: column;">
                                 <label for="apply">Applying for No Dues</label>
                                 <input type="text" id="apply" name="apply" placeholder="Yes" value="Yes">
                             </div>
-                            <span>You can apply for no dues only once, Keep that in mind</span>
+                            <!-- New fields -->
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="dob">Date of Birth</label>
+                                <input type="date" id="dob" name="dob" required>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender" required>
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="course">Course (e.g., Btech)</label>
+                                <input type="text" id="course" name="course" placeholder="e.g., Btech" required>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="branch">Branch</label>
+                                <input type="text" id="branch" name="branch" placeholder="e.g., Computer Science" required>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="rate_faculty">Rate the Faculty Teaching Approach in the UG or PG Programs</label>
+                                <input type="number" id="rate_faculty" name="rate_faculty" min="1" max="10" placeholder="Rate out of 10" required>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="teaching_methods">How were the teaching methods of faculty?</label>
+                                <textarea id="teaching_methods" name="teaching_methods" placeholder="Describe the teaching methods" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="learning_resources">How was the usage of Learning and Technological Resources?</label>
+                                <textarea id="learning_resources" name="learning_resources" placeholder="Describe the usage of resources" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="syllabus_completion">The full Syllabus of courses was completed?</label>
+                                <textarea id="syllabus_completion" name="syllabus_completion" placeholder="Describe the syllabus completion" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="course_relevance">Relevance of Course curriculum to Your Career Goals</label>
+                                <textarea id="course_relevance" name="course_relevance" placeholder="Describe the relevance" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="teacher_preparedness">How was the teachers preparedness and communication?</label>
+                                <textarea id="teacher_preparedness" name="teacher_preparedness" placeholder="Describe the preparedness and communication" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="course_outcomes">Does Faculty communicate to you about Course Outcomes?</label>
+                                <textarea id="course_outcomes" name="course_outcomes" placeholder="Describe the communication about outcomes" rows="3" required></textarea>
+                            </div>
                         </div>
                         <div style="text-align: center; margin-top: 20px;">
                             <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
@@ -824,7 +862,6 @@ $(document).ready(function () {
             </div>
         </div>
     </div>
-
 
 
     <input type="text" name="" id="msgss" value="{{message}}" hidden>
@@ -1007,11 +1044,14 @@ $(document).ready(function () {
             })
     </script>
     <script>
+         document.querySelector('.closer').addEventListener('click', function() {
+            document.getElementById('noc-modala').style.display = 'none';
+        });
         var myDiv = document.getElementById('check');
         var content = myDiv.getAttribute('value')
         console.log(content)
         var myButton = document.getElementById('noduesstatus');
-        var myBtn2 = document.getElementById('nocapply');
+        var myBtn2 = document.getElementById('exitsurvey');
         if (content != 1) {
 
             myButton.style.display = 'none';

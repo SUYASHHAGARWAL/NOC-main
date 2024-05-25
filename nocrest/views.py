@@ -1930,6 +1930,38 @@ def AllApplications(req):
             
     except Exception as e:
         print("Error", e)
+@api_view(['GET', 'POST', 'DELETE'])
+def AdminApprovedAllApps(req):
+    try:
+            # if req.session['Adminemail'] == '':
+            #     print("session khali")
+            #     return redirect('/')
+            qry = "select * from nocrest_application_table where (Dept_approval = 'Approved' or TnP_approval='Approved' ) order by App_Date desc"
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print("xxxxxxxxxx",records)
+            print(len(records))
+            return JsonResponse(records,safe=False)
+            
+    except Exception as e:
+        print("Error", e)
+@api_view(['GET', 'POST', 'DELETE'])
+def AdminDeclinedAllApps(req):
+    try:
+            # if req.session['Adminemail'] == '':
+            #     print("session khali")
+            #     return redirect('/')
+            qry = "select * from nocrest_application_table where (Dept_approval = 'declined' or TnP_approval='declined' ) order by App_Date desc"
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print("xxxxxxxxxx",records)
+            print(len(records))
+            return JsonResponse(records,safe=False)
+            
+    except Exception as e:
+        print("Error", e)
 
 @api_view(['GET', 'POST', 'DELETE'])
 def BonafApplications(req):

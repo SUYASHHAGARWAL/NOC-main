@@ -736,7 +736,7 @@ $('#depatrments').click(function () {
 
             $('#approved_all_show').click(function () {
                 console.log(121)
-                $.getJSON('/api/AllApplications', function (data) {
+                $.getJSON('/api/AdminApprovedAllApps', function (data) {
                     console.log(data)
                     console.log(data.length)
 
@@ -764,22 +764,46 @@ $('#depatrments').click(function () {
         <td>${data[i].year}</td>
         <td>${data[i].Company}</td>
         <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>
-        <td>
-            <select id="deptApprovalSelect${i}">
-                <option value="None" ${!data[i].Dept_approval ? 'selected' : ''}>None</option>
-                <option value="Approved" ${data[i].Dept_approval === 'Approved' ? 'selected' : ''}>Approved</option>
-                <option value="Declined" ${data[i].Dept_approval === 'Declined' ? 'selected' : ''}>Declined</option>
-            </select>
-        </td>
-        <td>
-            <select id="tnpApprovalSelect${i}">
-                <option value="None" ${!data[i].TnP_approval ? 'selected' : ''}>None</option>
-                <option value="Approved" ${data[i].TnP_approval === 'Approved' ? 'selected' : ''}>Approved</option>
-                <option value="Declined" ${data[i].TnP_approval === 'Declined' ? 'selected' : ''}>Declined</option>
-            </select>
-        </td>
+        <td>${data[i].Dept_approval}</td>
+        <td>${data[i].TnP_approval}</td>
         <td>${data[i].App_Date}</td>
-        <td><button onclick="submitApproval(${i})">Submit</button></td>
+    </tr>`);
+}
+                })
+            })
+            $('#declined_all_show').click(function () {
+                console.log(121)
+                $.getJSON('/api/AdminDeclinedAllApps', function (data) {
+                    console.log(data)
+                    console.log(data.length)
+
+                    $('#section-display').css('display', 'block')
+                    $("#tablebody2").html('')
+                    $("#tablehead2").html('')
+                    $("#tablehead2").append(`<tr>
+                <th>S. no</th>
+                <th>Enrollment</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Year</th>
+                <th>Company</th>
+                <th>Offer Letter</th>
+                <th>Dept Approval</th>
+                <th>Tnp approval</th>
+                <th>Application date</th>
+            </tr>`)
+            for (let i = 0; i < data.length; i++) {
+    $('#tablebody2').append(`<tr>
+        <td>${i + 1}</td>
+        <td>${data[i].EnrollmentId}</td>
+        <td>${data[i].Name}</td>
+        <td>${data[i].Email}</td>
+        <td>${data[i].year}</td>
+        <td>${data[i].Company}</td>
+        <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>
+        <td>${data[i].Dept_approval}</td>
+        <td>${data[i].TnP_approval}</td>
+        <td>${data[i].App_Date}</td>
     </tr>`);
 }
                 })
@@ -873,7 +897,7 @@ $('#depatrments').click(function () {
                     <ul class="items">
                         <li id="show_all_applications_noc">All Applications</li>
                         <li id="approved_all_show">Approved</li>
-                        <li>Declined</li>
+                        <li id="declined_all_show">Declined</li>
                         <!-- Add more options as needed -->
                     </ul>
                 </div>
@@ -886,7 +910,7 @@ $('#depatrments').click(function () {
                 </a>
                 <div class="additional-options" id="adminNODopt">
                     <ul class="items">
-                        <li><a href="#">All Applications</a></li>
+                        <li id="adminnoduestudents">All Applications</li>
                         <li><a href="#">Received No Dues</a></li>
                         <!-- Add more options as needed -->
                     </ul>
