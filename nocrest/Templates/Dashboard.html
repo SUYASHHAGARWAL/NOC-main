@@ -545,6 +545,8 @@ $(document).ready(function () {
 
                 <button id="exitsurvey" type="button" class="btn flex items-center box centerAlign ">Exit Survey</button>
 
+                <button id="Buttonnod" type="button" class="btn flex items-center box centerAlign ">Apply No Dues</button>
+
                 <button id="noduesstatus" type="button" class="btn flex items-center box centerAlign ">Check No Dues
                     Status</button>
 
@@ -770,9 +772,6 @@ $(document).ready(function () {
 
 
 
-
-    
-
     <div id="noc-modala" class="modala" style="display: none; justify-content: center;">
         <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
             <span class="closer">&times;</span>
@@ -780,7 +779,7 @@ $(document).ready(function () {
             <h4>Kindly check details before hitting submit</h4>
             <div>
                 <div class="applyform">
-                    <form method="post" action="/api/submitnoduesapp">
+                    <form method="post" action="/api/Exit_surveySubmit">{% csrf_token %}
                         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                             <!-- Existing fields -->
                             <div style="display: flex; flex-direction: column;">
@@ -854,6 +853,66 @@ $(document).ready(function () {
                                 <label for="course_outcomes">Does Faculty communicate to you about Course Outcomes?</label>
                                 <textarea id="course_outcomes" name="course_outcomes" placeholder="Describe the communication about outcomes" rows="3" required></textarea>
                             </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="soft_skills">Institute helps you to improve your soft skills, life skills and employability skills</label>
+                                <textarea id="soft_skills" name="soft_skills" placeholder="Describe the support for skills" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="internships_support">Institute support in Internships, Industrial Visits, Project work, Students exchange and other related activities</label>
+                                <textarea id="internships_support" name="internships_support" placeholder="Describe the support" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="student_orgs">How were the Student Organizations, Technical & Social Clubs for your overall growth and learning?</label>
+                                <textarea id="student_orgs" name="student_orgs" placeholder="Describe the clubs and organizations" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="curricular_extracurricular">Promotion and Encouragement by Institute/Department for participation in Curricular and Extra-Curricular activities</label>
+                                <textarea id="curricular_extracurricular" name="curricular_extracurricular" placeholder="Describe the promotion and encouragement" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="quizzes">Quiz and assignments given by Faculty were helpful in learning?</label>
+                                <textarea id="quizzes" name="quizzes" placeholder="Describe the quizzes and assignments" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="evaluation_fairness">Fairness of Internal Evaluation process by faculty</label>
+                                <textarea id="evaluation_fairness" name="evaluation_fairness" placeholder="Describe the fairness of evaluation" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="library_resources">Library Resources in the Areas of Engineering, Research, Journals & e-Journals, Technical Magazines etc.</label>
+                                <textarea id="library_resources" name="library_resources" placeholder="Describe the library resources" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="curriculum_flexibility">The flexible curriculum caters to individual career needs by providing choice of subjects</label>
+                                <textarea id="curriculum_flexibility" name="curriculum_flexibility" placeholder="Describe the curriculum flexibility" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="nptel_moocs">NPTEL-MOOCs will help students in becoming self-learners and future ready</label>
+                                <textarea id="nptel_moocs" name="nptel_moocs" placeholder="Describe the impact of NPTEL-MOOCs" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="full_semester_internship">First time an opportunity was given for a full semester internship/project in final year</label>
+                                <textarea id="full_semester_internship" name="full_semester_internship" placeholder="Describe the full semester internship opportunity" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="training_placement">Training & Placement Support</label>
+                                <textarea id="training_placement" name="training_placement" placeholder="Describe the support for training and placement" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="sports_facilities">Sports Facilities for Students</label>
+                                <textarea id="sports_facilities" name="sports_facilities" placeholder="Describe the sports facilities" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="hostel_maintenance">Maintenance and Quality of Hostel & Mess</label>
+                                <textarea id="hostel_maintenance" name="hostel_maintenance" placeholder="Describe the maintenance and quality of hostel and mess" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="overall_rating">Overall rating of the Institute out of 10</label>
+                                <input type="number" id="overall_rating" name="overall_rating" min="1" max="10" placeholder="Rate out of 10" required>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <label for="final_feedback">Any other feedback / Suggestions</label>
+                                <textarea id="final_feedback" name="final_feedback" placeholder="Provide any other feedback or suggestions" rows="3" required></textarea>
+                            </div>
                         </div>
                         <div style="text-align: center; margin-top: 20px;">
                             <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
@@ -864,6 +923,7 @@ $(document).ready(function () {
             </div>
         </div>
     </div>
+    
 
 
     <input type="text" name="" id="msgss" value="{{message}}" hidden>
@@ -1053,10 +1113,13 @@ $(document).ready(function () {
         var content = myDiv.getAttribute('value')
         console.log(content)
         var myButton = document.getElementById('noduesstatus');
+        var NodButton = document.getElementById('Buttonnod');
         var myBtn2 = document.getElementById('exitsurvey');
-        if (content != 1) {
-
+        if (content == 1) {
             myButton.style.display = 'none';
+            NodButton.style.display = 'none';
+        }
+        if (content == 2) {
             myBtn2.style.display = 'none';
         }
 

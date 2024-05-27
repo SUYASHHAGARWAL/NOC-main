@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 import tempfile
 from django.contrib.auth import logout
 from .serializers import BonafideModel
-
+from .serializers import ExitSurvey
 from io import BytesIO
 from .models import Student
 from .serializers import contactserialiser
@@ -192,6 +192,12 @@ def StudentLogin(req):
                     record2 = cursor2.fetchone()
                     if record2:
                         check = 1
+                        qry = "SELECT * FROM nocrest_exitsurvey WHERE enrollmentid = '{0}'".format(username)
+                        cursorn = connection.cursor()
+                        cursorn.execute(qry)
+                        recordn = cursorn.fetchone()
+                        if(recordn):
+                            check = 2
                     else:
                         check = 0
                 else:
@@ -783,15 +789,12 @@ def SubmitNoDuesApp(req):
                 email = req.POST.get('Email')
                 dept = req.POST.get('department')
                 apply = req.POST.get('apply')
-
                 current_datetime = datetime.datetime.now()
                 current_date = current_datetime.date()
                 current_time = current_datetime.time()
-
                 print(current_date, current_time)
                 current_date_str = current_datetime.strftime("%Y-%m-%d")
                 current_time_str = current_datetime.strftime("%H:%M:%S")
-
                 dateapp = current_date_str
                 time = current_time_str
                 # Create an instance of Application_table
@@ -803,9 +806,7 @@ def SubmitNoDuesApp(req):
                     App_Id=apply,
                     App_Date=dateapp,
                     App_time=time
-
                 )
-
                 # Save the instance to the database
                 contactdata.save()
                 # send_mail(
@@ -815,29 +816,130 @@ def SubmitNoDuesApp(req):
                 #     [email],
                 #     fail_silently=False
                 # )
-
-
-
                 current_directory = os.getcwd()
                 html_template = get_template(os.path.join(current_directory,'nocrest/Static/emailnodues.html'))
-
 # Render the template with any context variables you want to include
                 context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
                 html_content = html_template.render(context)
-
 # Create the EmailMessage object
                 subject = 'Testing'
                 message = 'Successfully applied for NO Dues'
                 from_email = 'your_email@gmail.com'  # Sender's email address
                 recipient_list = [email]  # List of recipient email addresses
-
                 email = EmailMessage(subject, message, from_email, recipient_list)
                 email.content_subtype = "html"  # Set the content type to HTML
                 email.body = html_content
 # Send the email
                 email.send()
+                return render(req, "Dashboard.html", {'message': 'ok'})
+    except Exception as e:
+        print("Error", e)
+        return render(req, "Frontpage.html")
+    
+@api_view(['GET', 'POST'])
+def ExitSurveySubmit(req):
+    try:
+        if req.method == 'POST':
+            enr = req.POST.get('EnrollmentId')
+            print(enr)
+            q = "SELECT * FROM nocrest_NoDues_application_table WHERE EnrollmentId = '{0}' ORDER BY App_Date DESC".format(enr)
+            cursor = connection.cursor()
+            cursor.execute(q)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            
+            if records:
+                return render(req, "Dashboard.html", {'message': 'error'})
+            else:
+                # Extract data from POST request
+                name = req.POST.get('name')
+                enrollmentid = req.POST.get('EnrollmentId')
+                email = req.POST.get('Email')
+                department = req.POST.get('department')
+                phone = req.POST.get('mobile')
+                apply = req.POST.get('apply')
 
+                dob = req.POST.get('dob')
+                gender = req.POST.get('gender')
+                course = req.POST.get('course')
+                branch = req.POST.get('branch')
+                rate_faculty = req.POST.get('rate_faculty')
+                teaching_methods = req.POST.get('teaching_methods')
+                learning_resources = req.POST.get('learning_resources')
+                syllabus_completion = req.POST.get('syllabus_completion')
+                course_relevance = req.POST.get('course_relevance')
+                teacher_preparedness = req.POST.get('teacher_preparedness')
+                course_outcomes = req.POST.get('course_outcomes')
+                soft_skills = req.POST.get('soft_skills')
+                internships_support = req.POST.get('internships_support')
+                student_orgs = req.POST.get('student_orgs')
+                curricular_extracurricular = req.POST.get('curricular_extracurricular')
+                quizzes = req.POST.get('quizzes')
+                evaluation_fairness = req.POST.get('evaluation_fairness')
+                library_resources = req.POST.get('library_resources')
+                curriculum_flexibility = req.POST.get('curriculum_flexibility')
+                nptel_moocs = req.POST.get('nptel_moocs')
+                full_semester_internship = req.POST.get('full_semester_internship')
+                training_placement = req.POST.get('training_placement')
+                sports_facilities = req.POST.get('sports_facilities')
+                hostel_maintenance = req.POST.get('hostel_maintenance')
+                overall_rating = req.POST.get('overall_rating')
+                final_feedback = req.POST.get('final_feedback')
 
+                current_datetime = datetime.now()
+                current_date_str = current_datetime.date()
+                current_time_str = current_datetime.time()
+
+                # Save the data to the database
+                survey_data = ExitSurvey(
+                    Name=name,
+                    EnrollmentId=enrollmentid,
+                    Email=email,
+                    Department=department,
+                    Phone=phone,
+                    Apply=apply,
+                    DOB=dob,
+                    Gender=gender,
+                    Course=course,
+                    Branch=branch,
+                    RateFaculty=rate_faculty,
+                    TeachingMethods=teaching_methods,
+                    LearningResources=learning_resources,
+                    SyllabusCompletion=syllabus_completion,
+                    CourseRelevance=course_relevance,
+                    TeacherPreparedness=teacher_preparedness,
+                    CourseOutcomes=course_outcomes,
+                    SoftSkills=soft_skills,
+                    InternshipsSupport=internships_support,
+                    StudentOrgs=student_orgs,
+                    CurricularExtracurricular=curricular_extracurricular,
+                    Quizzes=quizzes,
+                    EvaluationFairness=evaluation_fairness,
+                    LibraryResources=library_resources,
+                    CurriculumFlexibility=curriculum_flexibility,
+                    NPTELMOOCs=nptel_moocs,
+                    FullSemesterInternship=full_semester_internship,
+                    TrainingPlacement=training_placement,
+                    SportsFacilities=sports_facilities,
+                    HostelMaintenance=hostel_maintenance,
+                    OverallRating=overall_rating,
+                    FinalFeedback=final_feedback,
+                    AppDate=current_date_str,
+                    AppTime=current_time_str
+                )
+                survey_data.save()
+                # Prepare and send the email
+                # current_directory = os.getcwd()
+                # html_template = get_template(os.path.join(current_directory, 'nocrest/Static/emailnodues.html'))
+                # context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+                # html_content = html_template.render(context)
+                # subject = 'Exit Survey Submission Confirmation'
+                # message = 'Thank you for submitting the exit survey. Your responses have been recorded successfully.'
+                # from_email = 'your_email@gmail.com'  # Sender's email address
+                # recipient_list = [email]  # List of recipient email addresses
+                # email = EmailMessage(subject, message, from_email, recipient_list)
+                # email.content_subtype = "html"  # Set the content type to HTML
+                # email.body = html_content
+                # email.send()
                 return render(req, "Dashboard.html", {'message': 'ok'})
     except Exception as e:
         print("Error", e)

@@ -7,6 +7,7 @@ from nocrest.models import NoDues_application_table
 from nocrest.models import Graduated
 from nocrest.models import InternshipFeedback
 from nocrest.models import BonafideModel
+from nocrest.models import ExitSurvey
 
 class contactserialiser(serializers.ModelSerializer):
     class Meta:
@@ -47,3 +48,8 @@ class BonafideSerializer(serializers.ModelSerializer):
     class Meta:
         model = BonafideModel
         fields = ('id','student_name','EnrollmentId','fathers_name','Semester','email','session','application_date','approval_date','app_id','dept_approval','dept_comment','Branch')
+
+class ExitSuevrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExitSurvey
+        fields = ['id','Name','EnrollmentId','Email','Department','Phone','Apply','DOB','Gender','Course','Branch','RateFaculty','TeachingMethods','LearningResources','SyllabusCompletion','CourseRelevance','TeacherPreparedness','CourseOutcomes','SoftSkills','InternshipsSupport','StudentOrgs','CurricularExtracurricular','Quizzes','EvaluationFairness','LibraryResources','CurriculumFlexibility','NPTELMOOCs','FullSemesterInternship','TrainingPlacement','SportsFacilities','HostelMaintenance','OverallRating','FinalFeedback','AppDate','AppTime']
