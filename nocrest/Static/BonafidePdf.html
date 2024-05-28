@@ -124,6 +124,9 @@
         .p4{
             font-size: 24px;
         }
+        .pn{
+            font-size: 15px;
+        }
     </style>
 </head>
 
@@ -137,17 +140,15 @@
             <h4 style="color: #d52720;">Deemed to be University</h4>
             <h4 style="color: #259208;">(Declared under Distinct Category by Ministry of Education, Government of India) </h4>
             <h4 style="color: #d52720;">NAAC ACCREDITED WITH A++ GRADE</h4>
-            <h4>Phone: 0751 2409362, Email id: <span id="s2">tnp@mitsgwalior.in</span></h4>
-            <h3>(Training and Placement Cell)</h3>
             <hr class="line">
           
             
             <div>
 <center><h1 class="p4">BONAFIDE CERTICATE</h1></center>
 <div class="refcenter" style="display: flex; justify-content: space-around;">
-    <h4>Ref.: 2024/ {{apid}}</h4>
+    <h4 class="pn">Ref.: 2024/ {{apid}}</h4>
 
-    <h4>Date: {{date}}</h4>
+    <h4 class="pn">Date: {{date}}</h4>
 </div>
 <div class="datecenter">
 
@@ -161,8 +162,10 @@
            <br>
            <br>
            <br>
-           <br>
-           <br>
+           <div class="p3">Name : {{studname}}</div>
+           <div class="p3">Parent/Guardians Name : {{fathername}}</div>
+           <div class="p3">Course/Branch : {{programme}}/{{studbranch}}</div>
+           <div class="p3">Session : {{session}}</div>
            <br>
             
             <div class="picture" style="height: 200px; width: 200px;">
