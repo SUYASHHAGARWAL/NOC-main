@@ -32,7 +32,7 @@ class adminserialiser(serializers.ModelSerializer):
 class noduesserialiser(serializers.ModelSerializer):
     class Meta:
         model = NoDues_application_table
-        fields = ('id','EnrollmentId','Name','Email','dept','App_Id','Dept_approval','Dept_Comment','TnP_approval','TnP_Comment','Lib_approval','Lib_Comment','Acc_approval','Acc_Comment','Hostle_approval','Hostle_Comment','App_Date','App_time')
+        fields = ('id','EnrollmentId','Name','Email','dept','App_Id','Dept_approval','Dept_Comment','TnP_approval','TnP_Comment','Lib_approval','Lib_Comment','Acc_approval','Acc_Comment','Hostle_approval','Hostle_Comment','App_Date','App_time','account_holder_name','bank_name','account_number','ifsc_code','dob','passOutYear','hostel','fees_due','project_report','caution_money',)
 
 class dataserialiser(serializers.ModelSerializer):
     class Meta:
@@ -52,4 +52,70 @@ class BonafideSerializer(serializers.ModelSerializer):
 class ExitSuevrySerializer(serializers.ModelSerializer):
     class Meta:
         model = ExitSurvey
-        fields = ['id','Name','EnrollmentId','Email','Department','Phone','Apply','DOB','Gender','Course','Branch','RateFaculty','TeachingMethods','LearningResources','SyllabusCompletion','CourseRelevance','TeacherPreparedness','CourseOutcomes','SoftSkills','InternshipsSupport','StudentOrgs','CurricularExtracurricular','Quizzes','EvaluationFairness','LibraryResources','CurriculumFlexibility','NPTELMOOCs','FullSemesterInternship','TrainingPlacement','SportsFacilities','HostelMaintenance','OverallRating','FinalFeedback','AppDate','AppTime']
+        fields = [
+            'id',
+            'Name',
+            'EnrollmentId',
+            'Email',
+            'Department',
+            'Phone',
+            'Apply',
+            'DOB',
+            'Gender',
+            'Course',
+            'Branch',
+            'RateFaculty',
+            'TeachingMethods',
+            'LearningResources',
+            'SyllabusCompletion',
+            'CourseRelevance',
+            'TeacherPreparedness',
+            'CourseOutcomes',
+            'SoftSkills',
+            'InternshipsSupport',
+            'StudentOrgs',
+            'CurricularExtracurricular',
+            'Quizzes',
+            'EvaluationFairness',
+            'LibraryResources',
+            'CurriculumFlexibility',
+            'NPTELMOOCs',
+            'FullSemesterInternship',
+            'TrainingPlacement',
+            'InternshipCompany',
+            'InternshipCertificate',
+            'JobSelection',
+            'OutsideJobOffer',
+            'OutsideJobLetter',
+            'MultipleOfferCompanies',
+            'MultipleOfferLetters',
+            'OptedJoborPG',
+            'FurtherStudyDetails',
+            'JoiningCompany',
+            'QualifiedGate',
+            'GateRank',
+            'GateScorecard',
+            'AppearedForExams',
+            'OtherExamName',
+            'ScoreCardsAll',
+            'Percentile',
+            'MTechUniversity',
+            'MBACollege',
+            'AdmissionLetter',
+            'AnyOtherCompetitiveExams',
+            'DonateCautionMoney',
+            'FinalSemesterChoice',
+            'FinalYearInternship',
+            'FinalInternshipStipend',
+            'FinalInternshipStipendAmount',
+            'InternshipCompanyProcess',
+            'JobOfferExtension',
+            'FinalSemesterInternshipDoc',
+            'PermanentEmail',
+            'ContactNum',
+            'ParentContactNum',
+            'HomeTown',
+            'PermanentAddress',
+            'Suggestions',
+            'AppDate',
+            'AppTime']

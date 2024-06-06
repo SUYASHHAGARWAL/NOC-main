@@ -19,6 +19,12 @@
     #form2 {
         display: none;
     }
+    #nodform2 {
+        display: none;
+    }
+    #nodform3 {
+        display: none;
+    }
 
     #form3 {
         display: none;
@@ -274,6 +280,15 @@ footer {
         flex: 1;
         min-width: 45%; /* Adjust as needed */
     }
+
+    .stleES{
+      margin-top: 1.2rem;
+      padding: 0.5rem;
+    }
+    .closer {
+  float: right;
+  cursor: pointer;
+}
 </style>
 
 <body>
@@ -284,6 +299,13 @@ footer {
         $(document).ready(function () {
             var nodform = document.getElementById('noc-modala')
             var ggform = document.getElementById('exitsurvey')
+            ggform.addEventListener('click', function(event) {
+                nodform.style.display = 'flex';
+            })
+        })
+        $(document).ready(function () {
+            var nodform = document.getElementById('nodd-modala')
+            var ggform = document.getElementById('Buttonnod')
             ggform.addEventListener('click', function(event) {
                 nodform.style.display = 'flex';
             })
@@ -406,24 +428,48 @@ $(document).ready(function () {
                 console.log(121);
                 $.getJSON('/api/Noduesstatus?EnrollmentId={{record.EnrollmentId}}', function (data) {
                     console.log(data);
+$('#section-display').css('display', 'block')
+                    $('#myTable').css('display', 'block')
+                    $("#tablebody2").html('')
 
-                    $('#section-display').css('display', 'block');
-                    $("#tablebody2").html('');
+                    $('#lamand').html(`
+                            <tr>
+                                <th>S. no</th>
+                                <th>Enrollment</th>
+                                <th>Dept</th>
+                                <th>Dept No Dues</th>
+                                <th>Dept Comment</th>
+                                <th>T&p No Dues</th>
+                                <th>T&p Comment</th>
+                                <th>App Date</th>
+                                <th>Libarary No Dues</th>
+                                <th>Libarary Comments</th>
+                                <th>hostle No Dues</th>
+                                <th>hostle Comments</th>
+                                <th>Exam No Dues</th>
+                                <th>Exam Comments</th>
+                                <th>Accounts No Dues</th>
+                                <th>Accounts Comments</th>
+                            </tr>`)
 
-                    // Assuming data has only one record
-                    $('#tablebody2').append(`<tr>
-            <td>${data.EnrollmentId}</td>
-            <td>${data.Name}</td>
-            <td>${data.Email}</td>
-            <td>${data.Dept_approval}</td>
-            <td>${data.Dept_Comment}</td>
-            <td>${data.TnP_approval}</td>
-            <td>${data.TnP_Comment}</td>
-            <td>${data.Company}</td>
-            <td>${data.Role}</td>
-            <td>${data.App_Date}</td>
-            <td>${data.App_time}</td>
-        </tr>`);
+                    for (i = 0; i < data.length; i++) {
+                        $('#tablebody2').append(`<tr>
+                            <th scope="row">${i + 1}</th>
+                            <td>${data[i].EnrollmentId}</td>
+                            <td>{{branchstud}}</td>
+                            <td>${data[i].Dept_approval}</td>
+                            <td>${data[i].Dept_Comment}</td>
+                            <td>${data[i].TnP_approval}</td>
+                            <td>${data[i].TnP_Comment}</td>
+                            <td>${data[i].App_Date}</td>
+                            <td>${data[i].Lib_approval}</td>
+                            <td>${data[i].Lib_Comment}</td>
+                            <td>${data[i].Hostle_approval}</td>
+                            <td>${data[i].Hostle_Comment}</td>
+                            <td>${data[i].Acc_approval}</td>
+                            <td>${data[i].Acc_Comment}</td>
+                        </tr>`);
+                      }
                 });
             });
 
@@ -635,7 +681,7 @@ $(document).ready(function () {
                                 </div>
                                 <input type="text" id="Email" hidden name="Email" placeholder="{{record.Email}}"
                                     value="{{record.Email}}">
-                                <input type="text" id="Branch" hidden name="department" placeholder="record.Branch"
+                                <input type="text" id="Branch" hidden name="department" placeholder="{{record.Branch}}"
                                     value="{{record.Branch}}">
                                 <!-- <div style="flex: 1; min-width: 45%;">
                                     <label for="Email">EmailId</label>
@@ -782,142 +828,748 @@ $(document).ready(function () {
                     <form method="post" action="/api/Exit_surveySubmit">{% csrf_token %}
                         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                             <!-- Existing fields -->
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="name">Name</label>
                                 <input readonly required type="text" id="name" name="name" placeholder="{{record.Name}}" value="{{record.Name}}">
                             </div>
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="EnrollmentId">Enrollment Id</label>
                                 <input type="text" id="EnrollmentId" name="EnrollmentId" placeholder="{{record.EnrollmentId}}" value="{{record.EnrollmentId}}">
                             </div>
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="Email">Email Id</label>
                                 <input type="text" id="Email" name="Email" placeholder="{{record.Email}}" value="{{record.Email}}">
                             </div>
-                            <input type="text" id="Branch" name="department" placeholder="record.Branch" hidden value="{{record.Branch}}">
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="mobile">Phone</label>
                                 <input type="text" id="mobile" name="mobile" placeholder="record.contact_Num" value="{{record.contact_Num}}">
                             </div>
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="apply">Applying for No Dues</label>
                                 <input type="text" id="apply" name="apply" placeholder="Yes" value="Yes">
                             </div>
-                            <!-- New fields -->
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="dob">Date of Birth</label>
                                 <input type="date" id="dob" name="dob" required>
                             </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="gender">Gender</label>
-                                <select id="gender" name="gender" required>
-                                    <option value="" disabled selected>Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="course">Course (e.g., Btech)</label>
                                 <input type="text" id="course" name="course" placeholder="e.g., Btech" required>
                             </div>
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="branch">Branch</label>
                                 <input type="text" id="branch" name="branch" placeholder="e.g., Computer Science" required>
                             </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="rate_faculty">Rate the Faculty Teaching Approach in the UG or PG Programs</label>
-                                <input type="number" id="rate_faculty" name="rate_faculty" min="1" max="10" placeholder="Rate out of 10" required>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="teaching_methods">How were the teaching methods of faculty?</label>
-                                <textarea id="teaching_methods" name="teaching_methods" placeholder="Describe the teaching methods" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="learning_resources">How was the usage of Learning and Technological Resources?</label>
-                                <textarea id="learning_resources" name="learning_resources" placeholder="Describe the usage of resources" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="syllabus_completion">The full Syllabus of courses was completed?</label>
-                                <textarea id="syllabus_completion" name="syllabus_completion" placeholder="Describe the syllabus completion" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="course_relevance">Relevance of Course curriculum to Your Career Goals</label>
-                                <textarea id="course_relevance" name="course_relevance" placeholder="Describe the relevance" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="teacher_preparedness">How was the teachers preparedness and communication?</label>
-                                <textarea id="teacher_preparedness" name="teacher_preparedness" placeholder="Describe the preparedness and communication" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="course_outcomes">Does Faculty communicate to you about Course Outcomes?</label>
-                                <textarea id="course_outcomes" name="course_outcomes" placeholder="Describe the communication about outcomes" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="soft_skills">Institute helps you to improve your soft skills, life skills and employability skills</label>
-                                <textarea id="soft_skills" name="soft_skills" placeholder="Describe the support for skills" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="internships_support">Institute support in Internships, Industrial Visits, Project work, Students exchange and other related activities</label>
-                                <textarea id="internships_support" name="internships_support" placeholder="Describe the support" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="student_orgs">How were the Student Organizations, Technical & Social Clubs for your overall growth and learning?</label>
-                                <textarea id="student_orgs" name="student_orgs" placeholder="Describe the clubs and organizations" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="curricular_extracurricular">Promotion and Encouragement by Institute/Department for participation in Curricular and Extra-Curricular activities</label>
-                                <textarea id="curricular_extracurricular" name="curricular_extracurricular" placeholder="Describe the promotion and encouragement" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="quizzes">Quiz and assignments given by Faculty were helpful in learning?</label>
-                                <textarea id="quizzes" name="quizzes" placeholder="Describe the quizzes and assignments" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="evaluation_fairness">Fairness of Internal Evaluation process by faculty</label>
-                                <textarea id="evaluation_fairness" name="evaluation_fairness" placeholder="Describe the fairness of evaluation" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="library_resources">Library Resources in the Areas of Engineering, Research, Journals & e-Journals, Technical Magazines etc.</label>
-                                <textarea id="library_resources" name="library_resources" placeholder="Describe the library resources" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="curriculum_flexibility">The flexible curriculum caters to individual career needs by providing choice of subjects</label>
-                                <textarea id="curriculum_flexibility" name="curriculum_flexibility" placeholder="Describe the curriculum flexibility" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="nptel_moocs">NPTEL-MOOCs will help students in becoming self-learners and future ready</label>
-                                <textarea id="nptel_moocs" name="nptel_moocs" placeholder="Describe the impact of NPTEL-MOOCs" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="full_semester_internship">First time an opportunity was given for a full semester internship/project in final year</label>
-                                <textarea id="full_semester_internship" name="full_semester_internship" placeholder="Describe the full semester internship opportunity" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="training_placement">Training & Placement Support</label>
-                                <textarea id="training_placement" name="training_placement" placeholder="Describe the support for training and placement" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="sports_facilities">Sports Facilities for Students</label>
-                                <textarea id="sports_facilities" name="sports_facilities" placeholder="Describe the sports facilities" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="hostel_maintenance">Maintenance and Quality of Hostel & Mess</label>
-                                <textarea id="hostel_maintenance" name="hostel_maintenance" placeholder="Describe the maintenance and quality of hostel and mess" rows="3" required></textarea>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="overall_rating">Overall rating of the Institute out of 10</label>
-                                <input type="number" id="overall_rating" name="overall_rating" min="1" max="10" placeholder="Rate out of 10" required>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <label for="final_feedback">Any other feedback / Suggestions</label>
-                                <textarea id="final_feedback" name="final_feedback" placeholder="Provide any other feedback or suggestions" rows="3" required></textarea>
-                            </div>
                         </div>
-                        <div style="text-align: center; margin-top: 20px;">
+                            <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="gender">Gender</label>
+                              <div>
+                                <input type="radio" id="gender_male" name="gender" value="Male">
+                                <label for="gender_male">Male</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="gender_female" name="gender" value="Female">
+                                <label for="gender_female">Female</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="gender_other" name="gender" value="Other">
+                                <label for="gender_other">Other</label>
+                              </div>
+                            </div>
+                            
+                            <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="rate_faculty">Rate the Faculty Teaching Approach in the UG or PG Programs:</label>
+                              <div>
+                                <input type="radio" id="rate_faculty_1" name="rate_faculty" value="1">
+                                <label for="rate_faculty_1">1 = Average</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="rate_faculty_2" name="rate_faculty" value="2">
+                                <label for="rate_faculty_2">2 = Above Average</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="rate_faculty_3" name="rate_faculty" value="3">
+                                <label for="rate_faculty_3">3 = Good</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="rate_faculty_4" name="rate_faculty" value="4">
+                                <label for="rate_faculty_4">4 = Very Good</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="rate_faculty_5" name="rate_faculty" value="5">
+                                <label for="rate_faculty_5">5 = Excellent</label>
+                              </div>
+                            </div>                            
+                            <div class="stleES" style="display: flex; flex-direction: column;">
+                                <label for="teaching_methods">How were the teaching methods of faculty?</label>
+                                <div class="radio-label">
+                                  <input type="radio" id="teaching_clarity_1" name="teaching_methods" value="1">
+                                  <label for="teaching_clarity_1">Confusing</label>
+                                </div>
+                                <div class="radio-label">
+                                  <input type="radio" id="teaching_clarity_2" name="teaching_methods" value="2">
+                                  <label for="teaching_clarity_2">Somewhat Clear</label>
+                                </div>
+                                <div class="radio-label">
+                                  <input type="radio" id="teaching_clarity_3" name="teaching_methods" value="3">
+                                  <label for="teaching_clarity_3">Clear</label>
+                                </div>
+                                <div class="radio-label">
+                                  <input type="radio" id="teaching_clarity_4" name="teaching_methods" value="4">
+                                  <label for="teaching_clarity_4">Very Clear</label>
+                                </div>
+                            </div>
+                            <div class="stleES">
+                                  <label for="teaching_engagement">Engagement with Students:</label>
+                                  <div class="radio-label">
+                                    <input type="radio" id="teaching_engagement_1" name="teaching_engagement" value="1">
+                                    <label for="teaching_engagement_1">Low</label>
+                                  </div>
+                                  <div class="radio-label">
+                                    <input type="radio" id="teaching_engagement_2" name="teaching_engagement" value="2">
+                                    <label for="teaching_engagement_2">Moderate</label>
+                                  </div>
+                                  <div class="radio-label">
+                                    <input type="radio" id="teaching_engagement_3" name="teaching_engagement" value="3">
+                                    <label for="teaching_engagement_3">Good</label>
+                                  </div>
+                                  <div class="radio-label">
+                                    <input type="radio" id="teaching_engagement_4" name="teaching_engagement" value="4">
+                                    <label for="teaching_engagement_4">High</label>
+                                  </div>
+                                </div>
+                              
+                            <div class="stleES" style="display: flex; flex-direction: column;">
+                                <label for="syllabus_completion">The full Syllabus of courses was completed?</label>
+                                <div>
+                                  <input type="radio" id="syllabus_completion_1" name="syllabus_completion" value="1">
+                                  <label for="syllabus_completion_1">Average</label>
+                                </div>
+                                <div>
+                                  <input type="radio" id="syllabus_completion_2" name="syllabus_completion" value="2">
+                                  <label for="syllabus_completion_2">Above Average</label>
+                                </div>
+                                <div>
+                                  <input type="radio" id="syllabus_completion_3" name="syllabus_completion" value="3">
+                                  <label for="syllabus_completion_3">Good</label>
+                                </div>
+                                <div>
+                                  <input type="radio" id="syllabus_completion_4" name="syllabus_completion" value="4">
+                                  <label for="syllabus_completion_4">Very Good</label>
+                                </div>
+                                <div>
+                                  <input type="radio" id="syllabus_completion_5" name="syllabus_completion" value="5">
+                                  <label for="syllabus_completion_5">Excellent</label>  
+                                </div>
+                            </div>
+                            <div class="stleES" style="display: flex; flex-direction: column;">
+                                <label for="course_relevance">Relevance of Course curriculum to Your Career Goals</label>
+                                <div>
+                                  <input type="radio" id="course_relevance_1" name="course_relevance" value="1">
+                                  <label for="course_relevance_1">Not Relevant</label>
+                                </div>
+                                <div>
+                                  <input type="radio" id="course_relevance_2" name="course_relevance" value="2">
+                                  <label for="course_relevance_2">Somewhat Relevant</label>
+                                </div>
+                                <div>
+                                  <input type="radio" id="course_relevance_3" name="course_relevance" value="3">
+                                  <label for="course_relevance_3">Moderately Relevant</label>
+                                </div>
+                                <div>
+                                  <input type="radio" id="course_relevance_4" name="course_relevance" value="4">
+                                  <label for="course_relevance_4">Highly Relevant</label>
+                                </div>
+                                <div>
+                                  <input type="radio" id="course_relevance_5" name="course_relevance" value="5">
+                                  <label for="course_relevance_5">Extremely Relevant</label>
+                                </div>
+                            </div>
+                              
+                            <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="teacher_preparedness">How was the teacher's preparedness and communication?</label>
+                              <div>
+                                  <input type="radio" id="teacher_preparedness_1" name="teacher_preparedness" value="1">
+                                  <label for="teacher_preparedness_1">Poor</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="teacher_preparedness_2" name="teacher_preparedness" value="2">
+                                  <label for="teacher_preparedness_2">Needs Improvement</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="teacher_preparedness_3" name="teacher_preparedness" value="3">
+                                  <label for="teacher_preparedness_3">Adequate</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="teacher_preparedness_4" name="teacher_preparedness" value="4">
+                                  <label for="teacher_preparedness_4">Good</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="teacher_preparedness_5" name="teacher_preparedness" value="5">
+                                  <label for="teacher_preparedness_5">Excellent</label>
+                              </div>
+                          </div>
+                      
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="course_outcomes">Does Faculty communicate to you about Course Outcomes?</label>
+                              <div>
+                                  <input type="radio" id="course_outcomes_1" name="course_outcomes" value="1">
+                                  <label for="course_outcomes_1">No</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="course_outcomes_2" name="course_outcomes" value="2">
+                                  <label for="course_outcomes_2">Rarely</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="course_outcomes_3" name="course_outcomes" value="3">
+                                  <label for="course_outcomes_3">Sometimes</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="course_outcomes_4" name="course_outcomes" value="4">
+                                  <label for="course_outcomes_4">Frequently</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="course_outcomes_5" name="course_outcomes" value="5">
+                                  <label for="course_outcomes_5">Always</label>
+                              </div>
+                          </div>
+                      
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="soft_skills">Institute helps you to improve your soft skills, life skills and employability skills</label>
+                              <div>
+                                  <input type="radio" id="soft_skills_1" name="soft_skills" value="1">
+                                  <label for="soft_skills_1">Not at all</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="soft_skills_2" name="soft_skills" value="2">
+                                  <label for="soft_skills_2">To a little extent</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="soft_skills_3" name="soft_skills" value="3">
+                                  <label for="soft_skills_3">Somewhat</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="soft_skills_4" name="soft_skills" value="4">
+                                  <label for="soft_skills_4">To a great extent</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="soft_skills_5" name="soft_skills" value="5">
+                                  <label for="soft_skills_5">Significantly</label>
+                              </div>
+                          </div>
+                      
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="internships_support">Institute support in Internships, Industrial Visits, Project work, Students exchange and other related activities</label>
+                              <div>
+                                  <input type="radio" id="internships_support_1" name="internships_support" value="1">
+                                  <label for="internships_support_1">No Support</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="internships_support_2" name="internships_support" value="2">
+                                  <label for="internships_support_2">Limited Support</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="internships_support_3" name="internships_support" value="3">
+                                  <label for="internships_support_3">Moderate Support</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="internships_support_4" name="internships_support" value="4">
+                                  <label for="internships_support_4">Good Support</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="internships_support_5" name="internships_support" value="5">
+                                  <label for="internships_support_5">Excellent Support</label>
+                              </div>
+                          </div>
+                      
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="student_orgs">How were the Student Organizations, Technical & Social Clubs for your overall growth and learning?</label>
+                              <div>
+                                  <input type="radio" id="student_orgs_1" name="student_orgs" value="1">
+                                  <label for="student_orgs_1">Not Helpful</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="student_orgs_2" name="student_orgs" value="2">
+                                  <label for="student_orgs_2">Somewhat Helpful</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="student_orgs_3" name="student_orgs" value="3">
+                                  <label for="student_orgs_3">Moderately Helpful</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="student_orgs_4" name="student_orgs" value="4">
+                                  <label for="student_orgs_4">Very Helpful</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="student_orgs_5" name="student_orgs" value="5">
+                                  <label for="student_orgs_5">Extremely Helpful</label>
+                              </div>
+                          </div>
+                      
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="curricular_extracurricular">Promotion and Encouragement by Institute/Department for participation in Curricular and Extra-Curricular activities</label>
+                              <div>
+                                  <input type="radio" id="curricular_extracurricular_1" name="curricular_extracurricular" value="1">
+                                  <label for="curricular_extracurricular_1">No Promotion/Encouragement</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="curricular_extracurricular_2" name="curricular_extracurricular" value="2">
+                                  <label for="curricular_extracurricular_2">Minimal Promotion/Encouragement</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="curricular_extracurricular_3" name="curricular_extracurricular" value="3">
+                                  <label for="curricular_extracurricular_3">Moderate Promotion/Encouragement</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="curricular_extracurricular_4" name="curricular_extracurricular" value="4">
+                                  <label for="curricular_extracurricular_4">Active Promotion/Encouragement</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="curricular_extracurricular_5" name="curricular_extracurricular" value="5">
+                                  <label for="curricular_extracurricular_5">Strong Promotion/Encouragement</label>
+                              </div>
+                          </div>
+                      
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="quizzes">Quiz and assignments given by Faculty were helpful in learning?</label>
+                              <div>
+                                  <input type="radio" id="quizzes_1" name="quizzes" value="1">
+                                  <label for="quizzes_1">Not Helpful</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="quizzes_2" name="quizzes" value="2">
+                                  <label for="quizzes_2">Somewhat Helpful</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="quizzes_3" name="quizzes" value="3">
+                                  <label for="quizzes_3">Moderately Helpful</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="quizzes_4" name="quizzes" value="4">
+                                  <label for="quizzes_4">Very Helpful</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="quizzes_5" name="quizzes" value="5">
+                                  <label for="quizzes_5">Extremely Helpful</label>
+                              </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="fairness">Fairness of Internal Evaluation process by faculty</label>
+                            <div>
+                              <input type="radio" id="fairness_1" name="fairness" value="1">
+                              <label for="fairness_1">Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="fairness_2" name="fairness" value="2">
+                              <label for="fairness_2">Above Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="fairness_3" name="fairness" value="3">
+                              <label for="fairness_3">Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="fairness_4" name="fairness" value="4">
+                              <label for="fairness_4">Very Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="fairness_5" name="fairness" value="5">
+                              <label for="fairness_5">Excellent</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="library_resources">Library Resources in the Areas of Engineering, Research, Journals & e-Journals, Technical Magazines etc.</label>
+                            <div>
+                              <input type="radio" id="library_resources_1" name="library_resources" value="1">
+                              <label for="library_resources_1">Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="library_resources_2" name="library_resources" value="2">
+                              <label for="library_resources_2">Above Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="library_resources_3" name="library_resources" value="3">
+                              <label for="library_resources_3">Good</label>  
+                            </div>
+                            <div>
+                              <input type="radio" id="library_resources_4" name="library_resources" value="4">
+                              <label for="library_resources_4">Very Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="library_resources_5" name="library_resources" value="5">
+                              <label for="library_resources_5">Excellent</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="curriculum">The flexible curriculum caters to individual career needs by providing choice of subjects. In your opinion, this curriculum approach is</label>
+                            <div>
+                              <input type="radio" id="curriculum_1" name="curriculum" value="1">
+                              <label for="curriculum_1">Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="curriculum_2" name="curriculum" value="2">
+                              <label for="curriculum_2">Above Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="curriculum_3" name="curriculum" value="3">
+                              <label for="curriculum_3">Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="curriculum_4" name="curriculum" value="4">
+                              <label for="curriculum_4">Very Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="curriculum_5" name="curriculum" value="5">
+                              <label for="curriculum_5">Excellent</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="npt">In the changing world knowledge of new technology and domains is expected from graduates. The NPTEL-MOOCs will help students in becoming self-learners and future ready. How effective do you think NPTEL-MOOCs are in achieving this goal?</label>
+                            <div>
+                              <input type="radio" id="npt_1" name="npt" value="1">
+                              <label for="npt_1">Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="npt_2" name="npt" value="2">
+                              <label for="npt_2">Above Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="npt_3" name="npt" value="3">
+                              <label for="npt_3">Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="npt_4" name="npt" value="4">
+                              <label for="npt_4">Very Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="npt_5" name="npt" value="5">
+                              <label for="npt_5">Excellent</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="internship">First time an opportunity was given for a full semester internship/project in final year. This provision will help in the career planning and growth for you and the future batches. How effective do you think this provision is for career planning and growth?</label>
+                            <div>
+                              <input type="radio" id="internship_1" name="internship" value="1">
+                              <label for="internship_1">Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="internship_2" name="internship" value="2">
+                              <label for="internship_2">Above Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="internship_3" name="internship" value="3">
+                              <label for="internship_3">Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="internship_4" name="internship" value="4">
+                              <label for="internship_4">Very Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="internship_5" name="internship" value="5">
+                              <label for="internship_5">Excellent</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="placement">Training & Placement Support:</label>
+                            <div>
+                              <input type="radio" id="placement_1" name="placement" value="1">
+                              <label for="placement_1">Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="placement_2" name="placement" value="2">
+                              <label for="placement_2">Above Average</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="placement_3" name="placement" value="3">
+                              <label for="placement_3">Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="placement_4" name="placement" value="4">
+                              <label for="placement_4">Very Good</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="placement_5" name="placement" value="5">
+                              <label for="placement_5">Excellent</label>
+                            </div>
+                          </div>
+                        
+                        <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="internship_company">In which company/organization have you completed your Summer Internship/Summer Training just after Pre-Final year (Before final year)? (Please specify location and if it was an online internship)</label>
+                            <input type="text" id="internship_company" name="internship_company" placeholder="Eg: Smart Controls, Gwalior (Online internship)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="internship_certificate">Attach Summer Internship/Training/Finishing School Program Certificate Scan Copy received during/after pre-final year only, in reference to the above question. (In case of MCA/M.tech/B.Tech projects please upload any proof with signature of guide/faculty or Project Report first Page with faculty signature/Acknowledgement etc.)</label>
+                            <input type="file" id="internship_certificate" name="internship_certificate" accept=".pdf,.jpg,.jpeg,.png">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="job_selection">Were you selected for a job On Campus or from Outside?</label>
+                            <div>
+                              <input type="radio" id="job_selection_1" name="job_selection" value="on_campus">
+                              <label for="job_selection_1">On Campus</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="job_selection_2" name="job_selection" value="off_campus">
+                              <label for="job_selection_2">Off Campus</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="job_selection_3" name="job_selection" value="opted_out">
+                              <label for="job_selection_3">Opted Out from Campus Placement Process</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="job_selection_4" name="job_selection" value="na">
+                              <label for="job_selection_4">NA; Not Applicable</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="outside_job_offers">If you got any job offers OUTSIDE (Do Not mention On Campus placement opportunity), please mention the Organization's Name(s). You can write multiple offer names separated with a comma. If Not Applicable, write NA.</label>
+                            <input type="text" id="outside_job_offers" name="outside_job_offers" placeholder="Enter organization names separated by commas (or NA)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="outside_job_offer_letter">Attach offer letter(s) received in context of the above question (Only for Off-Campus Placements. Combine multiple offers into a single PDF). </label>
+                            <input type="file" id="outside_job_offer_letter" name="outside_job_offer_letter" accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="oncampus_job_offers">If you have one or multiple job offers from the College side, please mention the names of the Companies (Please mention all company names in which you are selected on campus only. Write NA if not applicable).</label>
+                            <input type="text" id="oncampus_job_offers" name="oncampus_job_offers" placeholder="Enter company names separated by commas (or NA)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="oncampus_job_offer_letter">Please attach all offer letters or confirmation emails from the company side in the context of the above question (Only for On-Campus placement Offers. Combine all offers into a single PDF).</label>
+                            <input type="file" id="oncampus_job_offer_letter" name="oncampus_job_offer_letter" accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="post_graduation">Opted for Job or Post Graduation?</label>
+                            <div>
+                              <input type="radio" id="post_graduation_1" name="post_graduation" value="job">
+                              <label for="post_graduation_1">Job</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="post_graduation_2" name="post_graduation" value="mba">
+                              <label for="post_graduation_2">MBA</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="post_graduation_3" name="post_graduation" value="mtech">
+                              <label for="post_graduation_3">M.Tech</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="post_graduation_4" name="post_graduation" value="business">
+                              <label for="post_graduation_4">Own Business</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="post_graduation_5" name="post_graduation" value="phd">
+                              <label for="post_graduation_5">Ph.D</label>
+                            </div>  
+                            <div>
+                              <input type="radio" id="post_graduation_6" name="post_graduation" value="further_study">
+                              <label for="post_graduation_6">Further Study (Specify in the text box below)</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="post_graduation_7" name="post_graduation" value="na">
+                              <label for="post_graduation_7">NA; Not Applicable</label>
+                            </div>
+                            <div id="further_study_text" style="display: none;">
+                              <textarea id="further_study_details" name="further_study_details" placeholder="Specify your further study plans"></textarea>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="joining_company">If you are choosing for Job and if you have any offer in hand, which company are you joining? (Write NA if Not Applicable)</label>
+                            <input type="text" id="joining_company" name="joining_company" placeholder="Company name (or NA)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="gate_qualified">Have you Qualified or Not Qualified the GATE Exam?</label>
+                            <div>
+                              <input type="radio" id="gate_qualified_1" name="gate_qualified" value="qualified">
+                              <label for="gate_qualified_1">Qualified</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="gate_qualified_2" name="gate_qualified" value="not_qualified">
+                              <label for="gate_qualified_2">Not Qualified</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="gate_qualified_3" name="gate_qualified" value="na">
+                              <label for="gate_qualified_3">Not Applicable</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="gate_rank">If you have appeared for GATE, what was your All India Rank in the exam? (If Not Applicable, write NA)</label>
+                            <input type="text" id="gate_rank" name="gate_rank" placeholder="Enter All India Rank (or NA)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="gate_scorecard">Please attach your GATE scorecard (In reference to the above question).</label>
+                            <input type="file" id="gate_scorecard" name="gate_scorecard" accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="exams_appeared">Have you appeared for CAT/GRE/GMAT/SNAP or any other exam? (You can select multiple exams if applicable)</label>
+                            <div>
+                              <input type="checkbox" id="exam_cat" name="exams_appeared[]" value="cat">
+                              <label for="exam_cat">CAT</label>
+                            </div>
+                            <div>
+                              <input type="checkbox" id="exam_gmat" name="exams_appeared[]" value="gmat">
+                              <label for="exam_gmat">GMAT</label>
+                            </div>
+                            <div>
+                              <input type="checkbox" id="exam_gre" name="exams_appeared[]" value="gre">
+                              <label for="exam_gre">GRE</label>
+                            </div>
+                            <div>
+                              <input type="checkbox" id="exam_snap" name="exams_appeared[]" value="snap">
+                              <label for="exam_snap">SNAP</label>
+                            </div>
+                            <div>
+                              <input type="checkbox" id="exam_other" name="exams_appeared[]" value="other">
+                              <label for="exam_other">Other (Specify in the text box below)</label>
+                            </div>
+                            <div id="other_exam_text" style="display: none;">
+                              <input type="text" id="other_exam_name" name="other_exam_name" placeholder="Specify the other exam name">
+                            </div>
+                            <div>
+                              <input type="checkbox" id="exam_na" name="exams_appeared[]" value="na">
+                              <label for="exam_na">NA; Not Applicable</label>
+                            </div>
+                          </div>
+                          <div class="stleES"  style="display: flex; flex-direction: column;">
+                            <label for="entrance_exam_scorecards">Please attach your scorecards for the exams you selected above (CAT, GMAT, GRE, SNAP, or Other). You can upload multiple PDFs in a single file.</label>
+                            <input type="file" id="entrance_exam_scorecards" name="entrance_exam_scorecards" multiple accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="exam_scores">If you have appeared for CAT/GRE/SNAP/GMAT or any other exam, please enter your percentile scores. (Please write exam name and score. If multiple exams and scores, separate them with commas. Write NA if not applicable)</label>
+                            <textarea id="exam_scores" name="exam_scores" placeholder="Enter exam name and score (e.g., CAT: 95%, GRE: 320) or NA if not applicable"></textarea>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="mtech_university">If you are going for M.Tech/MS; from which college/ University? (Please write name of Institute/University)</label>
+                            <input type="text" id="mtech_university" name="mtech_university" placeholder="University name (or NA)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="mba_college">If you are going for MBA; from which college? (Please write name of Institute/University)</label>
+                            <input type="text" id="mba_college" name="mba_college" placeholder="College name (or NA)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="higher_education_documents">Please attach your offer letter/final admission letter/confirmation mail copy from the Institute, which you received for your higher education (M.Tech./ M.S./MBA/Ph.D). (Combine all documents into a single PDF)</label>
+                            <input type="file" id="higher_education_documents" name="higher_education_documents" accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="other_exams">Any other Competitive exams of any field? Please mention exam name and ranking or if you cleared the exam. (Write NA if Not Applicable)</label>
+                            <textarea id="other_exams_text" name="other_exams_text" placeholder="Enter details of other competitive exams here. (Write one exam per line. Format: Exam Name - Ranking/Cleared)  \n  **OR** \n  Write NA if not applicable"></textarea>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="caution_money_donation">Would you like to donate your caution money for the student welfare fund for economically weak students in MITS? (Please mention YES or NO. If yes, you will be contacted and you will get to know how this donation fund is getting used. (detailed expenditure statements will be available))</label>
+                            <div>
+                              <input type="radio" id="caution_money_donation_1" name="caution_money_donation" value="yes">
+                              <label for="caution_money_donation_1">YES</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="caution_money_donation_2" name="caution_money_donation" value="no">
+                              <label for="caution_money_donation_2">NO</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="final_semester_choice">What have you chosen in your final semester?</label>
+                            <div>
+                              <input type="radio" id="final_semester_project" name="final_semester_choice" value="project">
+                              <label for="final_semester_project">Project</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="final_semester_internship" name="final_semester_choice" value="internship">
+                              <label for="final_semester_internship">Full-time Internship</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="final_project_organization">In which organization did you complete your final year project/internship? Write Organization Name with Location. (Eg. BHEL, Jhansi)</label>
+                            <input type="text" id="final_project_organization" name="final_project_organization" placeholder="Organization Name, Location (e.g., TCS, Bangalore)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="final_internship_stipend">Were you getting a stipend during your final semester internship?</label>
+                            <div>
+                              <input type="radio" id="final_internship_stipend_yes" name="final_internship_stipend" value="yes">
+                              <label for="final_internship_stipend_yes">Yes</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="final_internship_stipend_no" name="final_internship_stipend" value="no">
+                              <label for="final_internship_stipend_no">No</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="final_internship_stipend_na" name="final_internship_stipend" value="na">
+                              <label for="final_internship_stipend_na">NA (For Projects)</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="final_internship_stipend_amount">Stipend Amount (Monthly)</label>
+                            <input type="text" id="final_internship_stipend_amount" name="final_internship_stipend_amount" placeholder="Enter amount (or write '00' for No Stipend)">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="internship_company_process">Is your internship company willing to conduct a process for your juniors? (This could be internship positions, full-time positions, or any other relevant opportunities)</label>
+                            <div>
+                              <input type="radio" id="internship_company_process_yes" name="internship_company_process" value="yes">
+                              <label for="internship_company_process_yes">Yes</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="internship_company_process_no" name="internship_company_process" value="no">
+                              <label for="internship_company_process_no">No</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="internship_company_process_maybe" name="internship_company_process" value="maybe">
+                              <label for="internship_company_process_maybe">Maybe</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="internship_company_process_na" name="internship_company_process" value="na">
+                              <label for="internship_company_process_na">NA (Not Applicable)</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="job_offer_extension">Are you getting any Job offer or Internship duration Extension in case of satisfactory work?</label>
+                            <div>
+                              <input type="radio" id="job_offer_extension_job" name="job_offer_extension" value="job_offered">
+                              <label for="job_offer_extension_job">Yes - Job Offered</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="job_offer_extension_no_offer" name="job_offer_extension" value="no_offer">
+                              <label for="job_offer_extension_no_offer">No Offer</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="job_offer_extension_extended" name="job_offer_extension" value="extended">
+                              <label for="job_offer_extension_extended">Internship Duration Extended</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="job_offer_extension_na" name="job_offer_extension" value="na">
+                              <label for="job_offer_extension_na">NA (Not Applicable)</label>
+                            </div>
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="final_semester_document">Please upload your final semester internship certificate or, in case of a project, upload any proof with the signature of your guide/faculty or the project report's first page with faculty signature/acknowledgement.</label>
+                            <input type="file" id="final_semester_document" name="final_semester_document" accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="permanent_Email">Permanent Email for future communication</label>
+                            <input type="text" id="permanent_Email" name="permanent_Email" placeholder="Enter Permanent Email">
+                          </div> 
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="Contact_Num">Contact Number</label>
+                            <input type="text" id="Contact_Num" name="Contact_Num" placeholder="Enter Contact Number">
+                          </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                          
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="parent_Contact_Num">Parent's Contact Number</label>
+                            <input type="text" id="parent_Contact_Num" name="parent_Contact_Num" placeholder="Enter Parent's Contact Number">
+                          </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                          
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="home_town">Your Home Town</label>
+                            <input type="text" id="home_town" name="home_town" placeholder="Enter Home Town">
+                          </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                          
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="permanent_address">Your Permanent Address</label>
+                            <input type="text" id="permanent_address" name="permanent_address" placeholder="Enter Permanent Address">
+                          </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="suggestions">Please give Suggestions/Ideas or if you have any Observation for Improvements in your Institute:</label>
+                            <input type="text" id="suggestions" name="suggestions" placeholder="Your Suggestion">
+                          </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                          
+                          
+                        <div class="stleES" style="text-align: center; margin-top: 20px;">
                             <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
                         </div>
-                        <div id="check" value="{{check}}" hidden></div>
+                        <div id="check" value="{{check}}" hidden></div></div>
                     </form>
                 </div>
             </div>
@@ -926,8 +1578,135 @@ $(document).ready(function () {
     
 
 
+
+
+    <div id="nodd-modala" class="modala" style="display: none; justify-content: center;">
+        <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+          <span class="closer">&times;</span>
+          <h3>No Dues Form</h3>
+          <h4>Kindly check details before hitting submit</h4>
+          <div id="part-one">
+            <div class="applyform">
+              <form method="post" action="/api/submitnoduesapp">{% csrf_token %}
+
+                <div id="nodform1">
+
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="name">Name</label>
+                    <input readonly required type="text" id="name" name="name" placeholder="{{record.Name}}" value="{{record.Name}}">
+                  </div></div>
+
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="email">Email</label>
+                    <input readonly required type="text" id="email" name="email" placeholder="{{record.Email}}" value="{{record.Email}}">
+                  </div>
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="EnrollmentId">Enrollment Id</label>
+                    <input type="text" id="EnrollmentId" name="EnrollmentId" placeholder="{{record.EnrollmentId}}" value="{{record.EnrollmentId}}">
+                  </div>
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                  </div>
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="passOutYear">Pass Out Year</label>
+                    <input type="number" id="passOutYear" name="passOutYear" min="2000" max="2050" placeholder="YYYY" required>
+                  </div>
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="fathersname">Father's Name</label>
+                    <input readonly required type="text" id="fathersname" name="fathersname" placeholder="{{record.fathers_name}}" value="{{record.fathers_name}}">
+                  </div>
+                    <input hidden type="text" id="branch" name="branch" placeholder="{{record.Branch}}" value="{{record.Branch}}" required>
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="address">Address</label>
+                    <input readonly required type="text" id="address" name="address" placeholder="{{record.Address}}" value="{{record.Address}}">
+                  </div>
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="mobile">Mobile Number</label>
+                    <input readonly required type="text" id="mobile" name="mobile" placeholder="{{record.contact_Num}}" value="{{record.contact_Num}}">
+                  </div>
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="hostel">Hostel</label>
+                    <div>
+                      <input type="radio" id="hostel_yes" name="hostel" value="yes">
+                      <label for="hostel_yes">Yes</label>
+                      <input type="radio" id="hostel_no" name="hostel" value="no">
+                      <label for="hostel_no">No</label>
+                    </div>
+                  </div>
+                  <br>
+                  <div style="display: flex; flex-direction: column;">
+                    <label for="fees_due">Do you have any fees due?</label>
+                </div>
+                    <div>
+                      <input type="radio" id="fees_due_yes" name="fees_due" value="yes">
+                      <label for="fees_due_yes">Yes</label>
+                      <input type="radio" id="fees_due_no" name="fees_due" value="no">
+                      <label for="fees_due_no">No</label>
+                    </div>
+                    <br>
+                    <div style="display: flex; flex-direction: column;">
+                        <label for="project_report">Have you submitted project report / internship certificate / Thesis report?</label>
+                        <div>
+                          <input type="radio" id="project_report_yes" name="project_report" value="yes">
+                          <label for="project_report_yes">Yes</label>
+                          <input type="radio" id="project_report_no" name="project_report" value="no">
+                          <label for="project_report_no">No</label>
+                        </div>
+                      </div>
+                      <br>
+                      <div style="display: flex; flex-direction: column;">
+                        <label for="caution_money">Do you want refund of caution money?</label>
+                        <div>
+                          <input type="radio" id="caution_money_yes" name="caution_money" value="yes">
+                          <label for="caution_money_yes">Yes</label>
+                          <input type="radio" id="caution_money_no" name="caution_money" value="no">
+                          <label for="caution_money_no">No</label>
+                        </div>
+                      </div>
+                      <input type="button" id="nodbtnform1" class="btn flex items-center box centerAlign"
+                      value="Next">
+
+                    </div>
+
+                    <div id="nodform2">
+
+                            <div class="applyform">
+                              <label for="account_holder_name">Account Holder Name</label>
+                              <input type="text" id="account_holder_name" name="account_holder_name" placeholder="Enter your name" required>
+                              <label for="bank_name">Bank Name</label>
+                              <input type="text" id="bank_name" name="bank_name" placeholder="Enter bank name" required>
+                              <label for="account_number">Account Number</label>
+                              <input type="text" id="account_number" name="account_number" placeholder="Enter account number" required>
+                              <label for="ifsc_code">IFSC Code</label>
+                              <input type="text" id="ifsc_code" name="ifsc_code" placeholder="Enter IFSC code" required>
+                          </div>
+                          <input type="button" id="nodprevbtn1" class="btn flex items-center box centerAlign"
+                                    value="previous">
+                        <div style="text-align: center; margin-top: 20px;">
+                            <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
+                        </div>
+                        <div id="check" value="{{check}}" hidden></div>
+
+                    </div>
+                    <div id="nodform3">
+
+                        <input type="button" id="nodprevbtn2" class="btn flex items-center box centerAlign"
+                                    value="previous">
+                        <div style="text-align: center; margin-top: 20px;">
+                            <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
+                        </div>
+                        <div id="check" value="{{check}}" hidden></div>
+
+                    </div>
+                    </form>
+          </div>
+        </div>
+
     <input type="text" name="" id="msgss" value="{{message}}" hidden>
 
+    <div id="btndisp" value="{{btndisp}}" hidden></div>
 
     <div class="popup" id="popup" style="display: none;">
         <div class="innerbox">
@@ -1109,8 +1888,17 @@ $(document).ready(function () {
          document.querySelector('.closer').addEventListener('click', function() {
             document.getElementById('noc-modala').style.display = 'none';
         });
+         document.querySelector('.closer').addEventListener('click', function() {
+            document.getElementById('nodd-modala').style.display = 'none';
+        });
         var myDiv = document.getElementById('check');
         var content = myDiv.getAttribute('value')
+        var btndisp = document.getElementById('btndisp');
+        var NocApplybtn = document.getElementById('btnapply');
+        var NocStatusbtn = document.getElementById('checkpreviousapplications');
+        var Bonafapplybtn = document.getElementById('bonafapply');
+        var binafstatusbtn = document.getElementById('bonafstatus');
+        var DispBtn = btndisp.getAttribute('value')
         console.log(content)
         var myButton = document.getElementById('noduesstatus');
         var NodButton = document.getElementById('Buttonnod');
@@ -1118,16 +1906,42 @@ $(document).ready(function () {
         if (content == 1) {
             myButton.style.display = 'none';
             NodButton.style.display = 'none';
+            myBtn2.style.display = 'block';
+            NocApplybtn.style.display = 'none';
+            NocStatusbtn.style.display = 'none';
+            Bonafapplybtn.style.display = 'none';
+            binafstatusbtn.style.display = 'none';
         }
         if (content == 2) {
+            myButton.style.display = 'block';
+            NodButton.style.display = 'block';
             myBtn2.style.display = 'none';
+            NocApplybtn.style.display = 'none';
+            NocStatusbtn.style.display = 'none';
+            Bonafapplybtn.style.display = 'none';
+            binafstatusbtn.style.display = 'none';
         }
-
+        if (content == 0) {
+            myButton.style.display = 'none';
+            NodButton.style.display = 'none';
+            myBtn2.style.display = 'none';
+        
+        }
+        if(DispBtn == 1){
+            NodButton.style.display = 'none';
+            myButton.style.display = 'block';
+        }
         var form1 = document.getElementById('form1')
         var form2 = document.getElementById('form2')
+        var nodform1 = document.getElementById('nodform1')
+        var nodform2 = document.getElementById('nodform2')
+        var nodform3 = document.getElementById('nodform3')
         var form3 = document.getElementById('form3')
         var nextbtn1 = document.getElementById('btnform1')
         var prev = document.getElementById('prevbtn1')
+        var nodnextbtn1 = document.getElementById('nodbtnform1')
+        var nodprev = document.getElementById('nodprevbtn1')
+        var nodprev2 = document.getElementById('nodprevbtn2')
         var pageoneitem = document.getElementsByClassName("filledornot")
         var dec = document.getElementById("declaration")
 
@@ -1150,11 +1964,34 @@ $(document).ready(function () {
             form1.style.display = 'none';
             form2.style.display = 'block';
         });
+        nodnextbtn1.addEventListener('click', function () {
+            console.log('Button clicked!');
+            var cmm = document.getElementById('caution_money_yes');
+            if(cmm.checked){
+            nodform1.style.display = 'none';
+            nodform2.style.display = 'block';
+            }
+            else{
+                nodform1.style.display = 'none';
+            nodform3.style.display = 'block';
+            }
+
+        });
 
         prev.addEventListener('click', function () {
             console.log('prev clicked!');
             form2.style.display = 'none';
             form1.style.display = 'block';
+        });
+        nodprev.addEventListener('click', function () {
+            console.log('prev clicked!');
+            nodform2.style.display = 'none';
+            nodform1.style.display = 'block';
+        });
+        nodprev2.addEventListener('click', function () {
+            console.log('prev clicked!');
+            nodform3.style.display = 'none';
+            nodform1.style.display = 'block';
         });
 
         function redirectToProfile(enrollmentId) {

@@ -99,10 +99,13 @@ def home(req):
         record = tuple_to_dict.ParseDictMultipleRecord(cursor)
         print("AAGELA")
         print(record[0]['Role'])
+        role = record[0]['Role']
         if(record):
             req.session['Admincontact'] = record[0]['Contact']
             req.session['Adminname'] = record[0]['name']
-            if(record[0]['Role']=='admin'):
+            req.session['role'] = record[0]['Role']
+            if(role == 'admin'):
+                print('/api/superadmin')
                 return redirect ('/api/superadmin')
             else:
                 return redirect ('/api/adminDash')
@@ -155,7 +158,6 @@ def Adsignup(req):
 @api_view(['GET','POST'])
 def Frontpage(req):
     try:
-        
         req.session['Admincontact'] = ''
         req.session['Adminpass'] = ''
         req.session['Adminemail'] = ''
@@ -184,6 +186,7 @@ def StudentLogin(req):
                 q = "SELECT * FROM nocrest_student WHERE (username = '{0}' OR enrollmentid = '{0}') AND password = '{1}'".format(username, password)
                 cursor = connection.cursor()
                 cursor.execute(q)
+                btndisp = 1000
                 record = tuple_to_dict.ParseDictMultipleRecord(cursor)
                 if record:
                     qr = "SELECT * FROM nocrest_graduated WHERE enrollmentid = '{0}'".format(username)
@@ -198,6 +201,15 @@ def StudentLogin(req):
                         recordn = cursorn.fetchone()
                         if(recordn):
                             check = 2
+                            qrdy = "SELECT * FROM nocrest_nodues_application_table WHERE EnrollmentId = '{0}'".format(username)
+                            cursordd = connection.cursor()
+                            cursordd.execute(qrdy)
+                            recoeddd = cursordd.fetchone()
+                            if(recoeddd):
+                                btndisp = 1
+                            else:
+                                btndisp = 0
+                        
                     else:
                         check = 0
                 else:
@@ -213,7 +225,9 @@ def StudentLogin(req):
                 cursor = connection.cursor()
                 cursor.execute(qry)
                 rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                return render(req, "Dashboard.html", {'record': record[0] ,"check": check,'branchstud':rec[0]['Department_name'] })
+                # print(btndisp)
+                return render(req, "Dashboard.html", {'record': record[0] ,"check": check,'branchstud':rec[0]['Department_name'],'btndisp':btndisp })
+
             else:
                 return Response({'error': 'Missing username or password in the request'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -225,13 +239,26 @@ def StudentLogin(req):
             cursor.execute(q)
             record = tuple_to_dict.ParseDictMultipleRecord(cursor)
             if record:
-                    print(record)
                     qr = "SELECT * FROM nocrest_graduated WHERE enrollmentid = '{0}'".format(username)
                     cursor2 = connection.cursor()
                     cursor2.execute(qr)
                     record2 = cursor2.fetchone()
                     if record2:
                         check = 1
+                        qry = "SELECT * FROM nocrest_exitsurvey WHERE enrollmentid = '{0}'".format(username)
+                        cursorn = connection.cursor()
+                        cursorn.execute(qry)
+                        recordn = cursorn.fetchone()
+                        if(recordn):
+                            check = 2
+                            qrdy = "SELECT * FROM nocrest_nodues_application_table WHERE EnrollmentId = '{0}'".format(username)
+                            cursordd = connection.cursor()
+                            cursordd.execute(qrdy)
+                            recoeddd = cursordd.fetchone()
+                            if(recoeddd):
+                                btndisp = 1
+                            else:
+                                btndisp = 0
                     else:
                         check = 0
             else:
@@ -240,7 +267,8 @@ def StudentLogin(req):
             cursor = connection.cursor()
             cursor.execute(qry)
             rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-            return render(req, "Dashboard.html", {'record': record[0] ,"check": check,'branchstud':rec[0]['Department_name'] })
+            print(btndisp)
+            return render(req, "Dashboard.html", {'record': record[0] ,"check": check,'branchstud':rec[0]['Department_name'],'btndisp':btndisp })
     except Exception as e:
         print("Error", e)
         return redirect('/')
@@ -351,18 +379,6 @@ def Deptfp(req):
         req.session['Admincontact'] = ''
         req.session['Adminpass'] = ''
         req.session['Adminemail'] = ''
-        q = "SELECT * FROM nocrest_admins"
-        cursor = connection.cursor()
-        cursor.execute(q)
-        record = tuple_to_dict.ParseDictMultipleRecord(cursor)
-        print(record)
-        print('\n\n\n\n\n')
-        q = "SELECT * FROM nocrest_application_table "
-        cursor = connection.cursor()
-        cursor.execute(q)
-        record = tuple_to_dict.ParseDictMultipleRecord(cursor)
-        print(record)
-
         return render(req, "Adminfp.html")
     except Exception as e:
         print("Error",e)
@@ -379,10 +395,11 @@ def DashLogin(req):
     print(22)
     try:
         if(req.session['Adminemail']):
-            if(req.session['Adminemail'] == 'atul@mitsgwalior.in'):
-                return redirect('/api/superadmin')
             contact = req.session['Admincontact']
             email = req.session['Adminemail']
+            # role = req.session['role']
+            # if(role == 'admin'):
+            #     return redirect('/api/superadmin')
             print(contact)
             print(email)
             if(contact):
@@ -785,27 +802,51 @@ def SubmitNoDuesApp(req):
             else:
                 print(1234)
                 name = req.POST.get('name')
-                enrollmentid = req.POST.get('EnrollmentId')
-                email = req.POST.get('Email')
-                dept = req.POST.get('department')
-                apply = req.POST.get('apply')
-                current_datetime = datetime.datetime.now()
+                enr = req.POST.get('EnrollmentId')
+                emmm = req.POST.get('email')
+                Dob = req.POST.get('dob')
+                poy = req.POST.get('passOutYear')
+                fname = req.POST.get('fathersname')
+                dept = req.POST.get('branch')
+                add = req.POST.get('address')
+                mob = req.POST.get('mobile')
+                hostl = req.POST.get('hostel')
+                feedue = req.POST.get('fees_due')
+                proj_rep = req.POST.get('project_report')
+                cau_mn = req.POST.get('caution_money')
+                acchl = req.POST.get('account_holder_name')
+                bank = req.POST.get('bank_name')
+                acc_num = req.POST.get('account_number')
+                ifsc = req.POST.get('ifsc_code')
+                current_datetime = datetime.now()
                 current_date = current_datetime.date()
                 current_time = current_datetime.time()
                 print(current_date, current_time)
-                current_date_str = current_datetime.strftime("%Y-%m-%d")
-                current_time_str = current_datetime.strftime("%H:%M:%S")
-                dateapp = current_date_str
-                time = current_time_str
-                # Create an instance of Application_table
+                qry = "select * from nocrest_department where Dep_Id = '{0}'".format(dept)
+                cursor = connection.cursor()
+                cursor.execute(qry)
+                rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
+                print(rec[0]['Department'])
+                brnch = rec[0]['Department']
                 contactdata = NoDues_application_table(
+                    EnrollmentId=enr,
                     Name=name,
-                    EnrollmentId=enrollmentid,
-                    Email=email,
-                    dept=dept,
-                    App_Id=apply,
-                    App_Date=dateapp,
-                    App_time=time
+                    Email=emmm,
+                    dept=brnch,
+                    App_Date=current_date,
+                    App_time=current_time,
+                    dob=Dob,
+                    passOutYear=poy,
+                    hostel=hostl,
+                    fees_due=feedue,
+                    project_report=proj_rep,
+                    caution_money=cau_mn,
+                    account_holder_name=acchl,
+                    bank_name=bank,
+                    account_number=acc_num,
+                    ifsc_code=ifsc
+
+
                 )
                 # Save the instance to the database
                 contactdata.save()
@@ -818,18 +859,15 @@ def SubmitNoDuesApp(req):
                 # )
                 current_directory = os.getcwd()
                 html_template = get_template(os.path.join(current_directory,'nocrest/Static/emailnodues.html'))
-# Render the template with any context variables you want to include
                 context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
                 html_content = html_template.render(context)
-# Create the EmailMessage object
                 subject = 'Testing'
                 message = 'Successfully applied for NO Dues'
-                from_email = 'your_email@gmail.com'  # Sender's email address
-                recipient_list = [email]  # List of recipient email addresses
+                from_email = 'your_email@gmail.com'  # Sender's email addres
+                recipient_list = [emmm]  
                 email = EmailMessage(subject, message, from_email, recipient_list)
-                email.content_subtype = "html"  # Set the content type to HTML
+                email.content_subtype = "html"  
                 email.body = html_content
-# Send the email
                 email.send()
                 return render(req, "Dashboard.html", {'message': 'ok'})
     except Exception as e:
@@ -854,7 +892,6 @@ def ExitSurveySubmit(req):
                 name = req.POST.get('name')
                 enrollmentid = req.POST.get('EnrollmentId')
                 email = req.POST.get('Email')
-                department = req.POST.get('department')
                 phone = req.POST.get('mobile')
                 apply = req.POST.get('apply')
 
@@ -864,7 +901,7 @@ def ExitSurveySubmit(req):
                 branch = req.POST.get('branch')
                 rate_faculty = req.POST.get('rate_faculty')
                 teaching_methods = req.POST.get('teaching_methods')
-                learning_resources = req.POST.get('learning_resources')
+                # learning_resources = req.POST.get('learning_resources')
                 syllabus_completion = req.POST.get('syllabus_completion')
                 course_relevance = req.POST.get('course_relevance')
                 teacher_preparedness = req.POST.get('teacher_preparedness')
@@ -874,57 +911,116 @@ def ExitSurveySubmit(req):
                 student_orgs = req.POST.get('student_orgs')
                 curricular_extracurricular = req.POST.get('curricular_extracurricular')
                 quizzes = req.POST.get('quizzes')
-                evaluation_fairness = req.POST.get('evaluation_fairness')
+                evaluation_fairness = req.POST.get('fairness')
                 library_resources = req.POST.get('library_resources')
-                curriculum_flexibility = req.POST.get('curriculum_flexibility')
-                nptel_moocs = req.POST.get('nptel_moocs')
-                full_semester_internship = req.POST.get('full_semester_internship')
-                training_placement = req.POST.get('training_placement')
-                sports_facilities = req.POST.get('sports_facilities')
-                hostel_maintenance = req.POST.get('hostel_maintenance')
-                overall_rating = req.POST.get('overall_rating')
-                final_feedback = req.POST.get('final_feedback')
-
+                curriculum_flexibility = req.POST.get('curriculum')
+                nptel_moocs = req.POST.get('npt')
+                full_semester_internship = req.POST.get('internship')
+                training_placement = req.POST.get('placement')
+                internship_company = req.POST.get('internship_company')
+                internship_certificate = req.POST.get('internship_certificate')
+                job_selection = req.POST.get('job_selection')
+                outside_job_offer = req.POST.get('outside_job_offers')
+                outside_job_letter = req.FILES.get('outside_job_offer_letter')
+                multiple_offer_companies = req.POST.get('oncampus_job_offers')
+                multiple_offer_letters = req.FILES.get('oncampus_job_offer_letter')
+                opted_job_or_pg = req.POST.get('post_graduation')
+                further_study_details = req.POST.get('further_study_details')
+                joining_company = req.POST.get('joining_company')
+                qualified_gate = req.POST.get('gate_qualified')
+                gate_rank = req.POST.get('gate_rank')
+                gate_scorecard = req.FILES.get('gate_scorecard')
+                appeared_for_exams = req.POST.get('exams_appeared[]')
+                other_exam_name = req.POST.get('other_exam_name')
+                score_cards_all = req.FILES.get('entrance_exam_scorecards')
+                percentile = req.POST.get('exam_scores')
+                mtech_university = req.POST.get('mtech_university')
+                mba_college = req.POST.get('mba_college')
+                admission_letter = req.FILES.get('higher_education_documents')
+                any_other_competitive_exams = req.POST.get('other_exams_text')
+                donate_caution_money = req.POST.get('caution_money_donation')
+                final_semester_choice = req.POST.get('final_semester_choice')
+                final_year_internship = req.POST.get('final_project_organization')
+                final_internship_stipend = req.POST.get('final_internship_stipend')
+                final_internship_stipend_amount = req.POST.get('final_internship_stipend_amount')
+                internship_company_process = req.POST.get('internship_company_process')
+                job_offer_extension = req.POST.get('job_offer_extension')
+                final_semester_internship_doc = req.FILES.get('final_semester_document')
+                permanent_email = req.POST.get('permanent_Email')
+                contact_num = req.POST.get('Contact_Num')
+                parent_contact_num = req.POST.get('parent_Contact_Num')
+                home_town = req.POST.get('home_town')
+                permanent_address = req.POST.get('permanent_address')
+                suggestions = req.POST.get('suggestions')
                 current_datetime = datetime.now()
                 current_date_str = current_datetime.date()
                 current_time_str = current_datetime.time()
 
                 # Save the data to the database
                 survey_data = ExitSurvey(
-                    Name=name,
-                    EnrollmentId=enrollmentid,
-                    Email=email,
-                    Department=department,
-                    Phone=phone,
-                    Apply=apply,
-                    DOB=dob,
-                    Gender=gender,
-                    Course=course,
-                    Branch=branch,
-                    RateFaculty=rate_faculty,
-                    TeachingMethods=teaching_methods,
-                    LearningResources=learning_resources,
-                    SyllabusCompletion=syllabus_completion,
-                    CourseRelevance=course_relevance,
-                    TeacherPreparedness=teacher_preparedness,
-                    CourseOutcomes=course_outcomes,
-                    SoftSkills=soft_skills,
-                    InternshipsSupport=internships_support,
-                    StudentOrgs=student_orgs,
-                    CurricularExtracurricular=curricular_extracurricular,
-                    Quizzes=quizzes,
-                    EvaluationFairness=evaluation_fairness,
-                    LibraryResources=library_resources,
-                    CurriculumFlexibility=curriculum_flexibility,
-                    NPTELMOOCs=nptel_moocs,
-                    FullSemesterInternship=full_semester_internship,
-                    TrainingPlacement=training_placement,
-                    SportsFacilities=sports_facilities,
-                    HostelMaintenance=hostel_maintenance,
-                    OverallRating=overall_rating,
-                    FinalFeedback=final_feedback,
-                    AppDate=current_date_str,
-                    AppTime=current_time_str
+                     Name=name,
+        EnrollmentId=enrollmentid,
+        Email=email,
+        Phone=phone,
+        Apply=apply,
+        DOB=dob,
+        Gender=gender,
+        Course=course,
+        Branch=branch,
+        RateFaculty=rate_faculty,
+        TeachingMethods=teaching_methods,
+        SyllabusCompletion=syllabus_completion,
+        CourseRelevance=course_relevance,
+        TeacherPreparedness=teacher_preparedness,
+        CourseOutcomes=course_outcomes,
+        SoftSkills=soft_skills,
+        InternshipsSupport=internships_support,
+        StudentOrgs=student_orgs,
+        CurricularExtracurricular=curricular_extracurricular,
+        Quizzes=quizzes,
+        EvaluationFairness=evaluation_fairness,
+        LibraryResources=library_resources,
+        CurriculumFlexibility=curriculum_flexibility,
+        NPTELMOOCs=nptel_moocs,
+        FullSemesterInternship=full_semester_internship,
+        TrainingPlacement=training_placement,
+        InternshipCompany=internship_company,
+        InternshipCertificate=internship_certificate,
+        JobSelection=job_selection,
+        OutsideJobOffer=outside_job_offer,
+        OutsideJobLetter=outside_job_letter,
+        MultipleOfferCompanies=multiple_offer_companies,
+        MultipleOfferLetters=multiple_offer_letters,
+        OptedJoborPG=opted_job_or_pg,
+        FurtherStudyDetails=further_study_details,
+        JoiningCompany=joining_company,
+        QualifiedGate=qualified_gate,
+        GateRank=gate_rank,
+        GateScorecard=gate_scorecard,
+        AppearedForExams=appeared_for_exams,
+        OtherExamName=other_exam_name,
+        ScoreCardsAll=1,
+        Percentile=percentile,
+        MTechUniversity=mtech_university,
+        MBACollege=mba_college,
+        AdmissionLetter=admission_letter,
+        AnyOtherCompetitiveExams=any_other_competitive_exams,
+        DonateCautionMoney=donate_caution_money,
+        FinalSemesterChoice=final_semester_choice,
+        FinalYearInternship=final_year_internship,
+        FinalInternshipStipend=final_internship_stipend,
+        FinalInternshipStipendAmount=final_internship_stipend_amount,
+        InternshipCompanyProcess=internship_company_process,
+        JobOfferExtension=job_offer_extension,
+        FinalSemesterInternshipDoc=final_semester_internship_doc,
+        PermanentEmail=permanent_email,
+        ContactNum=contact_num,
+        ParentContactNum=parent_contact_num,
+        HomeTown=home_town,
+        PermanentAddress=permanent_address,
+        Suggestions=suggestions,
+        AppDate=current_date_str,
+        AppTime=current_time_str,
                 )
                 survey_data.save()
                 # Prepare and send the email
@@ -996,19 +1092,18 @@ def NoDuesAppliedstudent(req):
             department = req.GET.get('dept')
             print("fnjbqiughienbijnbiuehgiugnigbiu",department)
             if(department == 'Tnp'):
-                department+="_approval"
+                department = 'TnP_approval'
                 q = "select * from nocrest_NoDues_application_table where {0} = ''  order by App_Date desc".format(department)
             elif(department == 'Hostel'):
-                department+="_approval"
+                department='Hostle_approval'
                 q = "select * from nocrest_NoDues_application_table where {0} = ''  order by App_Date desc".format(department)
             elif(department == 'Lib'):
-                de = department +"_approval"
+                de = 'Lib_approval'
                 q = "select * from nocrest_NoDues_application_table where {0} = ''  order by App_Date desc".format(de)
             elif( department == 'acc'):
-                department+="_approval"
+                department+="Acc_approval"
                 q = "SELECT * FROM nocrest_NoDues_application_table WHERE (dept_approval = 'approved' AND Tnp_approval = 'approved' AND hostle_approval = 'approved' AND lib_approval = 'approved' AND Acc_approval = '')  order by App_Date desc"
                 print(q)
-
             else:
                 q = "select * from nocrest_NoDues_application_table where dept='{0}' and Dept_approval=''  order by App_Date desc".format(department)
             cursor = connection.cursor()
@@ -1231,7 +1326,7 @@ def NoduesStatus(req):
             q="select * from nocrest_nodues_application_table where EnrollmentId='{0}' order by App_Date desc".format(enr)
             cursor = connection.cursor()
             cursor.execute(q)
-            records = tuple_to_dict.ParseDictSingleRecord(cursor)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
 
             print("xxxxxxxxxx",records)
             if(records):
@@ -1736,28 +1831,27 @@ def VerifyPage(request):
 @api_view(['GET','POST','DELETE'])
 def EditSaveNDDept(req):
     try:
-        if req.method == 'GET':
+        if req.method == 'POST':
             # print(req.GET['dept'])
             print(1111)
-            if req.GET['btn'] == 'edit':
-                    print(222)
-                    print(req.GET['idbb'])
-                    dept = req.GET['randomdept']
-                    e_mail = req.GET['Email']
-                    if(dept == 'Lib'):
-                        cat = NoDues_application_table.objects.get(pk=req.GET['idbb'])
-                        cat.EnrollmentId = req.GET['EnrollmentId']
-                        cat.Name = req.GET['Name']
-                        cat.Lib_approval = req.GET['Dept_approval']
-                        cat.Lib_Comment = req.GET['Dept_comment']
+            print(222)
+                    # print(req.POST['idbb'])
+            dept = req.POST['randomdept']
+            print(dept)
+            pk=req.POST['idbb']
+            print(pk)
+            # e_mail = req.POST['Email']
+            if(dept == 'Lib'):
+                        cat = NoDues_application_table.objects.get(pk=req.POST['idbb'])
+                        cat.Lib_approval = req.POST['duesStatus']
+                        cat.Lib_Comment = req.POST['comment']
                         cat.save()
                         print(444)
-                    elif(dept == 'acc'):
-                        cat = NoDues_application_table.objects.get(pk=req.GET['idbb'])
-                        cat.EnrollmentId = req.GET['EnrollmentId']
-                        cat.Name = req.GET['Name']
-                        cat.Acc_approval = req.GET['Dept_approval']
-                        cat.Acc_Comment = req.GET['Dept_comment']
+                        return redirect("/api/adminDash")
+            elif(dept == 'acc'):
+                        cat = NoDues_application_table.objects.get(pk=req.POST['idbb'])
+                        cat.Acc_approval = req.POST['duesStatus']
+                        cat.Acc_Comment = req.POST['comment']
                         cat.save()
                         current_directory = os.getcwd()
                         html_template = get_template(os.path.join(current_directory,'nocrest/Static/confnodd.html'))
@@ -1766,43 +1860,41 @@ def EditSaveNDDept(req):
                         subject = 'Testing'
                         message = 'Successfully applied for NO Dues'
                         from_email = 'sdc@mitsgwalior.in'
-                        recipient_list = [e_mail]
+                        # recipient_list = [e_mail]
 
-                        email = EmailMessage(subject, message, from_email, recipient_list)
-                        email.content_subtype = "html"
-                        email.body = html_content
-                        email.send()
+                        # email = EmailMessage(subject, message, from_email, recipient_list)
+                        # email.content_subtype = "html"
+                        # email.body = html_content
+                        # email.send()
                         print(444)
-                    elif(dept == 'Hostel'):
-                        cat = NoDues_application_table.objects.get(pk=req.GET['idbb'])
-                        cat.EnrollmentId = req.GET['EnrollmentId']
-                        cat.Name = req.GET['Name']
-                        cat.Hostle_approval = req.GET['Dept_approval']
-                        cat.Hostle_Comment= req.GET['Dept_comment']
+                        return redirect("/api/adminDash")
+            elif(dept == 'Hostel'):
+                        cat = NoDues_application_table.objects.get(pk=req.POST['idbb'])
+                        cat.Hostle_approval = req.POST['duesStatus']
+                        cat.Hostle_Comment= req.POST['comment']
                         cat.save()
                         print(444)
-                    elif(dept == 'tnp'):
-                        cat = NoDues_application_table.objects.get(pk=req.GET['idbb'])
-                        cat.EnrollmentId = req.GET['EnrollmentId']
-                        cat.Name = req.GET['Name']
-                        cat.TnP_approval = req.GET['Dept_approval']
-                        cat.TnP_Comment= req.GET['Dept_comment']
+                        return redirect("/api/adminDash")
+            elif(dept == 'Tnp'):
+                        cat = NoDues_application_table.objects.get(pk=req.POST['idbb'])
+                        cat.TnP_approval = req.POST['duesStatus']
+                        cat.TnP_Comment= req.POST['comment']
                         cat.save()
-                        print(444)
-                    else:
-                        print(dept)
-                        cat = NoDues_application_table.objects.get(pk=req.GET['idbb'])
-                        cat.EnrollmentId = req.GET['EnrollmentId']
-                        cat.Name = req.GET['Name']
-                        cat.Dept_approval = req.GET['Dept_approval']
-                        cat.Dept_Comment= req.GET['Dept_comment']
-                        cat.save()
-                        print(444)
-
+                        print(443287327327)
+                        return redirect("/api/adminDash")
             else:
-                    cat = Application_table.objects.get(pk=req.GET['idbb'])
-                    cat.delete()
-            return render(req,"Admindash.html")
+                        print(dept)
+                        cat = NoDues_application_table.objects.get(pk=req.POST['idbb'])
+                        cat.Dept_approval = req.POST['duesStatus']
+                        cat.Dept_Comment= req.POST['comment']
+                        cat.save()
+                        print(444)
+                        return redirect("/api/adminDash")
+
+            # else:
+            #         cat = Application_table.objects.get(pk=req.GET['idbb'])
+            #         cat.delete()
+        return redirect("/api/adminDash")
     except Exception as e:
         print("Error", e)
 

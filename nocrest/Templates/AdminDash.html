@@ -389,7 +389,44 @@
 
             form.submit();
         }
+function submitDuesStatus(data, index) {
+    console.log("Suyu bhai is here")
+  var rowData = data;
+  console.log("rowData", rowData);
+  var id = rowData.id;
+  console.log(id);
 
+  var duesStatus = $(`#duesStatus${index}`).val(); // Get the selected dues status
+  var comment = $('#comment_' + index).val(); // Get the comment value (assuming comment input ID)
+console.log("Jai Shree Ram", duesStatus)
+  if (duesStatus !== "") { // Check if dues status is selected
+    console.log(id);
+    console.log(comment);
+    console.log(rowData);
+    sendDuesStatusUpdate(rowData, duesStatus, comment);
+  } else {
+    alert('Please select a dues status.');
+  }
+}
+
+function sendDuesStatusUpdate(data, duesStatus, comment) {
+  console.log("Sending POST request for dues status update");
+  console.log(data);
+  console.log(data.id);
+  var dpts = document.getElementById('dptms')
+  console.log(dpts.value)
+  var form = $('<form method="POST" action="/api/editsavenddept"></form>');
+
+  // Add hidden inputs for duesStatus and comment
+  $('<input type="hidden" name="duesStatus" value="' + duesStatus + '">').appendTo(form);
+  $('<input type="hidden" name="comment" value="' + comment + '">').appendTo(form);
+  $('<input type="hidden" name="randomdept" value="' + dpts.value + '">').appendTo(form);
+  $('<input type="hidden" name="idbb" value="' + data.id + '">').appendTo(form);
+
+  // Submit the form
+  $('body').append(form);
+  form.submit();
+}
         function getCookie(name) {
             var cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -720,64 +757,54 @@
             console.log(11);
 
             $('#checknodapp').click(function () {
-                console.log(121);
-                $.getJSON('/api/ndapliedstudents?dept={{record.dept}}', function (data) {
-                    destroyDataTable();
-                    console.log(data);
-                    console.log(data.length);
-                    document.getElementById('myTable').hidden = false;
+  console.log(121);
+  $.getJSON('/api/ndapliedstudents?dept={{record.dept}}', function (data) {
+    destroyDataTable();
+    console.log(data);
+    console.log(data.length);
+    document.getElementById('myTable').hidden = false;
 
-                    $('#section-display').css('display', 'block');
-                    $('#lamand').html(`
-            <tr>
-                <th>S. no</th>
-                <th>Enrollment</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Dept. A</th>
-                <th>Dept. C</th>
-                <th>Company</th>
-                <th>App. Date</th>
-                <th>App. Time</th>
-                <th>Reciever Name</th>
-                <th>Reciever Designation</th>
-                <th>Applied through</th>
-                <th>Duration</th>
-                <th>Start date</th>
-                <th>End date</th>
-                <th>Action</th>
-            </tr>`);
-                    $("#tablebody2").html('');
-                    $("#tablebody3").html('');
-                    $("#tablebody4").html('');
-                    $("#tablebody5").html('');
+    $('#section-display').css('display', 'block');
+    $('#lamand').html(`
+      <tr>
+        <th>S. no</th>
+        <th>Enrollment</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Dept</th>
+        <th>Dues Status</th>
+        <th>Comment</th>
+        <th>Action</th>
+      </tr>`);
+    $("#tablebody2").html('');
+    $("#tablebody3").html('');
+    $("#tablebody4").html('');
+    $("#tablebody5").html('');
 
-                    for (i = 0; i < data.length; i++) {
-                        $('#tablebody2').append(`<tr>
-                <td>${i + 1}</td>
-                <td>${data[i].EnrollmentId}</td>
-                <td>${data[i].Name}</td>
-                <td>${data[i].Email}</td>
-                <td>${data[i].Dept_approval}</td>
-                <td>${data[i].Dept_Comment}</td>
-                <td>${data[i].TnP_approval}</td>
-                <td>${data[i].TnP_Comment}</td>
-                <td>${data[i].Lib_approval}</td>
-                <td>${data[i].Lib_Comment}</td>
-                <td>${data[i].Acc_approval}</td>
-                <td>${data[i].Acc_Comment}</td>
-                <td>${data[i].Hostle_approval}</td>
-                <td>${data[i].Hostle_Comment}</td>
-                <td>${data[i].Company}</td>
-                <td>${data[i].Role}</td>
-                <td><a href="/api/NDapplicationedit?id=${data[i].id}&dept=${content}">edit/delete</a></td>
-            </tr>`);
-                    }
+    
+    for (i = 0; i < data.length; i++) {
+      const duesStatusOptions = `  <select id="duesStatus${i}">
+          <option value="Declined">Has Dues</option>
+          <option value="Approved">No Dues</option>
+        </select>`;
 
-                    // Reinitialize DataTable
-                    initializeDataTable();
-                });
-            });
+      const actionButton = `<button type="submit" onclick='submitDuesStatus(${JSON.stringify(data[i])}, ${i})'>Submit</button>`;
+
+      $('#tablebody2').append(`<tr>
+        <td>${i + 1}</td>
+        <td>${data[i].EnrollmentId}</td>
+        <td>${data[i].Name}</td>
+        <td>${data[i].Email}</td>
+        <td>${data[i].dept}</td>
+        <td>${duesStatusOptions}</td>
+        <td>${actionButton}</td>
+        <td><input type="text" id="comment${i}"></td>
+      </tr>`);
+    }
+    // Reinitialize DataTable
+    initializeDataTable();
+  });
+});
 
             $('#checkNDapproved').click(function () {
                 console.log(121);
@@ -797,18 +824,7 @@
                 <th>Enrollment</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Dept. A</th>
-                <th>Dept. C</th>
-                <th>Company</th>
                 <th>App. Date</th>
-                <th>App. Time</th>
-                <th>Reciever Name</th>
-                <th>Reciever Designation</th>
-                <th>Applied through</th>
-                <th>Duration</th>
-                <th>Start date</th>
-                <th>End date</th>
-                <th>Stipend</th>
             </tr>`);
                     $("#tablebody2").html('');
                     $("#tablebody3").html('');
@@ -823,18 +839,7 @@
                 <td>${data[i].EnrollmentId}</td>
                 <td>${data[i].Name}</td>
                 <td>${data[i].Email}</td>
-                <td>${data[i].Dept_approval}</td>
-                <td>${data[i].Dept_Comment}</td>
-                <td>${data[i].TnP_approval}</td>
-                <td>${data[i].TnP_Comment}</td>
-                <td>${data[i].Lib_approval}</td>
-                <td>${data[i].Lib_Comment}</td>
-                <td>${data[i].Acc_approval}</td>
-                <td>${data[i].Acc_Comment}</td>
-                <td>${data[i].Hostle_approval}</td>
-                <td>${data[i].Hostle_Comment}</td>
-                <td>${data[i].Company}</td>
-                <td>${data[i].Role}</td>
+                <td>${data[i].App_Date}</td>
             </tr>`);
                     }
 
@@ -1255,6 +1260,7 @@
                         </ul>
                     </div>
                 </li>
+                <div id="bonafideff"> 
                 <li id="bonafide" style="display: none;">
                     <a class="mat" id="cfile">
                         <i class="fas fa-user"></i>
@@ -1268,6 +1274,7 @@
                         </ul>
                     </div>
                 </li>
+            </div>
                 <li class="logout">
                     <a href="{% url 'logout' %}">
                         <i class="fas fa-sign-out-alt"></i>
@@ -1281,6 +1288,7 @@
         <div class="header-wrapper">
             <div class="header-title">
                 <span>{{record.dept}} Dashboard</span>
+                <input type="hidden" id="dptms" value="{{record.dept}}">
                 <h2>{{record.Contact}}</h2>
                 <h3>{{record.name}}</h2>
             </div>
@@ -1565,9 +1573,9 @@
     var myExBtn = document.getElementById('sampleexcel');
     var totalstudentsgot = document.getElementById('totalstudentsgot');
     var totalappseen = document.getElementById('totalappseen');
-    var deptstudentsgot = document.getElementById('deptstudentsgot')
+    var deptstudentsgot = document.getElementById('deptstudentsgot');
     var clicked = document.getElementById('clicked').value;
-
+    var addepartments = document.getElementById('bonafideff');
     setTimeout(() => {
         if (clicked == 6) {
             myButton.click();
@@ -1592,14 +1600,17 @@
     if (content == 'acc') {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
+        addepartments.style.display = 'none';
     }
-    if (content == 'hostel') {
+    if (content == 'Hostel') {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
+        addepartments.style.display = 'none';
     }
     if (content == 'Lib') {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
+        addepartments.style.display = 'none';
     }
     if (content == 'Exam') {
         console.log(1);
@@ -1609,13 +1620,20 @@
         myBtn.style.display = 'none';
         gradbtn.style.display = 'block';
         myDisBtn.style.display = 'none';
-
+        addepartments.style.display = 'none';
     }
     if (content == 'Tnp') {
         totalappseen.style.display = 'block';
         totalstudentsgot.style.display = 'block';
         deptstudentsgot.style.display = 'none';
+        addepartments.style.display = 'none';
     }
+    // var admindepartment = document.getElementById('dptms').value;
+    // var addepartment = document.getElementById('bonafide');
+    // if(admindepartment == 'Tnp'){
+    //     console.log(admindepartment)
+    //     addepartment.style.display = 'none'
+    // }
     function attachFile() {
         document.getElementById('fileInput').click();
     }

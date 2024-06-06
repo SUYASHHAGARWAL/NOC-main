@@ -634,10 +634,20 @@ $('#depatrments').click(function () {
                 $.getJSON('/api/adminnoduestudents', function (data) {
                     console.log(data)
                     console.log(data.length)
-
+                    $('#tablehead2').html(`
+      <tr>
+        <th>S. no</th>
+        <th>Enrollment</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Dept_approval</th>
+        <th>TnP_approval</th>
+        <th>Lib_approval</th>
+        <th>Acc_approval</th>
+        <th>Hostle_approval</th>
+        <th>App_Date</th>
+      </tr>`);
                     $('#section-display').css('display', 'block')
-                    $("#tablebody2").html('')
-                    $("#tablehead2").html('')
                     for (i = 0; i < data.length; i++) {
                         $('#tablebody2').append(`<tr>
                           <th scope="row">${i + 1}</th>
