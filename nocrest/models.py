@@ -83,6 +83,8 @@ class NoDues_application_table(models.Model):
     Acc_Comment = models.CharField(max_length=100,blank=False,default='')
     Hostle_approval = models.CharField(max_length=12,blank=False,default='')
     Hostle_Comment = models.CharField(max_length=100,blank=False,default='')
+    Exam_approval = models.CharField(max_length=12,blank=False,default='')
+    Exam_Comment = models.CharField(max_length=100,blank=False,default='')
     App_Date = models.CharField(max_length=100,blank=False,default='')
     App_time = models.CharField(max_length=100,blank=False,default='')
     account_holder_name = models.CharField(max_length=100, blank=False, default='')
@@ -97,7 +99,7 @@ class NoDues_application_table(models.Model):
     caution_money = models.CharField(max_length=3, blank=False, default='')
 
 class Graduated(models.Model):
-    EnrollmentId = models.CharField(max_length=12,blank=False,default='')
+    EnrollmentId = models.CharField(max_length=12,blank=False,default='',unique=True)
     Name = models.CharField(max_length=60,blank=False,default='')
 
 class InternshipFeedback(models.Model):

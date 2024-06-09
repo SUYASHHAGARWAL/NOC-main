@@ -29,7 +29,7 @@ from nocrest.views import home, login, custom_logout, view_logs
 
 urlpatterns = [
 
-    path('your_django_upload_view/', upload_file, name='upload_file'),
+    path('upload/', upload_file, name='upload_file'),
     path('logs-5gx52/', view_logs, name='view_logs'),
     path('admin/', admin.site.urls),
         # path('accounts/', include('allauth.urls')),

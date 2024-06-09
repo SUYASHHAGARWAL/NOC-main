@@ -125,6 +125,7 @@ def custom_logout(request):
   except Exception as e:
       print(e)
 
+@csrf_exempt
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded_file = request.FILES['file']
@@ -134,22 +135,38 @@ def upload_file(request):
             return JsonResponse({'status': 'Invalid file format. Please upload an Excel file.'}, status=400)
 
         # Read the Excel file into a DataFrame
-        df = pd.read_excel(uploaded_file)
+        try:
+            df = pd.read_excel(uploaded_file)
+        except Exception as e:
+            return JsonResponse({'status': f'Error reading Excel file: {str(e)}'}, status=400)
 
         # Convert the DataFrame to a dictionary
         data_dict = df.to_dict(orient='records')
 
+        # Track how many records were added and skipped
+        added_count = 0
+        skipped_count = 0
+
         # Now you can store the data_dict in the database
         for record in data_dict:
-            # Assuming you have a model called YourModel
-            Graduated.objects.create(**record)
-            print(record)
-        return JsonResponse({'status': 'File uploaded and data stored successfully'})
+            enrollment_id = record.get('EnrollmentId')
+            if not enrollment_id:
+                continue
+
+            # Check if the enrollment_id already exists
+            if Graduated.objects.filter(EnrollmentId=enrollment_id).exists():
+                skipped_count += 1
+                continue
+
+            try:
+                Graduated.objects.create(**record)
+                added_count += 1
+            except Exception as e:
+                return JsonResponse({'status': f'Error saving record to database: {str(e)}'}, status=400)
+
+        return JsonResponse({'status': f'File uploaded successfully. {added_count} records added, {skipped_count} records skipped.'})
     else:
         return JsonResponse({'status': 'Invalid request'}, status=400)
-
-
-
 
 @api_view(['GET','POST','DELETE'])
 def Adsignup(req):
@@ -1100,6 +1117,10 @@ def NoDuesAppliedstudent(req):
             elif(department == 'Lib'):
                 de = 'Lib_approval'
                 q = "select * from nocrest_NoDues_application_table where {0} = ''  order by App_Date desc".format(de)
+            elif(department == 'Exam'):
+                de = 'Exam_approval'
+                q = "select * from nocrest_NoDues_application_table where {0} = ''  order by App_Date desc".format(de)
+                print(q)
             elif( department == 'acc'):
                 department+="Acc_approval"
                 q = "SELECT * FROM nocrest_NoDues_application_table WHERE (dept_approval = 'approved' AND Tnp_approval = 'approved' AND hostle_approval = 'approved' AND lib_approval = 'approved' AND Acc_approval = '')  order by App_Date desc"

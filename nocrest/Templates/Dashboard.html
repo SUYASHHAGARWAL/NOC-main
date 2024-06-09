@@ -1703,7 +1703,7 @@ $('#section-display').css('display', 'block')
                     </form>
           </div>
         </div>
-
+        </div>
     <input type="text" name="" id="msgss" value="{{message}}" hidden>
 
     <div id="btndisp" value="{{btndisp}}" hidden></div>
@@ -1774,82 +1774,82 @@ $('#section-display').css('display', 'block')
             </form>
         </div>
     </div>
-
+        </div>
 
     <div id="popupForm" class="custom-popup bonafapply" style="display: none;">
-        <div class="custom-innerbox">
-            <form method="post" enctype="multipart/form-data" action="/api/ApplyBonafied">{% csrf_token %}
-                <div class="custom-form-row">
-                    <div class="custom-form-column">
-                        <label for="studentName">Student Name:</label>
-                        <input type="text" readonly id="student_name" name="student_name" placeholder="{{record.Name}}" value="{{record.Name}}">
-                    </div> 
-                    <div class="custom-form-column">
-                        <label for="studentID">Enrollment Id</label>
-                        <input type="text" readonly id="EnrollmentId" name="EnrollmentId" placeholder="{{record.EnrollmentId}}" value="{{record.EnrollmentId}}">
-                    </div>
-                </div>
-                <div class="custom-form-row">
-                    <div class="custom-form-column">
-                        <label for="fatherName">Father's Name:</label>
-                        <input type="text" id="fathers_name" name="fathers_name" placeholder="{{record.fathers_name}}" value="{{record.fathers_name}}">
-                    </div>
-                    <div class="custom-form-column">
-                        <label for="semester">Semester</label>
-                        <select id="Semester" name="Semester">
-                            <option value="">select</option>
-                            <option value="Year 1st Semester 1st">Year 1st Semester 1st</option>
-                            <option value="Year 1st Semester 2nd">Year 1st Semester 2nd</option>
-                            <option value="Year 2nd Semester 3rd">Year 2nd Semester 3rd</option>
-                            <option value="Year 2nd Semester 4th">Year 2nd Semester 4th</option>
-                            <option value="Year 3rd Semester 5th">Year 3rd Semester 5th</option>
-                            <option value="Year 3rd Semester 6th">Year 3rd Semester 6th</option>
-                            <option value="Year 4th Semester 7th">Year 4th Semester 7th</option>
-                            <option value="Year 4th Semester 8th">Year 4th Semester 8th</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="custom-form-row">
-                    <div class="custom-form-column">
-                        <label for="email">Email Address:</label>
-                        <input type="text" readonly id="email" name="email" placeholder="{{record.Email}}" value="{{record.Email}}">
-                    </div>
-                    <div class="custom-form-column">
-                        <label for="session">Session:</label>
-                        <input type="text" id="session" name="session">
-                    </div> 
-                </div>
-                <!-- Add more fields as needed -->
-                <input type="text" id="Branch" hidden name="Branch" value="{{record.Branch}}">
-                <!-- Submit button to submit the application -->
-                <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
-            </form>
-            <!-- Close button for the popup -->
-            <span class="custom-close" onclick="closePopupForm()">×</span>
-        </div>
-    </div>
-    
+      febjfrwgiugwgkjgariugbiu
+      <div class="custom-innerbox">
+          <form method="post" enctype="multipart/form-data" action="/api/ApplyBonafied">{% csrf_token %}
+              <div class="custom-form-row">
+                  <div class="custom-form-column">
+                      <label for="studentName">Student Name:</label>
+                      <input type="text" readonly id="student_name" name="student_name" placeholder="{{record.Name}}" value="{{record.Name}}">
+                  </div> 
+                  <div class="custom-form-column">
+                      <label for="studentID">Enrollment Id</label>
+                      <input type="text" readonly id="EnrollmentId" name="EnrollmentId" placeholder="{{record.EnrollmentId}}" value="{{record.EnrollmentId}}">
+                  </div>
+              </div>
+              <div class="custom-form-row">
+                  <div class="custom-form-column">
+                      <label for="fatherName">Father's Name:</label>
+                      <input type="text" id="fathers_name" name="fathers_name" placeholder="{{record.fathers_name}}" value="{{record.fathers_name}}">
+                  </div>
+                  <div class="custom-form-column">
+                      <label for="semester">Semester</label>
+                      <select id="Semester" name="Semester">
+                          <option value="">select</option>
+                          <option value="Year 1st Semester 1st">Year 1st Semester 1st</option>
+                          <option value="Year 1st Semester 2nd">Year 1st Semester 2nd</option>
+                          <option value="Year 2nd Semester 3rd">Year 2nd Semester 3rd</option>
+                          <option value="Year 2nd Semester 4th">Year 2nd Semester 4th</option>
+                          <option value="Year 3rd Semester 5th">Year 3rd Semester 5th</option>
+                          <option value="Year 3rd Semester 6th">Year 3rd Semester 6th</option>
+                          <option value="Year 4th Semester 7th">Year 4th Semester 7th</option>
+                          <option value="Year 4th Semester 8th">Year 4th Semester 8th</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="custom-form-row">
+                  <div class="custom-form-column">
+                      <label for="email">Email Address:</label>
+                      <input type="text" readonly id="email" name="email" placeholder="{{record.Email}}" value="{{record.Email}}">
+                  </div>
+                  <div class="custom-form-column">
+                      <label for="session">Session:</label>
+                      <input type="text" id="session" name="session">
+                  </div> 
+              </div>
+              <!-- Add more fields as needed -->
+              <input type="text" id="Branch" hidden name="Branch" value="{{record.Branch}}">
+              <!-- Submit button to submit the application -->
+              <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
+          </form>
+          <!-- Close button for the popup -->
+          <span class="custom-close" onclick="closePopupForm()">×</span>
+      </div>
+  </div>
 
     <!-- <footer>
         <p>Copyright &copy; 2024 <span class="highlight">SDC MITS</span>. All Rights Reserved.</p>
     </footer> -->
     <script src="/Static/dashboard.js"></script>
     <script>
-          function closePopup() {
-        document.getElementById("popup").style.display = "none";
-    }
-    function closePopupForm() {
-        document.getElementById("popupForm").style.display = "none";
-    }
-    
-    // JavaScript to show the popup form when the button is clicked
-    var bonafapplyButton = document.getElementById("bonafapply");
-    var popupForm = document.getElementById("popupForm");
-
-    bonafapplyButton.addEventListener("click", function() {
-        popupForm.style.display = "block";
-    });
-    </script>
+      function closePopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+  function closePopupForm() {
+    document.getElementById("popupForm").style.display = "none";
+  }
+  
+  // JavaScript to show the popup form when the button is clicked
+  var bonafapplyButton = document.getElementById("bonafapply");
+  var popupForm = document.getElementById("popupForm");
+  
+  bonafapplyButton.addEventListener("click", function() {
+    popupForm.style.display = "block";
+  });
+  </script>
     <script>
 
 
@@ -1899,7 +1899,7 @@ $('#section-display').css('display', 'block')
         var Bonafapplybtn = document.getElementById('bonafapply');
         var binafstatusbtn = document.getElementById('bonafstatus');
         var DispBtn = btndisp.getAttribute('value')
-        console.log(content)
+        console.log("check",content)
         var myButton = document.getElementById('noduesstatus');
         var NodButton = document.getElementById('Buttonnod');
         var myBtn2 = document.getElementById('exitsurvey');
@@ -1925,7 +1925,8 @@ $('#section-display').css('display', 'block')
             myButton.style.display = 'none';
             NodButton.style.display = 'none';
             myBtn2.style.display = 'none';
-        
+            Bonafapplybtn.style.display = 'block';
+
         }
         if(DispBtn == 1){
             NodButton.style.display = 'none';

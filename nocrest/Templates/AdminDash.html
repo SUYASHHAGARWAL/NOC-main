@@ -1338,11 +1338,11 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
         <input type="hidden" name="clicked" value="{{clicked}}" id="clicked">
         <div id="randomdept" value="{{record.dept}}"></div>
 
-        <!-- <div class="card-container">
+        <div class="card-container">
             <h3 class="main-title">Faculties Section</h3>
             <div class="card-wrapper">
 
-                <button class="btn" onclick="SetActivecolour(this)" id="checkapplied">NOC Applications</button>
+                <!-- <button class="btn" onclick="SetActivecolour(this)" id="checkapplied">NOC Applications</button>
 
                 <button type="button" onclick="SetActivecolour(this)" id="checkapproved"
                     class="btn flex items-center box centerAlign ">Approved
@@ -1354,31 +1354,29 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                 <button class="btn" onclick="SetActivecolour(this)" id="checknodapp">No dues Applications</button>
                 <button type="button" onclick="SetActivecolour(this)" id="checkNDapproved"
                     class="btn flex items-center box centerAlign ">Approved No
-                    Dues</button>
+                    Dues</button> -->
 
                 <a target="_blank"
                     href="https://docs.google.com/spreadsheets/d/1gWlG0g2RX24f0IXsKTTEqY8pbPuHbnx5X3jP8Nf4ENw/edit?usp=sharing">
                     <button type="button" style="display: none;" id="sampleexcel"
                         class="btn flex items-center box centerAlign">Template for graduated students</button>
                 </a>
-                <form style="display: none;" id="fileForm" method="post" enctype="multipart/form-data">
-                    <input type="file" id="fileInput" style="display: none;" onchange="handleFile()">
-                    <button type="button" onclick="SetActivecolour(this)" class="btn flex items-center box centerAlign"
-                        onclick="attachFile()">Upload
-                        your
-                        file here</button>
+                <form id="fileForm" method="post" enctype="multipart/form-data">
+                    <input type="file" id="fileInput" name="file" style="display: none;" onchange="handleFile()">
+                    <button type="button" onclick="document.getElementById('fileInput').click()" class="btn flex items-center box centerAlign">
+                        Upload your file here
+                    </button>
                     <div id="statusMessage"></div>
-
                 </form>
 
                 <button type="button" style="display: none;" id="gradstudents"
                     class="btn flex items-center box centerAlign ">Graduated Students</button>
 
-                    <button class="btn" onclick="SetActivecolour(this)" id="showfeedback">Students FeedBack</button>
-                    <button class="btn" onclick="SetActivecolour(this)" id="allapplications">All Aplications</button>
+                    <!-- <button class="btn" onclick="SetActivecolour(this)" id="showfeedback">Students FeedBack</button>
+                    <button class="btn" onclick="SetActivecolour(this)" id="allapplications">All Aplications</button> -->
             </div>
 
-        </div> -->
+        </div>
 
         <div class="tabular-wrapper">
             <h3 id="datawillappear" class="main-title">Data</h3>
@@ -1634,50 +1632,87 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
     //     console.log(admindepartment)
     //     addepartment.style.display = 'none'
     // }
-    function attachFile() {
-        document.getElementById('fileInput').click();
-    }
+    // function attachFile() {c
+    //     document.getElementById('fileInput').click();
+    // }
+    // function handleFile() {
+    //     var fileInput = document.getElementById('fileInput');
+    //     var file = fileInput.files[0];
+    //     if (file) {
+    //         console.log('File uploaded:', file.name);
+    //         console.log('File size:', file.size, 'bytes');
+    //         console.log('File type:', file.type);
+    //         var formData = new FormData(document.getElementById('fileForm'));
+    //         formData.append('file', file);
+    //         var csrftoken = getCookie('csrftoken');
+    //         fetch('/your_django_upload_view/', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'X-CSRFToken': csrftoken,
+    //             },
+    //             body: formData,
+    //         })
+    //             .then(response => {
+    //                 if (!response.ok) {
+    //                     throw new Error('Network response was not ok');
+    //                 }
+    //                 return response.json();
+    //             })
+    //             .then(data => {
+    //                 console.log('Server response:', data);
+    //                 var statusMessageDiv = document.getElementById('statusMessage');
+    //                 statusMessageDiv.innerHTML = data.status;
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 var statusMessageDiv = document.getElementById('statusMessage');
+    //                 statusMessageDiv.innerHTML = 'An error occurred during file upload.';
+    //             });
+    //     }
+    // // }
+    // function getCookie(name) {
+    //     var cookieValue = null;
+    //     if (document.cookie && document.cookie !== '') {
+    //         var cookies = document.cookie.split(';');
+    //         for (var i = 0; i < cookies.length; i++) {
+    //             var cookie = cookies[i].trim();
+    //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+    //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return cookieValue;
+    // }
+</script>
+<script>
     function handleFile() {
-        var fileInput = document.getElementById('fileInput');
-        var file = fileInput.files[0];
-        if (file) {
-            console.log('File uploaded:', file.name);
-            console.log('File size:', file.size, 'bytes');
-            console.log('File type:', file.type);
-            var formData = new FormData(document.getElementById('fileForm'));
-            formData.append('file', file);
-            var csrftoken = getCookie('csrftoken');
-            fetch('/your_django_upload_view/', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': csrftoken,
-                },
-                body: formData,
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Server response:', data);
-                    var statusMessageDiv = document.getElementById('statusMessage');
-                    statusMessageDiv.innerHTML = data.status;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    var statusMessageDiv = document.getElementById('statusMessage');
-                    statusMessageDiv.innerHTML = 'An error occurred during file upload.';
-                });
-        }
+        var form = document.getElementById('fileForm');
+        var formData = new FormData(form);
+
+        fetch('/upload/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('statusMessage').innerText = data.status;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('statusMessage').innerText = 'An error occurred';
+        });
     }
+
     function getCookie(name) {
-        var cookieValue = null;
+        let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
                 if (cookie.substring(0, name.length + 1) === (name + '=')) {
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                     break;
@@ -1687,5 +1722,4 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
         return cookieValue;
     }
 </script>
-
 </html>

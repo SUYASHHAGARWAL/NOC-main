@@ -32,7 +32,7 @@ class adminserialiser(serializers.ModelSerializer):
 class noduesserialiser(serializers.ModelSerializer):
     class Meta:
         model = NoDues_application_table
-        fields = ('id','EnrollmentId','Name','Email','dept','App_Id','Dept_approval','Dept_Comment','TnP_approval','TnP_Comment','Lib_approval','Lib_Comment','Acc_approval','Acc_Comment','Hostle_approval','Hostle_Comment','App_Date','App_time','account_holder_name','bank_name','account_number','ifsc_code','dob','passOutYear','hostel','fees_due','project_report','caution_money',)
+        fields = ('id','EnrollmentId','Name','Email','dept','App_Id','Dept_approval','Dept_Comment','TnP_approval','TnP_Comment','Lib_approval','Lib_Comment','Acc_approval','Acc_Comment','Hostle_approval','Hostle_Comment','Exam_approval','Exam_Comment','App_Date','App_time','account_holder_name','bank_name','account_number','ifsc_code','dob','passOutYear','hostel','fees_due','project_report','caution_money',)
 
 class dataserialiser(serializers.ModelSerializer):
     class Meta:
