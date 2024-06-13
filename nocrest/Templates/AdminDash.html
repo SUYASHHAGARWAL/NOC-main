@@ -389,7 +389,7 @@
 
             form.submit();
         }
-function submitDuesStatus(data, index) {
+        function submitDuesStatus(data, index) {
     console.log("Suyu bhai is here")
   var rowData = data;
   console.log("rowData", rowData);
@@ -805,8 +805,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
     initializeDataTable();
   });
 });
-
-            $('#checkNDapproved').click(function () {
+$('#checkNDapproved').click(function () {
                 console.log(121);
                 $.getJSON('/api/ndapprovedstudents?dept={{record.dept}}', function (data) {
                     destroyDataTable();
@@ -1261,20 +1260,20 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                     </div>
                 </li>
                 <div id="bonafideff"> 
-                <li id="bonafide" style="display: none;">
-                    <a class="mat" id="cfile">
-                        <i class="fas fa-user"></i>
-                        <span>Bonafide Options</span>
-                    </a>
-                    <div class="additional-options" id="adminBonafide">
-                        <ul class="items">
-                            <li id="BonaCheck">Bonafide Applications</li>
-                            <li id="bonaApproved">Approved Bonafides</li>
-                            <li id="declined_bonafide">Declined Bonafides</li>
-                        </ul>
-                    </div>
-                </li>
-            </div>
+                    <li id="bonafide" style="display: none;">
+                        <a class="mat" id="cfile">
+                            <i class="fas fa-user"></i>
+                            <span>Bonafide Options</span>
+                        </a>
+                        <div class="additional-options" id="adminBonafide">
+                            <ul class="items">
+                                <li id="BonaCheck">Bonafide Applications</li>
+                                <li id="bonaApproved">Approved Bonafides</li>
+                                <li id="declined_bonafide">Declined Bonafides</li>
+                            </ul>
+                        </div>
+                    </li>
+                </div>
                 <li class="logout">
                     <a href="{% url 'logout' %}">
                         <i class="fas fa-sign-out-alt"></i>
@@ -1288,7 +1287,6 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
         <div class="header-wrapper">
             <div class="header-title">
                 <span>{{record.dept}} Dashboard</span>
-                <input type="hidden" id="dptms" value="{{record.dept}}">
                 <h2>{{record.Contact}}</h2>
                 <h3>{{record.name}}</h2>
             </div>
@@ -1356,12 +1354,12 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                     class="btn flex items-center box centerAlign ">Approved No
                     Dues</button> -->
 
-                <a target="_blank"
+                <a id="excellink" style="display: none;" target="_blank"
                     href="https://docs.google.com/spreadsheets/d/1gWlG0g2RX24f0IXsKTTEqY8pbPuHbnx5X3jP8Nf4ENw/edit?usp=sharing">
                     <button type="button" style="display: none;" id="sampleexcel"
                         class="btn flex items-center box centerAlign">Template for graduated students</button>
                 </a>
-                <form id="fileForm" method="post" enctype="multipart/form-data">
+                <form id="fileForm" method="post" style="display: none;" enctype="multipart/form-data">
                     <input type="file" id="fileInput" name="file" style="display: none;" onchange="handleFile()">
                     <button type="button" onclick="document.getElementById('fileInput').click()" class="btn flex items-center box centerAlign">
                         Upload your file here
@@ -1369,7 +1367,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                     <div id="statusMessage"></div>
                 </form>
 
-                <button type="button" style="display: none;" id="gradstudents"
+                <button  type="button" style="display: none;" id="gradstudents"
                     class="btn flex items-center box centerAlign ">Graduated Students</button>
 
                     <!-- <button class="btn" onclick="SetActivecolour(this)" id="showfeedback">Students FeedBack</button>
@@ -1571,9 +1569,12 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
     var myExBtn = document.getElementById('sampleexcel');
     var totalstudentsgot = document.getElementById('totalstudentsgot');
     var totalappseen = document.getElementById('totalappseen');
-    var deptstudentsgot = document.getElementById('deptstudentsgot');
+    var deptstudentsgot = document.getElementById('deptstudentsgot')
     var clicked = document.getElementById('clicked').value;
     var addepartments = document.getElementById('bonafideff');
+    var Excelbtnshow = document.getElementById('excellink');
+    var AddExcelBTN = document.getElementById('fileForm');
+    var GeadShowbtn = document.getElementById('gradstudents');
     setTimeout(() => {
         if (clicked == 6) {
             myButton.click();
@@ -1599,16 +1600,19 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
         addepartments.style.display = 'none';
+
     }
-    if (content == 'Hostel') {
+    if (content == 'hostel') {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
         addepartments.style.display = 'none';
+
     }
     if (content == 'Lib') {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
         addepartments.style.display = 'none';
+
     }
     if (content == 'Exam') {
         console.log(1);
@@ -1617,22 +1621,21 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
         gradbtn.style.display = 'block';
+        GeadShowbtn.style.display = 'block';
+        AddExcelBTN.style.display = 'block';
+        Excelbtnshow.style.display = 'block';
         myDisBtn.style.display = 'none';
         addepartments.style.display = 'none';
+
     }
     if (content == 'Tnp') {
         totalappseen.style.display = 'block';
         totalstudentsgot.style.display = 'block';
         deptstudentsgot.style.display = 'none';
         addepartments.style.display = 'none';
+
     }
-    // var admindepartment = document.getElementById('dptms').value;
-    // var addepartment = document.getElementById('bonafide');
-    // if(admindepartment == 'Tnp'){
-    //     console.log(admindepartment)
-    //     addepartment.style.display = 'none'
-    // }
-    // function attachFile() {c
+    // function attachFile() {
     //     document.getElementById('fileInput').click();
     // }
     // function handleFile() {
@@ -1669,7 +1672,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
     //                 statusMessageDiv.innerHTML = 'An error occurred during file upload.';
     //             });
     //     }
-    // // }
+    // }
     // function getCookie(name) {
     //     var cookieValue = null;
     //     if (document.cookie && document.cookie !== '') {

@@ -87,6 +87,7 @@ path('logout/', custom_logout, name='logout'),
     re_path(r'^api/aplieddisapprovedstudents',views.AppliedDisapprovedStud),
     re_path(r'^api/ndapprovedstudents',views.NDapproved),
     re_path(r'^api/dashadmin',views.DashAdmin),
+    re_path(r'^api/aboutdev',views.AboutDev),
 
     re_path(r'^api/internshipfeedback',views.InternFeedback),
     re_path(r'^api/studentdataedit',views.StudentEdit),

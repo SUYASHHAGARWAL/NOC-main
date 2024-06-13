@@ -289,6 +289,118 @@ footer {
   float: right;
   cursor: pointer;
 }
+
+
+/* Target the popup form container */
+#popupForm {
+  /* Additional styles for the form container */
+  max-width: 100%; /* Set a maximum width for the form */
+}
+
+/* Style the inner box of the form */
+.custom-innerbox {
+  /* Additional styles for the inner box */
+  width: 100%; /* Make the inner box fill available width */
+}
+
+/* Style the form itself */
+#popupForm form {
+  display: flex; /* Make the form elements flexible */
+  flex-wrap: wrap; /* Allow elements to wrap on smaller screens */
+}
+
+/* Style each form row container */
+.custom-form-row {
+  width: 100%; /* Make each row take up full width */
+  margin-bottom: 1rem; /* Add some margin for spacing */
+}
+
+/* Style each form column */
+.custom-form-column {
+  padding: 0.5rem; /* Add some padding for better visuals */
+}
+
+/* Style form labels */
+.custom-form-column label {
+  display: block; /* Make labels display on a new line */
+  margin-bottom: 0.5rem; /* Add space between label and input */
+}
+
+/* Style input fields */
+.custom-form-column input,
+.custom-form-column select {
+  width: 100%; /* Make inputs take up full column width */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px; /* Add some rounded corners */
+}
+
+/* Style the submit button */
+#popupForm form input[type="submit"] {
+  background-color: #4CAF50; /* Green color for submit button */
+  color: white;
+  padding: 0.75rem 1.5rem; /* Adjust padding for button size */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer; /* Indicate clickable button */
+}
+
+/* Style the submit button on hover */
+#popupForm form input[type="submit"]:hover {
+  background-color: #3e8e41; /* Darken green on hover */
+}
+
+/* Style the close button (X) */
+.custom-close {
+  /* Additional styles for the close button */
+  cursor: pointer; /* Indicate clickable close button */
+}
+
+/* Media Queries for Responsive Design */
+
+/* For screens smaller than 768px (portrait phones) */
+@media (max-width: 767px) {
+  .custom-form-column {
+    /* Make form columns stack on small screens */
+    flex: 100%; /* Each column takes full width */
+  }
+
+  /* Adjust input width for better readability on small screens */
+  .custom-form-column input,
+  .custom-form-column select {
+    width: calc(100% - 1rem); /* Subtract padding for input width */
+  }
+}
+
+/* For screens between 768px and 992px (tablets) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .custom-form-column {
+    /* Adjust column width for tablets */
+    flex: 50%; /* Two columns per row */
+  }
+
+  /* Adjust input width for tablets */
+  .custom-form-column input,
+  .custom-form-column select {
+    width: calc(50% - 1rem); /* Adjust for two columns and padding */
+  }
+}
+
+/* For screens larger than 992px (desktops) */
+@media (min-width: 992px) {
+  .custom-form-column {
+    /* Adjust column width for desktops */
+    flex: 33.33%; /* Three columns per row */
+  }
+
+  /* Adjust input width for desktops */
+  .custom-form-column input,
+  .custom-form-column select {
+    width: calc(33.33% - 1rem); /* Adjust for three columns and padding */
+  }
+}
+
+
 </style>
 
 <body>
@@ -382,7 +494,7 @@ $(document).ready(function () {
                     $('#myTable').css('display', 'block')
                     $("#tablebody2").html('')
 
-                    $('#lamand').html(`
+                    $('#tabledatashow').html(`
                             <tr>
                                 <th>S. no</th>
                                 <th>Enrollment</th>
@@ -432,7 +544,7 @@ $('#section-display').css('display', 'block')
                     $('#myTable').css('display', 'block')
                     $("#tablebody2").html('')
 
-                    $('#lamand').html(`
+                    $('#tabledatashow').html(`
                             <tr>
                                 <th>S. no</th>
                                 <th>Enrollment</th>
@@ -486,7 +598,7 @@ $('#section-display').css('display', 'block')
                     $('#myTable').css('display', 'block')
                     $("#tablebody2").html('')
 
-                    $('#lamand').html(`
+                    $('#tabledatashow').html(`
                             <tr>
                                 <th>S. no</th>
                                 <th>Enrollment</th>
@@ -613,7 +725,7 @@ $('#section-display').css('display', 'block')
             <h3 id="datawillappear" class="main-title">NOC Data</h3>
             <div class="table-container" style="overflow-x: auto; ">
                 <table id="myTable" style="overflow-y: auto; display: none;">
-                    <thead id="lamand">
+                    <thead id="tabledatashow">
                         <tr>
                             <th>S. no</th>
                             <th>Enrollment</th>
@@ -1777,8 +1889,9 @@ $('#section-display').css('display', 'block')
         </div>
 
     <div id="popupForm" class="custom-popup bonafapply" style="display: none;">
-      febjfrwgiugwgkjgariugbiu
       <div class="custom-innerbox">
+        <h2 class="bonafide-form-heading">Bonafide Form</h2>
+
           <form method="post" enctype="multipart/form-data" action="/api/ApplyBonafied">{% csrf_token %}
               <div class="custom-form-row">
                   <div class="custom-form-column">

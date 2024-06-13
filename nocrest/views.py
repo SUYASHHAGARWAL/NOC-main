@@ -183,6 +183,13 @@ def Frontpage(req):
     except Exception as e:
         print("Error",e)
 
+@api_view(['GET','POST'])
+def AboutDev(req):
+    try:
+        return render(req, "about.html")
+    except Exception as e:
+        print("Error",e)
+
 
 @api_view(['GET','POST','DELETE'])
 def Dashboard(req):
