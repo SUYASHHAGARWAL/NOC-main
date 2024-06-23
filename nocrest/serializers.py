@@ -22,7 +22,7 @@ class Newuserserialiser(serializers.ModelSerializer):
 class Batchserialiser(serializers.ModelSerializer):
     class Meta:
         model = Admins
-        fields = ('id','Role','Email','dept','Contact','Password','admin_id','status','name')
+        fields = ('id','Role','Email','dept','Contact','Password','admin_id','status','name','signature')
 
 class adminserialiser(serializers.ModelSerializer):
     class Meta:

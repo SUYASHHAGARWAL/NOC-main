@@ -29,8 +29,8 @@ class Admins(models.Model):
     Password = models.CharField(max_length=25,blank=False,default='')
     admin_id = models.CharField(max_length=15,blank=False,default='')
     status = models.CharField(max_length=15,blank=False,default='')
-
-#Abstractuser table 
+    signature = models.CharField(max_length=255)#Abstractuser table 
+    
 class Application_table(models.Model):
     EnrollmentId = models.CharField(max_length=12, blank=False, default='')
     Name = models.CharField(max_length=50, blank=False, default='')

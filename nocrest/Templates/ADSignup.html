@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/Static/style.css">
     <link rel="shortcut icon" href="/assets/images/favicon.ico" />
 
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -108,7 +107,7 @@
             <div class="content-wrapper d-flex align-items-center auth">
                 <div class="row flex-grow">
                     <div class="col-lg-8 mx-auto">
-                        <form class="pt-3" method="get" action="/api/adminregister" onsubmit="return validateForm()">
+                        <form class="pt-3" method="post" action="/api/adminregister" enctype="multipart/form-data" onsubmit="return validateForm()">
                             {% csrf_token %}
                             <div class="auth-form-light text-left p-5" style="background: #d7f0ff">
                                 <div style="display: flex; justify-content: center; align-items: center;">
@@ -162,6 +161,10 @@
                                         <input type="password" required class="form-control form-control-lg" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm password">
                                     </div>
                                     <div class="form-group">
+                                        <label for="signature">Signature:</label>
+                                        <input type="file" required class="form-control form-control-lg" id="signature" name="signature" accept="image/*">
+                                    </div>
+                                    <div class="form-group">
                                         <div>
                                             <input type="hidden" name="status" value="passive" id="status">
                                         </div>
@@ -178,7 +181,6 @@
         </div>
     </div>
     
-
     <script>
         function validateForm() {
             var password = document.getElementById("Password").value;
@@ -198,14 +200,12 @@
             }
 
             if (Contact.length !== 10) {
-            alert('Phone number must be 10 digits long.');
-            return false;
-        }
-            // Additional validation checks can be added here
+                alert('Phone number must be 10 digits long.');
+                return false;
+            }
 
             return true; // Submit the form if all checks pass
         }
     </script>
 </body>
-
 </html>

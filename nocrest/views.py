@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,parser_classes
 import tempfile
 from django.contrib.auth import logout
 from .serializers import BonafideModel
@@ -98,9 +98,9 @@ def home(req):
         cursor.execute(q)
         record = tuple_to_dict.ParseDictMultipleRecord(cursor)
         print("AAGELA")
-        print(record[0]['Role'])
-        role = record[0]['Role']
         if(record):
+            print(record[0]['Role'])
+            role = record[0]['Role']
             req.session['Admincontact'] = record[0]['Contact']
             req.session['Adminname'] = record[0]['name']
             req.session['role'] = record[0]['Role']
@@ -365,38 +365,93 @@ except Exception as e:
 #     except Exception as e:
 #         print("Error", e)
 #         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 @csrf_exempt
 @api_view(['GET', 'POST', 'DELETE'])
+@parser_classes([MultiPartParser, FormParser])
 def AdminREg(req):
     try:
         if req.method == 'GET':
             role = req.GET.get('Role')
-            Name = req.GET.get('name')
+            name = req.GET.get('name')
             email = req.GET.get('Email')
-            Dept = req.GET.get('dept')
+            dept = req.GET.get('dept')
             contact = req.GET.get('Contact')
             password = req.GET.get('Password')
             stat = req.GET.get('status')
-            print(role,Name, email, Dept, contact,password, stat )
-            admindata = Batchserialiser(data=req.GET)
-            
-            if admindata.is_valid():
-                admindata.save()
+            print(role, name, email, dept, contact, password, stat)
+            admin_data = {
+                'role': role,
+                'name': name,
+                'email': email,
+                'dept': dept,
+                'contact': contact,
+                'password': password,
+                'status': stat
+            }
+            admin_serializer = Batchserialiser(data=admin_data)
+            if admin_serializer.is_valid():
+                admin_serializer.save()
                 print("Saved")
             else:
                 return redirect('/')
             req.session['Admincontact'] = contact
             req.session['Adminpass'] = password
             return redirect("/api/adminDash")
-        else:
-                # Return errors if serializer is not valid
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        elif req.method == 'POST':
+            role = req.POST.get('Role')
+            name = req.POST.get('name')
+            email = req.POST.get('Email')
+            dept = req.POST.get('dept')
+            contact = req.POST.get('Contact')
+            password = req.POST.get('Password')
+            stat = req.POST.get('status')
+            signature = req.FILES.get('signature')
+
+            # Ensure the directory exists
+            image_dir = "nocrest\Static\Images"
+            os.makedirs(image_dir, exist_ok=True)
+
+            # Create the file path
+            signature_filename = f"{name}_{dept}.png"
+            signature_filepath = os.path.join(image_dir, signature_filename)
+
+# E:\NOC test\NOC-main\static\Images\
+#nocrest\Static\Images
+            # Save the file
+            with open(signature_filepath, 'wb+') as destination:
+                for chunk in signature.chunks():
+                    destination.write(chunk)
+
+            print(role, name, email, dept, contact, password, stat, signature_filepath)
+            
+            admin_data = {
+                'Role': role,
+                'name': name,
+                'Email': email,
+                'dept': dept,
+                'Contact': contact,
+                'Password': password,
+                'status': stat,
+                'signature': signature_filename  # Save the file name to the database
+            }
+
+            admin_serializer = Batchserialiser(data=admin_data)
+            if admin_serializer.is_valid():
+                admin_serializer.save()
+                print("Saved")
+            else:
+                return Response(admin_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+            req.session['Admincontact'] = contact
+            req.session['Adminpass'] = password
+            return redirect("/api/adminDash")
+
     except Exception as e:
         print("Error", e)
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 @api_view(['GET','POST','DELETE'])
 def Deptfp(req):
     try:
@@ -1636,6 +1691,12 @@ def BonaEdit(request):
             cursor.execute(qry)
             apid = tuple_to_dict.ParseDictSingleRecord(cursor)
             print("gwvdvubwbbf  yfebfebf8og7gw",apid['count(*)'])
+            query = 'select signature from nocrest_admins where Contact = {0}'.format(request.session['Admincontact'])
+            cursor = connection.cursor()
+            cursor.execute(query)
+            sign = tuple_to_dict.ParseDictSingleRecord(cursor)
+            tough = sign['signature']
+            print("nabgkjbaerbgrkbgbsgkjaerbgbargib",sign['signature'])
             print(stud_branch, Email, stud_enr)
             apr_time = datetime.now()
             print(apr_time)
@@ -1652,7 +1713,7 @@ def BonaEdit(request):
                         cat.save()
                         # Render approveBonaf.html template
                         current_directory = os.getcwd()
-                        logo = 'nocrest/Static/Images/final_MD_Sign.png'
+                        logo = f'nocrest/Static/Images/{tough}'
                         Mitslogo = 'nocrest/Static/Images/mits_logo.png'
                         logo_path = os.path.join(current_directory,logo)
                         Mits_logo_path = os.path.join(current_directory,Mitslogo)
