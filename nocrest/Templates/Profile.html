@@ -274,15 +274,27 @@ $(document).ready(function () {
             <div class="header-title">
                 <span>Student Profile</span>
                 <h2>{{record.EnrollmentId}} {{record.Name}}</h2>
+                <div class="profile-image">
+                    <!-- {% if record.image %}
+                        <img src="/pdfs/student_images/suyash.png" alt="{{ record.name }}'s Image" style="max-width: 200px; max-height: 200px;">
+                    {% else %}
+                        <p>No image available {{ record.image }}</p>
+                    {% endif %} -->
+                </div>
             </div>
             <div class="user-info">
-                <img src="/Static/Images/mitslogo.png" style="width: 8rem; height: 8rem;" alt="">
+                <!-- <img src="/Static/Images/mitslogo.png" style="width: 8rem; height: 8rem;" alt=""> -->
+                {% if record.image %}
+                <img src="/pdfs/{{ record.image }}" alt="{{ record.name }}'s Image" style="width: 8rem; height: 8rem;"">
+            {% else %}
+                <p>No image available {{ record.image }}</p>
+            {% endif %}
             </div>
         </div>
         <div class="card-container">
             <h3 class="main-title">Student's Section</h3>
             <div class="card-wrapper">
-                <form id="student-form" class="form-flex" method="post" action="/api/studentdataedit">
+                <form id="student-form" class="form-flex" method="post" action="/api/studentdataedit" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" name="idbb" value="{{record.id}}" />
                     <div class="form-box">
@@ -319,6 +331,13 @@ $(document).ready(function () {
                         <label for="confirm-password">Confirm Password</label>
                         <input class="filledornot" type="password" id="confirm-password" name="confirm-password"
                             placeholder="Confirm Password">
+                    </div>
+                    <div class="form-box">
+                        <label for="image">Upload Image</label>
+                        <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                    </div>
+                    <div class="form-box">
+                        <img id="image-preview" src="#" alt="Image Preview" style="display: none; max-width: 200px; max-height: 200px;">
                     </div>
                     <div class="form-box">
                         <button type="submit" onclick="return validateForm()">Submit</button>
@@ -363,7 +382,18 @@ $(document).ready(function () {
 
             return true;
         }
-        
+        function previewImage(event) {
+    var preview = document.getElementById('image-preview');
+    var file = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function() {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+    }
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
     </script>
 </body>
 

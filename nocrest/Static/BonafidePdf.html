@@ -127,6 +127,32 @@
         .pn{
             font-size: 15px;
         }
+
+        .refcenter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pn {
+    margin: 0;
+}
+
+#imgstudent {
+    margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 200px;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+#imgstudent img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
     </style>
 </head>
 
@@ -145,11 +171,15 @@
             
             <div>
 <center><h1 class="p4">BONAFIDE CERTICATE</h1></center>
-<div class="refcenter" style="display: flex; justify-content: space-around;">
+<div class="refcenter">
     <h4 class="pn">Ref.: 2024/ {{apid}}</h4>
-
     <h4 class="pn">Date: {{date}}</h4>
+
+    <div id="imgstudent">
+        <img src="{{student_img}}" alt="">
+    </div>
 </div>
+
 <div class="datecenter">
 
 </div>

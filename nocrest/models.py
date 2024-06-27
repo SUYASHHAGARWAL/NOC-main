@@ -12,6 +12,8 @@ class Student(models.Model):
     Noc_Count = models.CharField(max_length=120,blank=False, default=0)
     password = models.CharField(max_length=25,blank=False, default=0)
     username = models.CharField(max_length=120,blank=False, default=0)
+    Email_personal = models.CharField(max_length=120,blank=False, default=0)
+    image = models.ImageField(upload_to='student_images/', null=True, blank=True)
 
 class Department(models.Model):
     Dep_Id = models.CharField(max_length=120,blank=False,default='')

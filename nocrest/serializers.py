@@ -12,7 +12,7 @@ from nocrest.models import ExitSurvey
 class contactserialiser(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ('id','EnrollmentId','Name','fathers_name','Address','contact_Num','Email','Branch','Noc_Count','username','password')
+        fields = ('id','EnrollmentId','Name','fathers_name','Address','contact_Num','Email','Branch','Noc_Count','username','password','image')
     
 class Newuserserialiser(serializers.ModelSerializer):
     class Meta:

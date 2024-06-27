@@ -1359,7 +1359,7 @@ $('#checkNDapproved').click(function () {
                     <button type="button" style="display: none;" id="sampleexcel"
                         class="btn flex items-center box centerAlign">Template for graduated students</button>
                 </a>
-                <form id="fileForm" method="post" style="display: none;" enctype="multipart/form-data">
+                <form id="fileForm" method="post" style="display: none;" enctype="multipart/form-data" >
                     <input type="file" id="fileInput" name="file" style="display: none;" onchange="handleFile()">
                     <button type="button" onclick="document.getElementById('fileInput').click()" class="btn flex items-center box centerAlign">
                         Upload your file here
@@ -1574,7 +1574,6 @@ $('#checkNDapproved').click(function () {
     var addepartments = document.getElementById('bonafideff');
     var Excelbtnshow = document.getElementById('excellink');
     var AddExcelBTN = document.getElementById('fileForm');
-    var GeadShowbtn = document.getElementById('gradstudents');
     setTimeout(() => {
         if (clicked == 6) {
             myButton.click();
@@ -1621,7 +1620,6 @@ $('#checkNDapproved').click(function () {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
         gradbtn.style.display = 'block';
-        GeadShowbtn.style.display = 'block';
         AddExcelBTN.style.display = 'block';
         Excelbtnshow.style.display = 'block';
         myDisBtn.style.display = 'none';
