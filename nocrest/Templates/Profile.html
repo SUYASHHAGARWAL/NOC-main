@@ -285,7 +285,7 @@ $(document).ready(function () {
             <div class="user-info">
                 <!-- <img src="/Static/Images/mitslogo.png" style="width: 8rem; height: 8rem;" alt=""> -->
                 {% if record.image %}
-                <img src="/pdfs/{{ record.image }}" alt="{{ record.name }}'s Image" style="width: 8rem; height: 8rem;"">
+                <img src="/pdfs/{{ record.image }}" alt="{{ record.name }}'s Image" style="width: 8rem; height: 8rem;">
             {% else %}
                 <p>No image available {{ record.image }}</p>
             {% endif %}
@@ -302,6 +302,8 @@ $(document).ready(function () {
                         <input class="filledornot" type="text" id="fathers_name" name="fathers_name"
                             placeholder="{{record.fathers_name}}" value="{{record.fathers_name}}">
                     </div>
+                    <input type="hidden" name="EnrollmentId" value="{{record.EnrollmentId}}" id="">
+                    <input type="hidden" name="Name" value="{{record.Name}}" id="">
                     <div class="form-box">
                         <label for="address">Address</label>
                         <input class="filledornot" type="text" id="Address" name="Address"

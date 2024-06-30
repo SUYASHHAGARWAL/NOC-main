@@ -138,20 +138,39 @@
     margin: 0;
 }
 
+
+.refcenter {
+    /* display: flex; */
+    /* justify-content: space-between;
+    align-items: flex-start;
+    width: 100%; */
+    /* flex-direction: row; */
+    display: block;
+    flex-direction: row;
+    position: relative;
+    margin-bottom: 11rem;
+}
+
+/* .ref-date {
+    flex: 1;
+} */
+
 #imgstudent {
-    margin-left: auto;
-    display: flex;
-    justify-content: flex-end;
-    max-width: 200px;
-    max-height: 200px;
-    overflow: hidden;
+
+    position: absolute;
+    right: 0%;
+
 }
 
 #imgstudent img {
-    width: 100%;
-    height: 100%;
+    height: 100px;
+    width: 100px;
     object-fit: cover;
-    border: 1px solid #ccc;
+    
+}
+.table1{
+    align-items: start;
+
 }
     </style>
 </head>
@@ -171,14 +190,32 @@
             
             <div>
 <center><h1 class="p4">BONAFIDE CERTICATE</h1></center>
-<div class="refcenter">
-    <h4 class="pn">Ref.: 2024/ {{apid}}</h4>
-    <h4 class="pn">Date: {{date}}</h4>
 
-    <div id="imgstudent">
-        <img src="{{student_img}}" alt="">
+<table style="border-color: transparent; box-shadow: 0 0 0 0 transparent;">
+    <tr>
+        <th class="table1" style="border-color: transparent;">
+            <div class="ref-date">
+                <h4 class="pn" style="text-align: left;">Ref.: 2024/ {{apid}}</h4>
+                <h4 class="pn" style="text-align: left;">Date: {{date}}</h4>
+            </div>
+        </th >
+        <th style="border-color: transparent; ">
+            <div id="imgstudent">
+                <img src="{{image}}"  style="border: 2px solid black;"  alt="Image">
+            </div>
+        </th>
+    </tr>
+</table>
+<!-- <div class="refcenter">
+    <div class="ref-date">
+        <h4 class="pn">Ref.: 2024/ {{apid}}</h4>
+        <h4 class="pn">Date: {{date}}</h4>
     </div>
-</div>
+    <div id="imgstudent">
+        <img src="{{image}}"   alt="HOLA">
+         SUyash 
+    </div>
+</div> -->
 
 <div class="datecenter">
 
@@ -186,9 +223,7 @@
                 <p class="p3">This is to certify that Mr/Ms. {{studname}} S/o. Shri {{fathername}} College Enrolment No. {{studenr}} is a
                     regular and Bonafide student of {{programme}}, Branch {{studbranch}}, {{semester}} of the Institute during
                     the Session {{session}}.</p>
-                
             </div>
-        
            <br>
            <br>
            <br>

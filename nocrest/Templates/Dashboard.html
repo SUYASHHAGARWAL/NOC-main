@@ -1717,6 +1717,8 @@ $('#section-display').css('display', 'block')
                     <label for="EnrollmentId">Enrollment Id</label>
                     <input type="text" id="EnrollmentId" name="EnrollmentId" placeholder="{{record.EnrollmentId}}" value="{{record.EnrollmentId}}">
                   </div>
+                  <input type="hidden" id="Branch" hidden name="department" placeholder="{{record.Branch}}"
+                                    value="{{record.Branch}}">
                   <div style="display: flex; flex-direction: column;">
                     <label for="dob">Date of Birth</label>
                     <input type="date" id="dob" name="dob" required>

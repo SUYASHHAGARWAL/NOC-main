@@ -414,14 +414,16 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
   console.log(data);
   console.log(data.id);
   var dpts = document.getElementById('dptms')
-  console.log(dpts.value)
+//   console.log(dpts.value)
   var form = $('<form method="POST" action="/api/editsavenddept"></form>');
 
   // Add hidden inputs for duesStatus and comment
-  $('<input type="hidden" name="duesStatus" value="' + duesStatus + '">').appendTo(form);
-  $('<input type="hidden" name="comment" value="' + comment + '">').appendTo(form);
+  $('<input type="hidden" name="Dept_approval" value="' + duesStatus + '">').appendTo(form);
+  $('<input type="hidden" name="Dept_comment" value="' + comment + '">').appendTo(form);
   $('<input type="hidden" name="randomdept" value="' + dpts.value + '">').appendTo(form);
   $('<input type="hidden" name="idbb" value="' + data.id + '">').appendTo(form);
+  $('<input type="hidden" name="Email" value="' + data.Email + '">').appendTo(form);
+  $('<input type="hidden" name="EnrollmentId" value="' + data.EnrollmentId + '">').appendTo(form);
 
   // Submit the form
   $('body').append(form);
@@ -1287,6 +1289,7 @@ $('#checkNDapproved').click(function () {
         <div class="header-wrapper">
             <div class="header-title">
                 <span>{{record.dept}} Dashboard</span>
+                <input type="hidden" id="dptms" value="{{record.dept}}">
                 <h2>{{record.Contact}}</h2>
                 <h3>{{record.name}}</h2>
             </div>
