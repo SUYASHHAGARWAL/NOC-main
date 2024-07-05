@@ -128,31 +128,19 @@ def custom_logout(request):
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded_file = request.FILES['file']
-
-        # Check if the uploaded file is an Excel file
         if not uploaded_file.name.endswith('.xlsx'):
             return JsonResponse({'status': 'Invalid file format. Please upload an Excel file.'}, status=400)
-
-        # Read the Excel file into a DataFrame
         try:
             df = pd.read_excel(uploaded_file)
         except Exception as e:
             return JsonResponse({'status': f'Error reading Excel file: {str(e)}'}, status=400)
-
-        # Convert the DataFrame to a dictionary
         data_dict = df.to_dict(orient='records')
-
-        # Track how many records were added and skipped
         added_count = 0
         skipped_count = 0
-
-        # Now you can store the data_dict in the database
         for record in data_dict:
             enrollment_id = record.get('EnrollmentId')
             if not enrollment_id:
                 continue
-
-            # Check if the enrollment_id already exists
             if Graduated.objects.filter(EnrollmentId=enrollment_id).exists():
                 skipped_count += 1
                 continue
@@ -261,6 +249,7 @@ def StudentLogin(req):
                     cursor2 = connection.cursor()
                     cursor2.execute(qr)
                     record2 = cursor2.fetchone()
+                    btndisp = 1000
                     if record2:
                         check = 1
                         qry = "SELECT * FROM nocrest_exitsurvey WHERE enrollmentid = '{0}'".format(username)
@@ -2122,6 +2111,25 @@ def ShowFeedback(req):
                 print("session khali")
                 return redirect('/')
             qry = "select * from nocrest_internshipfeedback"
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            print("xxxxxxxxxx",records)
+            print(len(records))
+            return JsonResponse(records,safe=False)
+            
+    except Exception as e:
+        print("Error", e)
+        
+@api_view(['GET', 'POST', 'DELETE'])
+def ExitShowSurvey(req):
+    # if(req.session['Ad_Status'] == 'passive'):
+    #             return
+    try:
+            # if req.session['Adminemail'] == '':
+            #     print("session khali")
+            #     return redirect('/')
+            qry = "select * from nocrest_exitsurvey"
             cursor = connection.cursor()
             cursor.execute(qry)
             records = tuple_to_dict.ParseDictMultipleRecord(cursor)
