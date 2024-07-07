@@ -398,7 +398,7 @@
 
             form.submit();
         }
-        function submitDuesStatus(data, index) {
+        function submitDuesStatus(data, index,comment) {
     console.log("Suyu bhai is here")
   var rowData = data;
   console.log("rowData", rowData);
@@ -406,8 +406,8 @@
   console.log(id);
 
   var duesStatus = $(`#duesStatus${index}`).val(); // Get the selected dues status
-  var comment = $('#comment_' + index).val(); // Get the comment value (assuming comment input ID)
-console.log("Jai Shree Ram", duesStatus)
+  var cmt = comment; // Get the comment value (assuming comment input ID)
+console.log("Jai Shree Ram", duesStatus,comment)
   if (duesStatus !== "") { // Check if dues status is selected
     console.log(id);
     console.log(comment);
@@ -767,56 +767,57 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
             console.log(content);
             console.log(11);
 
-            $('#checknodapp').click(function () {
-  console.log(121);
-  $.getJSON('/api/ndapliedstudents?dept={{record.dept}}', function (data) {
-    destroyDataTable();
-    console.log(data);
-    console.log(data.length);
-    document.getElementById('myTable').hidden = false;
+    $('#checknodapp').click(function () {
+            console.log(121);
+            $.getJSON('/api/ndapliedstudents?dept={{record.dept}}', function (data) {
+                destroyDataTable();
+                console.log(data);
+                console.log(data.length);
+                document.getElementById('myTable').hidden = false;
 
-    $('#section-display').css('display', 'block');
-    $('#lamand').html(`
-      <tr>
-        <th>S. no</th>
-        <th>Enrollment</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Dept</th>
-        <th>Dues Status</th>
-        <th>Comment</th>
-        <th>Action</th>
-      </tr>`);
-    $("#tablebody2").html('');
-    $("#tablebody3").html('');
-    $("#tablebody4").html('');
-    $("#tablebody5").html('');
+                $('#section-display').css('display', 'block');
+                $('#lamand').html(`
+                <tr>
+                    <th>S. no</th>
+                    <th>Enrollment</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Dept</th>
+                    <th>Dues Status</th>
+                    <th>Comment</th>
+                    <th>Action</th>
+                </tr>`);
+                $("#tablebody2").html('');
+                $("#tablebody3").html('');
+                $("#tablebody4").html('');
+                $("#tablebody5").html('');
 
     
-    for (i = 0; i < data.length; i++) {
-      const duesStatusOptions = `  <select id="duesStatus${i}">
-          <option value="Declined">Has Dues</option>
-          <option value="Approved">No Dues</option>
-        </select>`;
+            for (let i = 0; i < data.length; i++) {
+                const duesStatusOptions = `
+                <select id="duesStatus${i}">
+                    <option value="Declined">Has Dues</option>
+                    <option value="Approved">No Dues</option>
+                </select>`;
 
-      const actionButton = `<button type="submit" onclick='submitDuesStatus(${JSON.stringify(data[i])}, ${i})'>Submit</button>`;
+                const actionButton = `<button type="submit" onclick='submitDuesStatus(${JSON.stringify(data[i])}, ${i}, document.getElementById("comment${i}").value)'>Submit</button>`;
 
-      $('#tablebody2').append(`<tr>
-        <td>${i + 1}</td>
-        <td>${data[i].EnrollmentId}</td>
-        <td>${data[i].Name}</td>
-        <td>${data[i].Email}</td>
-        <td>${data[i].dept}</td>
-        <td>${duesStatusOptions}</td>
-        <td>${actionButton}</td>
-        <td><input type="text" id="comment${i}"></td>
-      </tr>`);
-    }
-    // Reinitialize DataTable
-    initializeDataTable();
-  });
-});
-$('#checkNDapproved').click(function () {
+                $('#tablebody2').append(`<tr>
+                <td>${i + 1}</td>
+                <td>${data[i].EnrollmentId}</td>
+                <td>${data[i].Name}</td>
+                <td>${data[i].Email}</td>
+                <td>${data[i].dept}</td>
+                <td>${duesStatusOptions}</td>
+                <td>${actionButton}</td>
+                <td><input type="text" id="comment${i}"></td>
+                </tr>`);
+                }
+                // Reinitialize DataTable
+                initializeDataTable();
+            });
+            });
+    $('#checkNDapproved').click(function () {
                 console.log(121);
                 $.getJSON('/api/ndapprovedstudents?dept={{record.dept}}', function (data) {
                     destroyDataTable();
@@ -855,8 +856,8 @@ $('#checkNDapproved').click(function () {
 
                     initializeDataTable();
                 });
-            });
-            $('#showfeedback').click(function () {
+        });
+    $('#showfeedback').click(function () {
                 console.log(121);
                 $.getJSON('/api/showfeedback', function (data) {
                     destroyDataTable();
@@ -910,7 +911,7 @@ $('#checkNDapproved').click(function () {
                     initializeDataTable();
                 });
             });
-            $('#allapplications').click(function () {
+    $('#allapplications').click(function () {
                 console.log(121);
                 $.getJSON('/api/AllApplications', function (data) {
                     destroyDataTable();
@@ -965,7 +966,7 @@ $('#checkNDapproved').click(function () {
                 });
             });
 
-            $('#BonaCheck').click(function () {
+    $('#BonaCheck').click(function () {
                 console.log(121);
                 $.getJSON('/api/BonafApplications?dept={{record.dept}}', function (data) {
                     destroyDataTable();
@@ -1027,7 +1028,7 @@ $('#checkNDapproved').click(function () {
                     initializeDataTable();
                 });
             })
-            $('#bonaApproved').click(function () {
+    $('#bonaApproved').click(function () {
                 console.log(121);
                 $.getJSON('/api/A_prpprovedBonafides?dept={{record.dept}}', function (data) {
                     destroyDataTable();
@@ -1081,7 +1082,7 @@ $('#checkNDapproved').click(function () {
             })
 
 
-            $('#declined_bonafide').click(function () {
+    $('#declined_bonafide').click(function () {
                 console.log(121);
                 $.getJSON('/api/D_eclineddBonafides?dept={{record.dept}}', function (data) {
                     destroyDataTable();
@@ -1133,22 +1134,187 @@ $('#checkNDapproved').click(function () {
                     initializeDataTable();
                 });
             })
-            $('#showexitsurvey').click(function () {
-                console.log(121);
-                $.getJSON('/api/showexitsurvey', function (data) {
-                    destroyDataTable();
-                    console.log(data);
-                    console.log(data.length);
-                    document.getElementById('myTable').hidden = false;
+            // $('#showexitsurvey').click(function () {
+            //     console.log(121);
+            //     $.getJSON('/api/showexitsurvey', function (data) {
+            //         destroyDataTable();
+            //         console.log(data);
+            //         console.log(data.length);
+            //         document.getElementById('myTable').hidden = false;
 
-                    $('#section-display').css('display', 'block');
-                    var table = $("#myTable").DataTable();
+            //         $('#section-display').css('display', 'block');
+            //         var table = $("#myTable").DataTable();
 
-                    table.destroy();
-                    $('#lamand').html(`
-            <tr>
-                <th>S. no</th>
-                <th>Name</th>
+            //         table.destroy();
+            //         $('#lamand').html(`
+            // <tr>
+                // <th>S. no</th>
+                // <th>Name</th>
+                // <th>Enrollment</th>
+                // <th>Email</th>
+                // <th>Department</th>
+                // <th>Phone</th>
+                // <th>DOB</th>
+                // <th>Gender</th>
+                // <th>Course</th>
+                // <th>Branch</th>
+                // <th>RateFaculty</th>
+                // <th>TeachingMethods</th>
+                // <th>TeachingEngagement</th>
+                // <th>SyllabusCompletion</th>
+                // <th>CourseRelevance</th>
+                // <th>TeacherPreparedness</th>
+                // <th>CourseOutcomes</th>
+                // <th>SoftSkills</th>
+                // <th>InternshipsSupport</th>
+                // <th>StudentOrgs</th>
+                // <th>CurricularExtracurricular</th>
+                // <th>Quizzes</th>
+                // <th>EvaluationFairness</th>
+                // <th>LibraryResources</th>
+                // <th>CurriculumFlexibility</th>
+                // <th>NPTELMOOCs</th>
+                // <th>FullSemesterInternship</th>
+                // <th>TrainingPlacement</th>
+                // <th>InternshipCompany</th>
+                // <th>InternshipCertificate</th>
+                // <th>JobSelection</th>
+                // <th>OutsideJobOffer</th>
+                // <th>OutsideJobLetter</th>
+                // <th>MultipleOfferCompanies</th>
+                // <th>MultipleOfferLetters</th>
+                // <th>OptedJoborPG</th>
+                // <th>FurtherStudyDetails</th>
+                // <th>JoiningCompany</th>
+                // <th>QualifiedGate</th>
+                // <th>GateRank</th>
+                // <th>GateScorecard</th>
+                // <th>AppearedForExams</th>
+                // <th>OtherExamName</th>
+                // <th>ScoreCardsAll</th>
+                // <th>Percentile</th>
+                // <th>MTechUniversity</th>
+                // <th>MBACollege</th>
+                // <th>AdmissionLetter</th>
+                // <th>AnyOtherCompetitiveExams</th>
+                // <th>DonateCautionMoney</th>
+                // <th>FinalSemesterChoice</th>
+                // <th>FinalYearInternship</th>
+                // <th>FinalInternshipStipend</th>
+                // <th>FinalInternshipStipendAmount</th>
+                // <th>InternshipCompanyProcess</th>
+                // <th>JobOfferExtension</th>
+                // <th>FinalSemesterInternshipDoc</th>
+                // <th>PermanentEmail</th>
+                // <th>ContactNum</th>
+                // <th>ParentContactNum</th>
+                // <th>HomeTown</th>
+                // <th>PermanentAddress</th>
+                // <th>Suggestions</th>
+            // </tr>`);
+            //         console.log('kake')
+            //         document.getElementById('tablebody2').innerHTML = ''
+            //         document.getElementById('tablebody3').innerHTML = ''
+            //         document.getElementById('tablebody4').innerHTML = ''
+            //         document.getElementById('tablebody5').innerHTML = ''
+            //         $("#tablebody2").html(``);
+            //         $("#tablebody3").html('');
+            //         $("#tablebody4").html('');
+            //         $("#tablebody5").html('');
+            //         console.log('jaiii')
+
+            //         for (var i = 0; i < data.length; i++) {
+            //             var approvalValue = data[i].approval ? data[i].approval : "none"; // Get the existing value or default to "none"
+            //             $('#tablebody2').append(`<tr>
+            //         <td>${i + 1}</td>
+            //         <td>${data[i].Name}</td>                    
+            //         <td>${data[i].EnrollmentId}</td>                    
+            //         <td>${data[i].Email}</td>                    
+            //         <td>${data[i].Department}</td>                    
+            //         <td>${data[i].Phone}</td>                    
+            //         <td>${data[i].DOB}</td>                    
+            //         <td>${data[i].Gender}</td>                    
+            //         <td>${data[i].Course}</td>                    
+            //         <td>${data[i].Branch}</td>                    
+            //         <td>${data[i].RateFaculty}</td>                    
+            //         <td>${data[i].TeachingMethods}</td>                    
+            //         <td>${data[i].TeachingEngagement}</td>                    
+            //         <td>${data[i].SyllabusCompletion}</td>                    
+            //         <td>${data[i].CourseRelevance}</td>                    
+            //         <td>${data[i].TeacherPreparedness}</td>                    
+            //         <td>${data[i].CourseOutcomes}</td>                    
+            //         <td>${data[i].SoftSkills}</td>                    
+            //         <td>${data[i].InternshipsSupport}</td>                    
+            //         <td>${data[i].StudentOrgs}</td>                    
+            //         <td>${data[i].CurricularExtracurricular}</td>                    
+            //         <td>${data[i].Quizzes}</td>                    
+            //         <td>${data[i].EvaluationFairness}</td>                    
+            //         <td>${data[i].LibraryResources}</td>                    
+            //         <td>${data[i].CurriculumFlexibility}</td>                    
+            //         <td>${data[i].NPTELMOOCs}</td>                    
+            //         <td>${data[i].FullSemesterInternship}</td>                    
+            //         <td>${data[i].TrainingPlacement}</td>                    
+            //         <td>${data[i].InternshipCompany}</td>                    
+            //         <td>${data[i].InternshipCertificate}</td>                    
+            //         <td>${data[i].JobSelection}</td>                    
+            //         <td>${data[i].OutsideJobOffer}</td>                    
+            //         <td>${data[i].OutsideJobLetter}</td>                    
+            //         <td>${data[i].MultipleOfferCompanies}</td>                    
+            //         <td>${data[i].OptedJoborPG}</td>                    
+            //         <td>${data[i].FurtherStudyDetails}</td>                    
+            //         <td>${data[i].JoiningCompany}</td>                    
+            //         <td>${data[i].QualifiedGate}</td>                    
+            //         <td>${data[i].GateRank}</td>                    
+            //         <td>${data[i].GateScorecard}</td>                    
+            //         <td>${data[i].AppearedForExams}</td>                    
+            //         <td>${data[i].OtherExamName}</td>                    
+            //         <td>${data[i].ScoreCardsAll}</td>                    
+            //         <td>${data[i].Percentile}</td>                    
+            //         <td>${data[i].MTechUniversity}</td>                    
+            //         <td>${data[i].MBACollege}</td>                    
+            //         <td>${data[i].AdmissionLetter}</td>                    
+            //         <td>${data[i].AnyOtherCompetitiveExams}</td>                    
+            //         <td>${data[i].DonateCautionMoney}</td>                    
+            //         <td>${data[i].FinalSemesterChoice}</td>                    
+            //         <td>${data[i].FinalYearInternship}</td>                    
+            //         <td>${data[i].FinalInternshipStipend}</td>                    
+            //         <td>${data[i].FinalInternshipStipendAmount}</td>                    
+            //         <td>${data[i].InternshipCompanyProcess}</td>                    
+            //         <td>${data[i].JobOfferExtension}</td>                    
+            //         <td>${data[i].FinalSemesterInternshipDoc}</td>                    
+            //         <td>${data[i].PermanentEmail}</td>                    
+            //         <td>${data[i].ContactNum}</td>                    
+            //         <td>${data[i].ParentContactNum}</td>                    
+            //         <td>${data[i].HomeTown}</td>                    
+            //         <td>${data[i].PermanentAddress}</td>                    
+            //         <td>${data[i].Suggestions}</td>                    
+            //         <td>${data[i].AppDate}</td>                    
+            //         <td>${data[i].AppTime}</td>                    
+            //     </tr>`);
+            //         }
+
+            //         initializeDataTable();
+            //     });
+            // })
+
+        });
+    </script>
+    <script>
+     $(document).ready(function () {
+    $('#showexitsurvey').click(function () {
+        console.log("Fetching data...");
+        $.getJSON('/api/showexitsurvey', function (dataa) {
+            console.log("Data fetched:", dataa);
+            
+            var table = $("#myTable").DataTable();
+            table.destroy();
+            
+            table = document.getElementById("myTable");
+            table.innerHTML = "";
+            table.innerHTML = `<thead id="lamand">
+                <tr>
+                    <th>S. no</th>
+                    <th>Name</th>
                 <th>Enrollment</th>
                 <th>Email</th>
                 <th>Department</th>
@@ -1210,93 +1376,102 @@ $('#checkNDapproved').click(function () {
                 <th>HomeTown</th>
                 <th>PermanentAddress</th>
                 <th>Suggestions</th>
-            </tr>`);
-                    console.log('kake')
-                    document.getElementById('tablebody2').innerHTML = ''
-                    document.getElementById('tablebody3').innerHTML = ''
-                    document.getElementById('tablebody4').innerHTML = ''
-                    document.getElementById('tablebody5').innerHTML = ''
-                    $("#tablebody2").html(``);
-                    $("#tablebody3").html('');
-                    $("#tablebody4").html('');
-                    $("#tablebody5").html('');
-                    console.log('jaiii')
+                </tr>
+            </thead>
+            <tbody id="tablebody2"></tbody>
+            <tbody id="tablebody3"></tbody>
+            <tbody id="tablebody4"></tbody>
+            <tbody id="tablebody5"></tbody>`;
 
-                    for (var i = 0; i < data.length; i++) {
-                        var approvalValue = data[i].approval ? data[i].approval : "none"; // Get the existing value or default to "none"
-                        $('#tablebody2').append(`<tr>
-                    <td>${i + 1}</td>
-                    <td>${data[i].Name}</td>                    
-                    <td>${data[i].EnrollmentId}</td>                    
-                    <td>${data[i].Email}</td>                    
-                    <td>${data[i].Department}</td>                    
-                    <td>${data[i].Phone}</td>                    
-                    <td>${data[i].DOB}</td>                    
-                    <td>${data[i].Gender}</td>                    
-                    <td>${data[i].Course}</td>                    
-                    <td>${data[i].Branch}</td>                    
-                    <td>${data[i].RateFaculty}</td>                    
-                    <td>${data[i].TeachingMethods}</td>                    
-                    <td>${data[i].TeachingEngagement}</td>                    
-                    <td>${data[i].SyllabusCompletion}</td>                    
-                    <td>${data[i].CourseRelevance}</td>                    
-                    <td>${data[i].TeacherPreparedness}</td>                    
-                    <td>${data[i].CourseOutcomes}</td>                    
-                    <td>${data[i].SoftSkills}</td>                    
-                    <td>${data[i].InternshipsSupport}</td>                    
-                    <td>${data[i].StudentOrgs}</td>                    
-                    <td>${data[i].CurricularExtracurricular}</td>                    
-                    <td>${data[i].Quizzes}</td>                    
-                    <td>${data[i].EvaluationFairness}</td>                    
-                    <td>${data[i].LibraryResources}</td>                    
-                    <td>${data[i].CurriculumFlexibility}</td>                    
-                    <td>${data[i].NPTELMOOCs}</td>                    
-                    <td>${data[i].FullSemesterInternship}</td>                    
-                    <td>${data[i].TrainingPlacement}</td>                    
-                    <td>${data[i].InternshipCompany}</td>                    
-                    <td>${data[i].InternshipCertificate}</td>                    
-                    <td>${data[i].JobSelection}</td>                    
-                    <td>${data[i].OutsideJobOffer}</td>                    
-                    <td>${data[i].OutsideJobLetter}</td>                    
-                    <td>${data[i].MultipleOfferCompanies}</td>                    
-                    <td>${data[i].OptedJoborPG}</td>                    
-                    <td>${data[i].FurtherStudyDetails}</td>                    
-                    <td>${data[i].JoiningCompany}</td>                    
-                    <td>${data[i].QualifiedGate}</td>                    
-                    <td>${data[i].GateRank}</td>                    
-                    <td>${data[i].GateScorecard}</td>                    
-                    <td>${data[i].AppearedForExams}</td>                    
-                    <td>${data[i].OtherExamName}</td>                    
-                    <td>${data[i].ScoreCardsAll}</td>                    
-                    <td>${data[i].Percentile}</td>                    
-                    <td>${data[i].MTechUniversity}</td>                    
-                    <td>${data[i].MBACollege}</td>                    
-                    <td>${data[i].AdmissionLetter}</td>                    
-                    <td>${data[i].AnyOtherCompetitiveExams}</td>                    
-                    <td>${data[i].DonateCautionMoney}</td>                    
-                    <td>${data[i].FinalSemesterChoice}</td>                    
-                    <td>${data[i].FinalYearInternship}</td>                    
-                    <td>${data[i].FinalInternshipStipend}</td>                    
-                    <td>${data[i].FinalInternshipStipendAmount}</td>                    
-                    <td>${data[i].InternshipCompanyProcess}</td>                    
-                    <td>${data[i].JobOfferExtension}</td>                    
-                    <td>${data[i].FinalSemesterInternshipDoc}</td>                    
-                    <td>${data[i].PermanentEmail}</td>                    
-                    <td>${data[i].ContactNum}</td>                    
-                    <td>${data[i].ParentContactNum}</td>                    
-                    <td>${data[i].HomeTown}</td>                    
-                    <td>${data[i].PermanentAddress}</td>                    
-                    <td>${data[i].Suggestions}</td>                    
-                    <td>${data[i].AppDate}</td>                    
-                    <td>${data[i].AppTime}</td>                    
-                </tr>`);
-                    }
-
-                    initializeDataTable();
-                });
-            })
-
+            $("#myTable").DataTable({
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        extend: "pdfHtml5",
+                        title: 'StudentAnswerAnalysis',
+                        text: "PDF",
+                        titleAttr: "PDF",
+                    },
+                    "excel",
+                    "copy"
+                ],
+                responsive: true,
+                data: dataa,
+                columns: [
+                { data: "id" },
+  { data: "Name" },
+  { data: "EnrollmentId" },
+  { data: "Email" },
+  { data: "Department" },
+  { data: "Phone" },
+  { data: "DOB" },
+  { data: "Gender" },
+  { data: "Course" },
+  { data: "Branch" },
+  { data: "RateFaculty" },
+  { data: "TeachingMethods" },
+  { data: "TeachingEngagement" },
+  { data: "SyllabusCompletion" },
+  { data: "CourseRelevance" },
+  { data: "TeacherPreparedness" },
+  { data: "CourseOutcomes" },
+  { data: "SoftSkills" },
+  { data: "InternshipsSupport" },
+  { data: "StudentOrgs" },
+  { data: "CurricularExtracurricular" },
+  { data: "Quizzes" },
+  { data: "EvaluationFairness" },
+  { data: "LibraryResources" },
+  { data: "CurriculumFlexibility" },
+  { data: "NPTELMOOCs" },
+  { data: "FullSemesterInternship" },
+  { data: "TrainingPlacement" },
+  { data: "InternshipCompany" },
+  { data: "InternshipCertificate" },
+  { data: "JobSelection" },
+  { data: "OutsideJobOffer" },
+  { data: "OutsideJobLetter" },
+  { data: "MultipleOfferCompanies" },
+  { data: "MultipleOfferLetters" },
+  { data: "OptedJoborPG" },
+  { data: "FurtherStudyDetails" },
+  { data: "JoiningCompany" },
+  { data: "QualifiedGate" },
+  { data: "GateRank" },
+  { data: "GateScorecard" },
+  { data: "AppearedForExams" },
+  { data: "OtherExamName" },
+  { data: "ScoreCardsAll" },
+  { data: "Percentile" },
+  { data: "MTechUniversity" },
+  { data: "MBACollege" },
+  { data: "AdmissionLetter" },
+  { data: "AnyOtherCompetitiveExams" },
+  { data: "DonateCautionMoney" },
+  { data: "FinalSemesterChoice" },
+  { data: "FinalYearInternship" },
+  { data: "FinalInternshipStipend" },
+  { data: "FinalInternshipStipendAmount" },
+  { data: "InternshipCompanyProcess" },
+  { data: "JobOfferExtension" },
+  { data: "FinalSemesterInternshipDoc" },
+  { data: "PermanentEmail" },
+  { data: "ContactNum" },
+  { data: "ParentContactNum" },
+  { data: "HomeTown" },
+  { data: "PermanentAddress" },
+  { data: "Suggestions" }
+                ],
+                order: [
+                    [0, "asc"]
+                ]
+            });
+            
+            // Show the table after data is loaded
+            $("#myTable").removeAttr("hidden");
         });
+    });
+});
     </script>
     <script>
         $(document).ready(function () {
@@ -1432,7 +1607,7 @@ $('#checkNDapproved').click(function () {
                         </ul>
                     </div>
                 </li>
-                <li>
+                <li id="tnponly" style="display: none;">
                     <a class="mat" id="compfile">
                         <i class="fas fa-user"></i>
                         <span id="showexitsurvey">Exit Survey</span>
@@ -1558,7 +1733,7 @@ $('#checkNDapproved').click(function () {
 
         <div class="tabular-wrapper">
             <h3 id="datawillappear" class="main-title">Data</h3>
-            <div class="table-container" style="overflow-x: auto; ">
+            <div class="table-container" style="overflow-x: auto;">
                 <table id="myTable" hidden style="overflow-y: auto;">
                     <thead id="lamand">
                         <tr>
@@ -1580,25 +1755,15 @@ $('#checkNDapproved').click(function () {
                             <th>Stipend</th>
                             <th>Offer Letter</th>
                             <th>Company website</th>
-                            <th>year of study</th>
-
+                            <th>Year of study</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-
-                    <tbody id="tablebody2">
-
-
-                    </tbody>
-                    <tbody id="tablebody3">
-                    </tbody>
-
-                    <tbody id="tablebody4">
-                    </tbody>
-
-                    <tbody id="tablebody5">
-                    </tbody>
-                </table>
+                    <tbody id="tablebody2"></tbody>
+                    <tbody id="tablebody3"></tbody>
+                    <tbody id="tablebody4"></tbody>
+                    <tbody id="tablebody5"></tbody>
+               </table>
             </div>
         </div>
     </div>
@@ -1754,6 +1919,7 @@ $('#checkNDapproved').click(function () {
     var addepartments = document.getElementById('bonafideff');
     var Excelbtnshow = document.getElementById('excellink');
     var AddExcelBTN = document.getElementById('fileForm');
+    var exirsurveytnp = document.getElementById('tnponly')
     setTimeout(() => {
         if (clicked == 6) {
             myButton.click();
@@ -1811,6 +1977,7 @@ $('#checkNDapproved').click(function () {
         totalstudentsgot.style.display = 'block';
         deptstudentsgot.style.display = 'none';
         addepartments.style.display = 'none';
+        exirsurveytnp.style.display = 'block';
 
     }
     // function attachFile() {

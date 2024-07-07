@@ -892,6 +892,14 @@ def SubmitNoDuesApp(req):
                 enrollmentid = req.POST.get('EnrollmentId')
                 email = req.POST.get('email')
                 dept = req.POST.get('department')
+                qry = "select Department from nocrest_department where Dep_Id = '{0}'".format(dept)
+                cursor = connection.cursor()
+                cursor.execute(qry)
+                records = tuple_to_dict.ParseDictSingleRecord(cursor)
+                print("xxxxxxxxxx",records)
+                print(len(records))
+                print(records['Department'])
+                dept = records['Department']
                 apply = 1
                 current_datetime = datetime.now()
                 current_date = current_datetime.date()
@@ -1178,7 +1186,8 @@ def NoDuesAppliedstudent(req):
     try:
          if req.method == 'GET':
             department = req.GET.get('dept')
-            print("fnjbqiughienbijnbiuehgiugnigbiu",department)
+            # print("fnjbqiughienbijnbiuehgiugnigbiu",department)
+            query = " select * from nocrest_department where Department = {0}".format(department)
             if(department == 'Tnp'):
                 department = 'TnP_approval'
                 q = "select * from nocrest_NoDues_application_table where {0} = ''  order by App_Date desc".format(department)
@@ -2010,7 +2019,7 @@ def EditSaveNDDept(req):
         else:
                     cat = Application_table.objects.get(pk=req.POST.get('idbb'))
                     cat.delete()
-        return redirect('/adminDash')
+        return redirect('/api/adminDash')
     except Exception as e:
         print("Error", e)
 
