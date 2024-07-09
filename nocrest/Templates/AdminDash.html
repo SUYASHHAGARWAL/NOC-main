@@ -288,6 +288,18 @@
     
     <script>
 
+function GiveNodues(enr,id,comment){
+    console.log("HI KAKE")
+    alert(enr,id)
+    var form = $('<form method="POST" action="/api/give-nodues"></form>');
+            var csrftoken = getCookie('csrftoken');
+            $('<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">').appendTo(form);
+            $('<input type="hidden" name="enroll" value="' + enr + '">').appendTo(form);
+            $('<input type="hidden" name="idbb" value="' + id + '">').appendTo(form);
+            $('<input type="hidden" name="Acc_comment" value="' + comment + '">').appendTo(form);
+            $('body').append(form);
+            form.submit();
+}
         function showCommentBox(index) {
             $('#comment_' + index).css('display', $('#declined_' + index).is(':checked') ? 'block' : 'none');
         }
@@ -320,10 +332,10 @@
         function sendPostRequest(data, approval, comment) {
             console.log("Sending POST request");
             console.log(data)
-            var form = $('<form method="POST" action="/api/editsavedept"></form>');
             console.log('{{record}}')
             var dept = '{{rrolee}}'
             console.log(dept)
+            var form = $('<form method="POST" action="/api/editsavedept"></form>');
             var csrftoken = getCookie('csrftoken');
             $('<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">').appendTo(form);
 
@@ -456,6 +468,9 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
 
         $(document).ready(function () {
 
+
+
+            console.log("HI KAKAKKAKA")
             var dept = document.getElementById('randomdept');
             var content = dept.getAttribute('value');
 
@@ -819,16 +834,13 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
                 // Reinitialize DataTable
                 initializeDataTable();
             });
-            });
+        });
     $('#accchecknodapp').click(function () {
             console.log(121);
             console.log("acc se aya hu");
             $.getJSON('/api/accndapliedstudents', function (data) {
-            //     destroyDataTable();
-                console.log(data);
-                console.log(data.length);
-                // const records = data.records;
-        // const duesAmount = data.dues_amount;
+        console.log(data);
+        console.log(data.length);
         
         const records = data.records;
         
@@ -841,6 +853,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
         $('#resultTable').DataTable({
             data: records,
             columns: [
+                { data: 'id', title: 'S. No' },
                 { data: 'EnrollmentId', title: 'Enrollment ID' },
                 { data: 'Name', title: 'Name' },
                 { data: 'Email', title: 'Email' },
@@ -877,10 +890,20 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
                 { data: 'Dept_approval', title: 'Dept Approval' },
                 { data: 'TnP_approval', title: 'TnP Approval' },
                 { data: 'Lib_approval', title: 'Library Approval' },
-                { data: 'Acc_approval', title: 'Account Approval' },
                 { data: 'Hostle_approval', title: 'Hostel Approval' },
                 { data: 'Exam_approval', title: 'Exam Approval' },
-                { data: 'Genoffice_approval', title: 'General Office Approval' }
+                { data: 'Genoffice_approval', title: 'General Office Approval' },
+                {
+                data: null,
+                title: 'Action',
+                render: function(data, type, row, meta) {
+                    return `
+                        <input type="text" class="form-control give-nodues-input" onchange="GiveNodues('${row.EnrollmentId}', '${row.id}', this.value)">
+                        <!-- Button for giving no dues -->
+                        <button class="btn btn-primary give-nodues-btn" onclick="GiveNodues('${row.EnrollmentId}','${row.id}')">Give No Dues</button>
+                    `;
+                }
+            }
             ],
             pageLength: 10,
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -890,8 +913,54 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ]
         });
+
+        // Add event listener for the "Give No Dues" button
+//         $('#resultTable').on('click', '.give-nodues-btn', function() {
+//             var enrollmentId = $(this).data('enrollmentid');
+//             console.log('Give No Dues clicked for EnrollmentId:', enrollmentId);
+            
+//             // Confirm before proceeding
+//             if (confirm('Are you sure you want to give No Dues to student with EnrollmentId: ' + enrollmentId + '?')) {
+//                 // AJAX call to give no dues
+//                 $.ajax({
+//     url: '/api/give-nodues',  // Make sure this matches your Django URL configuration
+//     method: 'POST',
+//     data: { EnrollmentId: enrollmentId },
+//     headers: { "X-CSRFToken": getCookie("csrftoken") },
+//     dataType: 'json',  // Explicitly state that we expect JSON
+//     success: function(response) {
+//         if (response.status === 'success') {
+//             alert(response.message);
+//             // Refresh the entire table
+//             $('#resultTable').DataTable().ajax.reload();
+//         } else {
+//             alert('Error: ' + response.message);
+//         }
+//     },
+//     error: function(xhr, status, error) {
+//         console.error('Error details:', xhr.responseText);
+//         alert('Error giving No Dues. Status: ' + status + '. Error: ' + error + '. Please check the console for more details.');
+//     }
+// });
+//             }
+//         });
     });
-            });
+});
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
     $('#checkNDapproved').click(function () {
                 console.log(121);
                 $.getJSON('/api/ndapprovedstudents?dept={{record.dept}}', function (data) {
@@ -2018,6 +2087,9 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
         }
         if (clicked == 5) {
 
+        }
+        if (clicked == 9) {
+            accshownodapp.click();
         }
     }, 200);
 

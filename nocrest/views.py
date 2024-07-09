@@ -3149,3 +3149,28 @@ def AdminApproval(request):
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'error': 'An error occurred'}, status=500)
+
+
+from django.views.decorators.http import require_POST
+@require_POST
+def give_nodues(request):
+    enrollment_id = request.POST.get('enroll')
+    id = request.POST.get('idbb')
+    comm = request.POST.get('Acc_comment')
+    print(enrollment_id,id,comm)
+    cat = NoDues_application_table.objects.get(pk=request.POST['idbb'])
+    cat.Acc_approval = 'Approved'
+    cat.Acc_Comment = comm
+    cat.save()
+    return redirect('/api/adminDash?clicked=9')
+
+    # return redirect('/')
+    # print(f"Processing No Dues approval for EnrollmentId: {enrollment_id}")
+    
+    # # Here you would typically update the database
+    # # For example: Student.objects.filter(EnrollmentId=enrollment_id).update(no_dues_status=True)
+    
+    # return JsonResponse({
+    #     'status': 'success',
+    #     'message': f'No Dues given to student with EnrollmentId: {enrollment_id}'
+    # })

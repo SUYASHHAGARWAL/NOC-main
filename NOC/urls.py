@@ -120,6 +120,9 @@ path('logout/', custom_logout, name='logout'),
     re_path(r'^api/PaddDEPT',views.AddDeptAdmin),
     re_path(r'^api/showexitsurvey',views.ExitShowSurvey),
 
+
+re_path(r'^api/give-nodues', views.give_nodues, name='give_nodues'),
+
 ]
 
 if settings.DEBUG:
