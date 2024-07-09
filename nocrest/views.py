@@ -892,6 +892,19 @@ def SubmitNoDuesApp(req):
                 enrollmentid = req.POST.get('EnrollmentId')
                 email = req.POST.get('email')
                 dept = req.POST.get('department')
+                poy = req.POST.get('passOutYear')
+                fname = req.POST.get('fathersname')
+                brn = req.POST.get('branch')
+                add = req.POST.get('address')
+                mob = req.POST.get('mobile')
+                hstl = req.POST.get('hostel')
+                fdue = req.POST.get('fees_due')
+                preport = req.POST.get('project_report')
+                cmoney = req.POST.get('caution_money')
+                accname = req.POST.get('account_holder_name')
+                bankname = req.POST.get('bank_name')
+                accnum = req.POST.get('account_number')
+                ifsc = req.POST.get('ifsc_code')
                 qry = "select Department from nocrest_department where Dep_Id = '{0}'".format(dept)
                 cursor = connection.cursor()
                 cursor.execute(qry)
@@ -904,11 +917,9 @@ def SubmitNoDuesApp(req):
                 current_datetime = datetime.now()
                 current_date = current_datetime.date()
                 current_time = current_datetime.time()
-
                 print(current_date, current_time,email)
                 current_date_str = current_datetime.strftime("%Y-%m-%d")
                 current_time_str = current_datetime.strftime("%H:%M:%S")
-
                 dateapp = current_date_str
                 time = current_time_str
                 # Create an instance of Application_table
@@ -919,7 +930,16 @@ def SubmitNoDuesApp(req):
                     dept=dept,
                     App_Id=apply,
                     App_Date=dateapp,
-                    App_time=time
+                    App_time=time,
+                    passOutYear = poy,
+                    hostel = hstl,
+                    fees_due = fdue,
+                    project_report = preport,
+                    caution_money = cmoney,
+                    account_number = accnum,
+                    account_holder_name = accname,
+                    bank_name = bankname,
+                    ifsc_code = ifsc,
 
                 )
 
@@ -1209,6 +1229,37 @@ def NoDuesAppliedstudent(req):
             print("xxxxxxxxxx",records)
             if(records):
                 return JsonResponse(records,safe=False)
+            else:
+                return render(req,"Adminfp.html")
+    except Exception as e:
+        print("Error", e)
+
+@api_view(['GET','POST','DELETE'])
+def NoDuesAccAppliedstudent(req):
+    try:
+         if req.method == 'GET':
+
+            q = "SELECT * FROM nocrest_NoDues_application_table WHERE (dept_approval = 'approved' AND Tnp_approval = 'approved' AND hostle_approval = 'approved' AND lib_approval = 'approved' AND Acc_approval = '')  order by App_Date desc"
+            cursor = connection.cursor()
+            cursor.execute(q)
+            records = tuple_to_dict.ParseDictMultipleRecord(cursor)
+            dues_amount = []
+            print("xxxxxxxxxx",records)
+            if(records):
+                for i in range(len(records)):
+                    amt = 0
+                    for key in ['TnP_amount', 'Lib_amount', 'Hostle_amount', 'Genoffice_amount', 'Dept_amount', 'Exam_amount']:
+                        value = records[i][key]
+                        amt += int(value) if value != '' else 0
+                    dues_amount.append(amt)
+                    print(dues_amount)
+                    response_data = {
+                    'records': records,
+                    'dues_amount': dues_amount
+                }
+                
+                return JsonResponse(response_data, safe=False)
+                # return JsonResponse(records,dues_amount,safe=False)
             else:
                 return render(req,"Adminfp.html")
     except Exception as e:
@@ -1961,6 +2012,8 @@ def EditSaveNDDept(req):
                     print(req.POST.get('idbb'))
                     dept = req.POST.get('randomdept')
                     e_mail = req.POST.get('Email')
+                    amount = req.POST['Dept_amount']
+                    print("Due hai ", amount,"ka")
                     if(dept == 'Lib'):
                         cat = NoDues_application_table.objects.get(pk=req.POST['idbb'])
                         cat.EnrollmentId = req.POST['EnrollmentId']
@@ -2004,6 +2057,7 @@ def EditSaveNDDept(req):
                         # cat.Name = req.POST['Name']
                         cat.TnP_approval = req.POST['Dept_approval']
                         cat.TnP_Comment= req.POST['Dept_comment']
+                        cat.TnP_amount= req.POST['Dept_amount']
                         cat.save()
                         print(444)
                     else:

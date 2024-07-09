@@ -537,54 +537,73 @@ $(document).ready(function () {
                 })
             })
             $('#noduesstatus').click(function () {
-                console.log(121);
-                $.getJSON('/api/Noduesstatus?EnrollmentId={{record.EnrollmentId}}', function (data) {
-                    console.log(data);
-$('#section-display').css('display', 'block')
-                    $('#myTable').css('display', 'block')
-                    $("#tablebody2").html('')
+    console.log(121);
+    $.getJSON('/api/Noduesstatus?EnrollmentId={{record.EnrollmentId}}', function (data) {
+        console.log(data);
+        
+        // Check if DataTables is available
+        if ($.fn.DataTable) {
+            // Check if DataTable already exists and destroy it
+            if ($.fn.DataTable.isDataTable('#statusTable')) {
+                $('#statusTable').DataTable().destroy();
+            }
 
-                    $('#tabledatashow').html(`
-                            <tr>
-                                <th>S. no</th>
-                                <th>Enrollment</th>
-                                <th>Dept</th>
-                                <th>Dept No Dues</th>
-                                <th>Dept Comment</th>
-                                <th>T&p No Dues</th>
-                                <th>T&p Comment</th>
-                                <th>App Date</th>
-                                <th>Libarary No Dues</th>
-                                <th>Libarary Comments</th>
-                                <th>hostle No Dues</th>
-                                <th>hostle Comments</th>
-                                <th>Exam No Dues</th>
-                                <th>Exam Comments</th>
-                                <th>Accounts No Dues</th>
-                                <th>Accounts Comments</th>
-                            </tr>`)
-
-                    for (i = 0; i < data.length; i++) {
-                        $('#tablebody2').append(`<tr>
-                            <th scope="row">${i + 1}</th>
-                            <td>${data[i].EnrollmentId}</td>
-                            <td>{{branchstud}}</td>
-                            <td>${data[i].Dept_approval}</td>
-                            <td>${data[i].Dept_Comment}</td>
-                            <td>${data[i].TnP_approval}</td>
-                            <td>${data[i].TnP_Comment}</td>
-                            <td>${data[i].App_Date}</td>
-                            <td>${data[i].Lib_approval}</td>
-                            <td>${data[i].Lib_Comment}</td>
-                            <td>${data[i].Hostle_approval}</td>
-                            <td>${data[i].Hostle_Comment}</td>
-                            <td>${data[i].Acc_approval}</td>
-                            <td>${data[i].Acc_Comment}</td>
-                        </tr>`);
-                      }
-                });
+            // Initialize DataTable
+            $('#statusTable').DataTable({
+                data: [data], // Wrap the single object in an array
+                columns: [
+                    { data: 'EnrollmentId', title: 'Enrollment ID' },
+                    { data: 'Name', title: 'Name' },
+                    { data: 'Email', title: 'Email' },
+                    { data: 'dept', title: 'Department' },
+                    { data: 'App_Date', title: 'Application Date' },
+                    { data: 'App_time', title: 'Application Time' },
+                    { data: 'passOutYear', title: 'Pass Out Year' },
+                    { data: 'account_holder_name', title: 'Account Holder Name' },
+                    { data: 'account_number', title: 'Account Number' },
+                    { data: 'bank_name', title: 'Bank Name' },
+                    { data: 'ifsc_code', title: 'IFSC Code' },
+                    { data: 'caution_money', title: 'Caution Money' },
+                    { data: 'fees_due', title: 'Fees Due' },
+                    { data: 'hostel', title: 'Hostel' },
+                    { data: 'project_report', title: 'Project Report' },
+                    { data: 'TnP_amount', title: 'TnP Amount' },
+                    { data: 'Lib_amount', title: 'Library Amount' },
+                    { data: 'Hostle_amount', title: 'Hostel Amount' },
+                    { data: 'Genoffice_amount', title: 'General Office Amount' },
+                    { data: 'Dept_amount', title: 'Department Amount' },
+                    { data: 'Exam_amount', title: 'Exam Amount' },
+                    { data: 'Dept_approval', title: 'Dept Approval' },
+                    { data: 'TnP_approval', title: 'TnP Approval' },
+                    { data: 'Lib_approval', title: 'Library Approval' },
+                    { data: 'Acc_approval', title: 'Account Approval' },
+                    { data: 'Hostle_approval', title: 'Hostel Approval' },
+                    { data: 'Exam_approval', title: 'Exam Approval' },
+                    { data: 'Genoffice_approval', title: 'General Office Approval' }
+                ],
+                pageLength: 1,
+                lengthMenu: [[1, -1], [1, "All"]],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
             });
-
+        } else {
+            // If DataTables is not available, display the data in a simple table
+            let tableHTML = '<table><tr>';
+            for (let key in data) {
+                tableHTML += `<th>${key}</th>`;
+            }
+            tableHTML += '</tr><tr>';
+            for (let key in data) {
+                tableHTML += `<td>${data[key]}</td>`;
+            }
+            tableHTML += '</tr></table>';
+            $('#statusTable').html(tableHTML);
+            console.warn('DataTables library not found. Displaying simple table.');
+        }
+    });
+});
       
 
 
@@ -724,6 +743,7 @@ $('#section-display').css('display', 'block')
         <div class="tabular-wrapper">
             <h3 id="datawillappear" class="main-title">NOC Data</h3>
             <div class="table-container" style="overflow-x: auto; ">
+              <table id="statusTable" class="display" style="width:100%"></table>
                 <table id="myTable" style="overflow-y: auto; display: none;">
                     <thead id="tabledatashow">
                         <tr>

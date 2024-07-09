@@ -398,7 +398,7 @@
 
             form.submit();
         }
-        function submitDuesStatus(data, index,comment) {
+        function submitDuesStatus(data, index,comment,amount) {
     console.log("Suyu bhai is here")
   var rowData = data;
   console.log("rowData", rowData);
@@ -412,13 +412,13 @@ console.log("Jai Shree Ram", duesStatus,comment)
     console.log(id);
     console.log(comment);
     console.log(rowData);
-    sendDuesStatusUpdate(rowData, duesStatus, comment);
+    sendDuesStatusUpdate(rowData, duesStatus, comment,amount);
   } else {
     alert('Please select a dues status.');
   }
 }
 
-function sendDuesStatusUpdate(data, duesStatus, comment) {
+function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
   console.log("Sending POST request for dues status update");
   console.log(data);
   console.log(data.id);
@@ -429,6 +429,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
   // Add hidden inputs for duesStatus and comment
   $('<input type="hidden" name="Dept_approval" value="' + duesStatus + '">').appendTo(form);
   $('<input type="hidden" name="Dept_comment" value="' + comment + '">').appendTo(form);
+  $('<input type="hidden" name="Dept_amount" value="' + amount + '">').appendTo(form);
   $('<input type="hidden" name="randomdept" value="' + dpts.value + '">').appendTo(form);
   $('<input type="hidden" name="idbb" value="' + data.id + '">').appendTo(form);
   $('<input type="hidden" name="Email" value="' + data.Email + '">').appendTo(form);
@@ -784,8 +785,9 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                     <th>Email</th>
                     <th>Dept</th>
                     <th>Dues Status</th>
-                    <th>Comment</th>
                     <th>Action</th>
+                    <th>Comment</th>
+                    <th>Amount</th>
                 </tr>`);
                 $("#tablebody2").html('');
                 $("#tablebody3").html('');
@@ -800,7 +802,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                     <option value="Approved">No Dues</option>
                 </select>`;
 
-                const actionButton = `<button type="submit" onclick='submitDuesStatus(${JSON.stringify(data[i])}, ${i}, document.getElementById("comment${i}").value)'>Submit</button>`;
+                const actionButton = `<button type="submit" onclick='submitDuesStatus(${JSON.stringify(data[i])}, ${i}, document.getElementById("comment${i}").value, document.getElementById("amount${i}").value)'>Submit</button>`;
 
                 $('#tablebody2').append(`<tr>
                 <td>${i + 1}</td>
@@ -811,11 +813,84 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                 <td>${duesStatusOptions}</td>
                 <td>${actionButton}</td>
                 <td><input type="text" id="comment${i}"></td>
+                <td><input type="text" id="amount${i}"></td>
                 </tr>`);
                 }
                 // Reinitialize DataTable
                 initializeDataTable();
             });
+            });
+    $('#accchecknodapp').click(function () {
+            console.log(121);
+            console.log("acc se aya hu");
+            $.getJSON('/api/accndapliedstudents', function (data) {
+            //     destroyDataTable();
+                console.log(data);
+                console.log(data.length);
+                // const records = data.records;
+        // const duesAmount = data.dues_amount;
+        
+        const records = data.records;
+        
+        // Check if DataTable already exists and destroy it
+        if ($.fn.DataTable.isDataTable('#resultTable')) {
+            $('#resultTable').DataTable().destroy();
+        }
+
+        // Initialize DataTable
+        $('#resultTable').DataTable({
+            data: records,
+            columns: [
+                { data: 'EnrollmentId', title: 'Enrollment ID' },
+                { data: 'Name', title: 'Name' },
+                { data: 'Email', title: 'Email' },
+                { data: 'dept', title: 'Department' },
+                { data: 'App_Date', title: 'Application Date' },
+                { data: 'App_time', title: 'Application Time' },
+                { data: 'passOutYear', title: 'Pass Out Year' },
+                { data: 'dob', title: 'Date of Birth' },
+                { data: 'hostel', title: 'Hostel' },
+                { data: 'account_holder_name', title: 'Account Holder Name' },
+                { data: 'account_number', title: 'Account Number' },
+                { data: 'bank_name', title: 'Bank Name' },
+                { data: 'ifsc_code', title: 'IFSC Code' },
+                { data: 'caution_money', title: 'Caution Money' },
+                { data: 'fees_due', title: 'Fees Due' },
+                { data: 'project_report', title: 'Project Report' },
+                { data: 'TnP_amount', title: 'TnP Amount' },
+                { data: 'Lib_amount', title: 'Library Amount' },
+                { data: 'Hostle_amount', title: 'Hostel Amount' },
+                { data: 'Genoffice_amount', title: 'General Office Amount' },
+                { data: 'Dept_amount', title: 'Department Amount' },
+                { data: 'Exam_amount', title: 'Exam Amount' },
+                { 
+                    data: null, 
+                    title: 'Total Dues',
+                    render: function(data, type, row, meta) {
+                        let total = 0;
+                        ['TnP_amount', 'Lib_amount', 'Hostle_amount', 'Genoffice_amount', 'Dept_amount', 'Exam_amount'].forEach(key => {
+                            total += parseInt(row[key]) || 0;
+                        });
+                        return total;
+                    }
+                },
+                { data: 'Dept_approval', title: 'Dept Approval' },
+                { data: 'TnP_approval', title: 'TnP Approval' },
+                { data: 'Lib_approval', title: 'Library Approval' },
+                { data: 'Acc_approval', title: 'Account Approval' },
+                { data: 'Hostle_approval', title: 'Hostel Approval' },
+                { data: 'Exam_approval', title: 'Exam Approval' },
+                { data: 'Genoffice_approval', title: 'General Office Approval' }
+            ],
+            pageLength: 10,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            scrollX: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
             });
     $('#checkNDapproved').click(function () {
                 console.log(121);
@@ -1581,7 +1656,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                         <span>Student's Feedback</span>
                     </a>
                 </li>
-                <li>
+                <li id="nocadminoptions">
                     <a class="mat" id="complete-profile">
                         <i class="fas fa-user"></i>
                         <span>NOC Related Options</span>
@@ -1603,6 +1678,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
                     <div class="additional-options" id="adminNODopt">
                         <ul class="items">
                             <li id="checknodapp">No Dues Applications</li>
+                            <li id="accchecknodapp" style="display: none;">No Dues Applications</li>
                             <li id="checkNDapproved">Approved No Dues</li>
                         </ul>
                     </div>
@@ -1687,7 +1763,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
         </div>
 
 
-
+        
         <input type="hidden" name="clicked" value="{{clicked}}" id="clicked">
         <div id="randomdept" value="{{record.dept}}"></div>
 
@@ -1734,6 +1810,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
         <div class="tabular-wrapper">
             <h3 id="datawillappear" class="main-title">Data</h3>
             <div class="table-container" style="overflow-x: auto;">
+                <table id="resultTable" class="display" style="width:100%"></table>
                 <table id="myTable" hidden style="overflow-y: auto;">
                     <thead id="lamand">
                         <tr>
@@ -1920,6 +1997,9 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
     var Excelbtnshow = document.getElementById('excellink');
     var AddExcelBTN = document.getElementById('fileForm');
     var exirsurveytnp = document.getElementById('tnponly')
+    var accshownodapp = document.getElementById('accchecknodapp')
+    var shownodapp = document.getElementById('checknodapp')
+    var nocOptions = document.getElementById('nocadminoptions')
     setTimeout(() => {
         if (clicked == 6) {
             myButton.click();
@@ -1945,7 +2025,9 @@ function sendDuesStatusUpdate(data, duesStatus, comment) {
         myButton.style.display = 'none';
         myBtn.style.display = 'none';
         addepartments.style.display = 'none';
-
+        accshownodapp.style.display = 'block';
+        shownodapp.style.display = 'none';
+        nocOptions.style.display = 'none';
     }
     if (content == 'hostel') {
         myButton.style.display = 'none';
