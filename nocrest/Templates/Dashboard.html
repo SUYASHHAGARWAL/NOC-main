@@ -213,7 +213,10 @@ footer {
     font-size: 20px;
     cursor: pointer;
 }
-
+.required:after {
+  content:" *";
+  color: red;
+}
 .close:hover {
     color: red;
 }
@@ -713,8 +716,12 @@ $(document).ready(function () {
             <h3 class="main-title">Student's Section</h3>
             <div class="card-wrapper">
 
-                <div id="btnapply"><button type="button" class="btn flex items-center box centerAlign ">Apply For
-                        NOC</button></div>
+              <div id="btnapply">
+                <button type="button" class="btn flex items-center box centerAlign" 
+                        data-has-applied="{{ has_applied_noc|yesno:'true,false' }}">
+                    Apply For NOC
+                </button>
+            </div>
 
                 <button id="checkpreviousapplications" type="button"
                     class="btn flex items-center box centerAlign ">Check NOC Status</button>
@@ -789,7 +796,9 @@ $(document).ready(function () {
     </div>
     <div id="profile-modala" style="overflow: auto; align-items: start; justify-content: center;" class="modala">
         <div class="modal-content">
-            <span class="closea" style="display: flex; align-items: center; justify-content: end;">&times;</span>
+          <span class="closea" style="display: flex; align-items: center; justify-content: flex-end;">
+            <button id="closea" style="background: none; border: none; font-size: 1em; cursor: pointer;">&times;</button>
+          </span>
             <h3>Form for NOC</h3>
             <div>
                 <div class="applyform" style="overflow-y: scroll;">
@@ -826,13 +835,13 @@ $(document).ready(function () {
                                         value="{{record.Branch}}">
                                 </div> -->
                                 <div style="display: flex; flex-direction: column; min-width: 45%;">
-                                    <label for="year">Studying in Year</label>
+                                    <label for="year">Current Studying Year</label>
                                     <select id="year" name="year">
                                         <option value=''>select year</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        <option value="1">First</option>
+                                        <option value="2">Second</option>
+                                        <option value="3">Third</option>
+                                        <option value="4">Fourth</option>
                                     </select>
                                 </div>
 
@@ -853,7 +862,7 @@ $(document).ready(function () {
                                 </div>
                                 <div class="randomclass"
                                     style="display: flex; align-items: center; justify-content: space-between; ">
-                                    <div class="kake1" style="display: flex; flex-direction: column; min-width: 45%;">
+                                    <div class="kake1" style="display: flex; flex-direction: column; min-width: 45%; margin-right: 1rem;">
                                         <label for="companyname">Name of person recieving NOC in company. (If sending to
                                             company leave blank). (Ex: Mr. Vikar Singh)</label>
                                         <input class="filledornot" type="text" id="name_reciever" name="name_reciever"
@@ -861,7 +870,7 @@ $(document).ready(function () {
                                             value="{{record.companyname}}">
                                     </div>
                                     <div class="kakeji"
-                                        style="display: flex; flex-direction: column; min-width: 45%;  align-items: end; justify-content: space-between;">
+                                        style="display: flex; flex-direction: column; min-width: 45%;  align-items: end; justify-content: space-between; margin-right: 3rem;">
                                         <label for="companyname">Designation of person recieving NOC. (ex: HR manager/
                                             HR Team/ CEO)</label>
                                         <input class="filledornot" type="text" id="Designation_reciever"
@@ -906,8 +915,7 @@ $(document).ready(function () {
                                     </select>
                                 </div>
                                 <div style="display: flex; flex-direction: column; min-width: 45%;">
-                                    <label for="companyname">Stipend (Monthly)</label>
-                                    <label for="companyname">(If Any)</label>
+                                    <label for="companyname">Stipend (Monthly) (If Any)</label>
                                     <input type="number" min="0" id="stipend" name="stipend" placeholder="in numbers "
                                         value="">
                                 </div>
@@ -923,7 +931,7 @@ $(document).ready(function () {
                                 <div
                                     style="display: flex; flex-direction: column; min-width: 100%; margin-top: 0.5rem;">
                                     <label>
-                                        <input type="checkbox" id="declaration" name="declaration">
+                                        <input type="checkbox" required id="declaration" name="declaration">
                                         I hereby declare that all the details submitted by me are correct, and I shall
                                         be responsible for any kind of data mismatch or rejection.
                                     </label>
@@ -957,11 +965,11 @@ $(document).ready(function () {
             <h4>Kindly check details before hitting submit</h4>
             <div>
                 <div class="applyform">
-                    <form method="post" action="/api/Exit_surveySubmit">{% csrf_token %}
+                    <form method="post" action="/api/Exit_surveySubmit" enctype="multipart/form-data">{% csrf_token %}
                         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                             <!-- Existing fields -->
                             <div class="stleES" style="display: flex; flex-direction: column;">
-                                <label for="name">Name</label>
+                                <label class="required" for="name">Name</label>
                                 <input readonly required type="text" id="name" name="name" placeholder="{{record.Name}}" value="{{record.Name}}">
                             </div>
                             <div class="stleES" style="display: flex; flex-direction: column;">
@@ -982,16 +990,27 @@ $(document).ready(function () {
                             </div>
                             <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="dob">Date of Birth</label>
-                                <input type="date" id="dob" name="dob" required>
+                                <input type="date" id="dob" name="dob" >
                             </div>
                             <div class="stleES" style="display: flex; flex-direction: column;">
-                                <label for="course">Course (e.g., Btech)</label>
-                                <input type="text" id="course" name="course" placeholder="e.g., Btech" required>
-                            </div>
+                              <label for="course">Course</label>
+                              <select id="course" name="course" >
+                                  <option value="" disabled selected>Select a course</option>
+                                  <option value="B.Tech.">B.Tech.</option>
+                                  <option value="B.Arch.">B.Arch.</option>
+                                  <option value="M.E./M.Tech/M.Arch">M.E./M.Tech/M.Arch</option>
+                                  <option value="MCA">MCA</option>
+                                  <option value="MBA">MBA</option>
+                              </select>
+                          </div>                          
                             <div class="stleES" style="display: flex; flex-direction: column;">
                                 <label for="branch">Branch</label>
-                                <input type="text" id="branch" name="branch" placeholder="e.g., Computer Science" required>
+                                <input type="text" readonly id="branch" name="branch" placeholder="{{branchstud}}" value="{{branchstud}}" required>
                             </div>
+                            <div class="stleES" style="display: flex; flex-direction: column;">
+                              <label for="permanent_Email">Permanent Email (GMail Only) for future communication</label>
+                              <input type="text" id="permanent_Email" name="permanent_Email" placeholder="xyz@gmail.com">
+                            </div> 
                         </div>
                             <div class="stleES" style="display: flex; flex-direction: column;">
                               <label for="gender">Gender</label>
@@ -1013,66 +1032,75 @@ $(document).ready(function () {
                               <label for="rate_faculty">Rate the Faculty Teaching Approach in the UG or PG Programs:</label>
                               <div>
                                 <input type="radio" id="rate_faculty_1" name="rate_faculty" value="1">
-                                <label for="rate_faculty_1">1 = Average</label>
+                                <label for="rate_faculty_1">Average</label>
                               </div>
                               <div>
                                 <input type="radio" id="rate_faculty_2" name="rate_faculty" value="2">
-                                <label for="rate_faculty_2">2 = Above Average</label>
+                                <label for="rate_faculty_2">Above Average</label>
                               </div>
                               <div>
                                 <input type="radio" id="rate_faculty_3" name="rate_faculty" value="3">
-                                <label for="rate_faculty_3">3 = Good</label>
+                                <label for="rate_faculty_3">Good</label>
                               </div>
                               <div>
                                 <input type="radio" id="rate_faculty_4" name="rate_faculty" value="4">
-                                <label for="rate_faculty_4">4 = Very Good</label>
+                                <label for="rate_faculty_4">Very Good</label>
                               </div>
                               <div>
                                 <input type="radio" id="rate_faculty_5" name="rate_faculty" value="5">
-                                <label for="rate_faculty_5">5 = Excellent</label>
+                                <label for="rate_faculty_5">Excellent</label>
                               </div>
-                            </div>                            
+                            </div>     
+                                                   
                             <div class="stleES" style="display: flex; flex-direction: column;">
-                                <label for="teaching_methods">How were the teaching methods of faculty?</label>
-                                <div class="radio-label">
+                              <label for="teaching_methods">How were the teaching methods of faculty ? Methods such as participative learning, experiential learning,  and problem solving methodologies for enhancing learning experiences were used.</label>
+                              <div class="radio-label">
                                   <input type="radio" id="teaching_clarity_1" name="teaching_methods" value="1">
-                                  <label for="teaching_clarity_1">Confusing</label>
-                                </div>
-                                <div class="radio-label">
+                                  <label for="teaching_clarity_1">Average</label>
+                              </div>
+                              <div class="radio-label">
                                   <input type="radio" id="teaching_clarity_2" name="teaching_methods" value="2">
-                                  <label for="teaching_clarity_2">Somewhat Clear</label>
-                                </div>
-                                <div class="radio-label">
+                                  <label for="teaching_clarity_2">Above Average</label>
+                              </div>
+                              <div class="radio-label">
                                   <input type="radio" id="teaching_clarity_3" name="teaching_methods" value="3">
-                                  <label for="teaching_clarity_3">Clear</label>
-                                </div>
-                                <div class="radio-label">
+                                  <label for="teaching_clarity_3">Good</label>
+                              </div>
+                              <div class="radio-label">
                                   <input type="radio" id="teaching_clarity_4" name="teaching_methods" value="4">
-                                  <label for="teaching_clarity_4">Very Clear</label>
-                                </div>
+                                  <label for="teaching_clarity_4">Very Good</label>
+                              </div>
+                              <div class="radio-label">
+                                  <input type="radio" id="teaching_clarity_5" name="teaching_methods" value="5">
+                                  <label for="teaching_clarity_5">Excellent</label>
+                              </div>
+                          </div>
+                          <div class="stleES">
+                            <label for="teaching_engagement">How was the usage of Learning and Technological Resources like LCD Projectors, Online Meetings /Boards, Multimedia etc. by faculty in the class?</label>
+                            <div class="radio-label">
+                                <input type="radio" id="teaching_engagement_1" name="teaching_engagement" value="1">
+                                <label for="teaching_engagement_1">Average</label>
                             </div>
-                            <div class="stleES">
-                                  <label for="teaching_engagement">Engagement with Students:</label>
-                                  <div class="radio-label">
-                                    <input type="radio" id="teaching_engagement_1" name="teaching_engagement" value="1">
-                                    <label for="teaching_engagement_1">Low</label>
-                                  </div>
-                                  <div class="radio-label">
-                                    <input type="radio" id="teaching_engagement_2" name="teaching_engagement" value="2">
-                                    <label for="teaching_engagement_2">Moderate</label>
-                                  </div>
-                                  <div class="radio-label">
-                                    <input type="radio" id="teaching_engagement_3" name="teaching_engagement" value="3">
-                                    <label for="teaching_engagement_3">Good</label>
-                                  </div>
-                                  <div class="radio-label">
-                                    <input type="radio" id="teaching_engagement_4" name="teaching_engagement" value="4">
-                                    <label for="teaching_engagement_4">High</label>
-                                  </div>
-                                </div>
+                            <div class="radio-label">
+                                <input type="radio" id="teaching_engagement_2" name="teaching_engagement" value="2">
+                                <label for="teaching_engagement_2">Above Average</label>
+                            </div>
+                            <div class="radio-label">
+                                <input type="radio" id="teaching_engagement_3" name="teaching_engagement" value="3">
+                                <label for="teaching_engagement_3">Good</label>
+                            </div>
+                            <div class="radio-label">
+                                <input type="radio" id="teaching_engagement_4" name="teaching_engagement" value="4">
+                                <label for="teaching_engagement_4">Very Good</label>
+                            </div>
+                            <div class="radio-label">
+                                <input type="radio" id="teaching_engagement_5" name="teaching_engagement" value="5">
+                                <label for="teaching_engagement_5">Excellent</label>
+                            </div>
+                        </div>
                               
                             <div class="stleES" style="display: flex; flex-direction: column;">
-                                <label for="syllabus_completion">The full Syllabus of courses was completed?</label>
+                                <label for="syllabus_completion">The full Syllabus of courses was completed through regular and additional/remedial classes?</label>
                                 <div>
                                   <input type="radio" id="syllabus_completion_1" name="syllabus_completion" value="1">
                                   <label for="syllabus_completion_1">Average</label>
@@ -1095,7 +1123,7 @@ $(document).ready(function () {
                                 </div>
                             </div>
                             <div class="stleES" style="display: flex; flex-direction: column;">
-                                <label for="course_relevance">Relevance of Course curriculum to Your Career Goals</label>
+                                <label for="course_relevance">Relevance of Course curriculum to Your Career Goals or Further Study</label>
                                 <div>
                                   <input type="radio" id="course_relevance_1" name="course_relevance" value="1">
                                   <label for="course_relevance_1">Not Relevant</label>
@@ -1119,7 +1147,7 @@ $(document).ready(function () {
                             </div>
                               
                             <div class="stleES" style="display: flex; flex-direction: column;">
-                              <label for="teacher_preparedness">How was the teacher's preparedness and communication?</label>
+                              <label for="teacher_preparedness">How was the teacher's preparedness and communication in class?</label>
                               <div>
                                   <input type="radio" id="teacher_preparedness_1" name="teacher_preparedness" value="1">
                                   <label for="teacher_preparedness_1">Poor</label>
@@ -1143,7 +1171,7 @@ $(document).ready(function () {
                           </div>
                       
                           <div class="stleES" style="display: flex; flex-direction: column;">
-                              <label for="course_outcomes">Does Faculty communicate to you about Course Outcomes?</label>
+                              <label for="course_outcomes">Does Faculty communicate to you about Course Outcomes (CO), Program Outcomes (PO) and expected learning & competencies from the course?</label>
                               <div>
                                   <input type="radio" id="course_outcomes_1" name="course_outcomes" value="1">
                                   <label for="course_outcomes_1">No</label>
@@ -1167,7 +1195,7 @@ $(document).ready(function () {
                           </div>
                       
                           <div class="stleES" style="display: flex; flex-direction: column;">
-                              <label for="soft_skills">Institute helps you to improve your soft skills, life skills and employability skills</label>
+                              <label for="soft_skills">Institute helps you to improve your soft skills, life skills and employability skills to make you ready for Industry or Placements.</label>
                               <div>
                                   <input type="radio" id="soft_skills_1" name="soft_skills" value="1">
                                   <label for="soft_skills_1">Not at all</label>
@@ -1239,7 +1267,7 @@ $(document).ready(function () {
                           </div>
                       
                           <div class="stleES" style="display: flex; flex-direction: column;">
-                              <label for="curricular_extracurricular">Promotion and Encouragement by Institute/Department for participation in Curricular and Extra-Curricular activities</label>
+                              <label for="curricular_extracurricular">Promotion and Encouragement by Institute/Department for participation in Curricular and Extra-Curricular activities for development of students  was</label>
                               <div>
                                   <input type="radio" id="curricular_extracurricular_1" name="curricular_extracurricular" value="1">
                                   <label for="curricular_extracurricular_1">No Promotion/Encouragement</label>
@@ -1378,7 +1406,7 @@ $(document).ready(function () {
                             </div>
                           </div>
                           <div class="stleES" style="display: flex; flex-direction: column;">
-                            <label for="internship">First time an opportunity was given for a full semester internship/project in final year. This provision will help in the career planning and growth for you and the future batches. How effective do you think this provision is for career planning and growth?</label>
+                            <label for="internship">First time an opportunity was given for a full semester internship/project in final year. This provision will help in the career planning and growth for you and the future batches. </label>
                             <div>
                               <input type="radio" id="internship_1" name="internship" value="1">
                               <label for="internship_1">Average</label>
@@ -1455,9 +1483,26 @@ $(document).ready(function () {
                             <label for="outside_job_offers">If you got any job offers OUTSIDE (Do Not mention On Campus placement opportunity), please mention the Organization's Name(s). You can write multiple offer names separated with a comma. If Not Applicable, write NA.</label>
                             <input type="text" id="outside_job_offers" name="outside_job_offers" placeholder="Enter organization names separated by commas (or NA)">
                           </div>
+                          Add all offer letter seperately.
                           <div class="stleES" style="display: flex; flex-direction: column;">
-                            <label for="outside_job_offer_letter">Attach offer letter(s) received in context of the above question (Only for Off-Campus Placements. Combine multiple offers into a single PDF). </label>
-                            <input type="file" id="outside_job_offer_letter" name="outside_job_offer_letter" accept=".pdf">
+                            <label for="offer_letter_1">Off-Campus Offer 1</label>
+                            <input type="file" id="offer_letter_1" name="offer_letter_1" accept=".pdf">
+                        </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="offer_letter_2">Off-Campus Offer 2</label>
+                            <input type="file" id="offer_letter_2" name="offer_letter_2" accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="offer_letter_3">Off-Campus Offer 3</label>
+                            <input type="file" id="offer_letter_3" name="offer_letter_3" accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="offer_letter_4">Off-Campus Offer 4</label>
+                            <input type="file" id="offer_letter_4" name="offer_letter_4" accept=".pdf">
+                          </div>
+                          <div class="stleES" style="display: flex; flex-direction: column;">
+                            <label for="offer_letter_5">Off-Campus Offer 5</label>
+                            <input type="file" id="offer_letter_5" name="offer_letter_5" accept=".pdf">
                           </div>
                           <div class="stleES" style="display: flex; flex-direction: column;">
                             <label for="oncampus_job_offers">If you have one or multiple job offers from the College side, please mention the names of the Companies (Please mention all company names in which you are selected on campus only. Write NA if not applicable).</label>
@@ -1627,6 +1672,10 @@ $(document).ready(function () {
                             <label for="final_internship_stipend_amount">Stipend Amount (Monthly)</label>
                             <input type="text" id="final_internship_stipend_amount" name="final_internship_stipend_amount" placeholder="Enter amount (or write '00' for No Stipend)">
                           </div>
+                          <div class="stleES" style="display: flex; flex-direction: column; margin-top: 10px;">
+                            <label for="stipend_proof_document">Stipend Proof (Document) (Salary Slip / Offer Letter / Account Statement) </label>
+                            <input type="file" id="stipend_proof_document" name="stipend_proof_document" accept=".pdf,.jpg,.jpeg,.png">
+                          </div>
                           <div class="stleES" style="display: flex; flex-direction: column;">
                             <label for="internship_company_process">Is your internship company willing to conduct a process for your juniors? (This could be internship positions, full-time positions, or any other relevant opportunities)</label>
                             <div>
@@ -1669,10 +1718,6 @@ $(document).ready(function () {
                             <label for="final_semester_document">Please upload your final semester internship certificate or, in case of a project, upload any proof with the signature of your guide/faculty or the project report's first page with faculty signature/acknowledgement.</label>
                             <input type="file" id="final_semester_document" name="final_semester_document" accept=".pdf">
                           </div>
-                          <div class="stleES" style="display: flex; flex-direction: column;">
-                            <label for="permanent_Email">Permanent Email for future communication</label>
-                            <input type="text" id="permanent_Email" name="permanent_Email" placeholder="Enter Permanent Email">
-                          </div> 
                           <div class="stleES" style="display: flex; flex-direction: column;">
                             <label for="Contact_Num">Contact Number</label>
                             <input type="text" id="Contact_Num" name="Contact_Num" placeholder="Enter Contact Number">
@@ -1841,7 +1886,7 @@ $(document).ready(function () {
     <input type="text" name="" id="msgss" value="{{message}}" hidden>
 
     <div id="btndisp" value="{{btndisp}}" hidden></div>
-
+    </div>
     <div class="popup" id="popup" style="display: none;">
         <div class="innerbox">
             <span class="close" onclick="closePopup()">&times;</span> <!-- Cross button -->
@@ -2080,7 +2125,8 @@ $(document).ready(function () {
         var nodprev2 = document.getElementById('nodprevbtn2')
         var pageoneitem = document.getElementsByClassName("filledornot")
         var dec = document.getElementById("declaration")
-
+        var closekaro = document.getElementById('closea')
+        var nocform = document.getElementById('profile-modala')
         nextbtn1.addEventListener('click', function () {
             console.log('Button clicked!');
             for (i = 0; i < pageoneitem.length; i++) {
@@ -2113,7 +2159,10 @@ $(document).ready(function () {
             }
 
         });
-
+        closekaro.addEventListener('click',function(){
+          nocform.style.display = 'none';
+          console.log('form bank karo')
+        })
         prev.addEventListener('click', function () {
             console.log('prev clicked!');
             form2.style.display = 'none';
@@ -2138,6 +2187,27 @@ $(document).ready(function () {
             window.location.href = profileUrl;
         }
     </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const applyButton = document.querySelector('#btnapply button');
+          const modal = document.getElementById('profile-modala');
+      
+          applyButton.addEventListener('click', function() {
+              const hasApplied = this.getAttribute('data-has-applied') === 'true';
+      
+              if (hasApplied) {
+                  alert('You have already applied for NOC. Cannot submit another application.');
+              } else {
+                  modal.style.display = 'flex';
+              }
+          });
+      
+          // Close modal functionality
+          document.getElementById('closea').addEventListener('click', function() {
+              modal.style.display = 'none';
+          });
+      });
+      </script>
 </body>
 
 </html>

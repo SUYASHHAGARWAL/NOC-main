@@ -140,68 +140,74 @@ class BonafideModel(models.Model):
     Branch = models.CharField(max_length=50, blank=False, default='')
 
 class ExitSurvey(models.Model):
-    Name = models.CharField(max_length=120, blank=False, default='')
-    EnrollmentId = models.CharField(max_length=120, blank=False, default='')
-    Email = models.EmailField(max_length=254, blank=False, default='')
-    Department = models.CharField(max_length=120, blank=False, default='')
-    Phone = models.CharField(max_length=15, blank=False, default='')
-    Apply = models.CharField(max_length=10, blank=False, default='Yes')
+    Name = models.CharField(max_length=120, default='')
+    EnrollmentId = models.CharField(max_length=120, default='')
+    Email = models.EmailField(max_length=254,default='')
+    Department = models.CharField(max_length=120, default='')
+    Phone = models.CharField(max_length=15,  default='')
+    Apply = models.CharField(max_length=10,  default='Yes')
     DOB = models.DateField(blank=False)
-    Gender = models.CharField(max_length=10, blank=False, default='')
-    Course = models.CharField(max_length=50, blank=False, default='')
-    Branch = models.CharField(max_length=120, blank=False, default='')
-    RateFaculty = models.IntegerField(blank=False, default=0)
-    TeachingMethods = models.TextField(blank=False, default='')
-    TeachingEngagement = models.TextField(blank=False, default='')
-    SyllabusCompletion = models.TextField(blank=False, default='')
-    CourseRelevance = models.TextField(blank=False, default='')
-    TeacherPreparedness = models.TextField(blank=False, default='')
-    CourseOutcomes = models.TextField(blank=False, default='')
-    SoftSkills = models.TextField(blank=False, default='')
-    InternshipsSupport = models.TextField(blank=False, default='')
-    StudentOrgs = models.TextField(blank=False, default='')
-    CurricularExtracurricular = models.TextField(blank=False, default='')
-    Quizzes = models.TextField(blank=False, default='')
-    EvaluationFairness = models.TextField(blank=False, default='')
-    LibraryResources = models.TextField(blank=False, default='')
-    CurriculumFlexibility = models.TextField(blank=False, default='')
-    NPTELMOOCs = models.TextField(blank=False, default='')
-    FullSemesterInternship = models.TextField(blank=False, default='')
-    TrainingPlacement = models.TextField(blank=False, default='')
-    InternshipCompany = models.TextField(blank=False, default='')
-    InternshipCertificate = models.TextField(blank=False, default='')
-    JobSelection = models.TextField(blank=False, default='')
-    OutsideJobOffer = models.TextField(blank=False, default='')
-    OutsideJobLetter = models.FileField(blank=False, default='')
-    MultipleOfferCompanies = models.TextField(blank=False, default='')
-    MultipleOfferLetters = models.FileField(blank=False, default='')
-    OptedJoborPG = models.TextField(blank=False, default='')
-    FurtherStudyDetails = models.TextField(blank=False, default='')  # Adjusted field name
-    JoiningCompany = models.TextField(blank=False, default='')  # Adjusted field name
-    QualifiedGate = models.TextField(blank=False, default='')
-    GateRank = models.TextField(blank=False, default='')  # Adjusted field name
-    GateScorecard = models.FileField(blank=False, default='')  # Adjusted field type
-    AppearedForExams = models.TextField(blank=False, default='')
-    OtherExamName = models.TextField(blank=False, default='')  # Adjusted field name
-    ScoreCardsAll = models.TextField(blank=False, default='')
-    Percentile = models.TextField(blank=False, default='')  # Adjusted field name
-    MTechUniversity = models.TextField(blank=False, default='')  # Adjusted field name
-    MBACollege = models.TextField(blank=False, default='')  # Adjusted field name
-    AdmissionLetter = models.FileField(blank=False, default='')
-    AnyOtherCompetitiveExams = models.TextField(blank=False, default='')  # Adjusted field name
-    DonateCautionMoney = models.TextField(blank=False, default='')
-    FinalSemesterChoice = models.TextField(blank=False, default='')
-    FinalYearInternship = models.TextField(blank=False, default='')  # Adjusted field name
-    FinalInternshipStipend = models.TextField(blank=False, default='')  # Adjusted field name
-    FinalInternshipStipendAmount = models.TextField(blank=False, default='')  # Adjusted field name
-    InternshipCompanyProcess = models.TextField(blank=False, default='')
-    JobOfferExtension = models.TextField(blank=False, default='')  # Adjusted field name
-    FinalSemesterInternshipDoc = models.FileField(blank=False, default='')  # Adjusted field type and name
-    PermanentEmail = models.EmailField(blank=False, default='')  # Adjusted field type and name
-    ContactNum = models.TextField(blank=False, default='')
-    ParentContactNum = models.TextField(blank=False, default='')
-    HomeTown = models.TextField(blank=False, default='')
-    PermanentAddress = models.TextField(blank=False, default='')
-    Suggestions = models.TextField(blank=False, default='') 
+    Gender = models.CharField(max_length=10, default='')
+    Course = models.CharField(max_length=50,  default='')
+    Branch = models.CharField(max_length=120,default='')
+    RateFaculty = models.IntegerField(default=0)
+    TeachingMethods = models.TextField(default='')
+    TeachingEngagement = models.TextField( default='')
+    SyllabusCompletion = models.TextField( default='')
+    CourseRelevance = models.TextField(default='')
+    TeacherPreparedness = models.TextField( default='')
+    CourseOutcomes = models.TextField( default='')
+    SoftSkills = models.TextField( default='')
+    InternshipsSupport = models.TextField( default='')
+    StudentOrgs = models.TextField( default='')
+    CurricularExtracurricular = models.TextField( default='')
+    Quizzes = models.TextField( default='')
+    EvaluationFairness = models.TextField(default='')
+    LibraryResources = models.TextField( default='')
+    CurriculumFlexibility = models.TextField( default='')
+    NPTELMOOCs = models.TextField(default='')
+    FullSemesterInternship = models.TextField( default='')
+    TrainingPlacement = models.TextField(default='')
+    InternshipCompany = models.TextField( default='')
+    InternshipCertificate = models.TextField( default='')
+    JobSelection = models.TextField( default='')
+    OutsideJobOffer = models.TextField( default='')
+    OutsideJobLetter = models.FileField(upload_to='offer_letters/', null=True, blank=True)
+    offer_letter_1 = models.FileField(upload_to='offer_letters/', null=True, blank=True)
+    offer_letter_2 = models.FileField(upload_to='offer_letters/', null=True, blank=True)
+    offer_letter_3 = models.FileField(upload_to='offer_letters/', null=True, blank=True)
+    offer_letter_4 = models.FileField(upload_to='offer_letters/', null=True, blank=True)
+    offer_letter_5 = models.FileField(upload_to='offer_letters/', null=True, blank=True)
+    MultipleOfferCompanies = models.TextField( default='')
+    MultipleOfferLetters = models.FileField( default='')
+    OptedJoborPG = models.TextField(default='')
+    FurtherStudyDetails = models.TextField( default='')  # Adjusted field name
+    JoiningCompany = models.TextField(default='')  # Adjusted field name
+    QualifiedGate = models.TextField( default='')
+    GateRank = models.TextField(default='')  # Adjusted field name
+    GateScorecard = models.FileField(upload_to='gate_scorecards/', null=True, blank=True)
+    AppearedForExams = models.TextField( default='')
+    OtherExamName = models.TextField( default='')  # Adjusted field name
+    ScoreCardsAll = models.FileField(upload_to='entrance_exam_scorecards/', null=True, blank=True)
+    Percentile = models.TextField( default='')  # Adjusted field name
+    MTechUniversity = models.TextField( default='')  # Adjusted field name
+    MBACollege = models.TextField( default='')  # Adjusted field name
+    AdmissionLetter = models.FileField(upload_to='higher_education_documents/', null=True, blank=True)    
+    AnyOtherCompetitiveExams = models.TextField( default='')  # Adjusted field name
+    DonateCautionMoney = models.TextField( default='')
+    FinalSemesterChoice = models.TextField( default='')
+    FinalYearInternship = models.TextField(default='')  # Adjusted field name
+    FinalInternshipStipend = models.TextField( default='')  # Adjusted field name
+    FinalInternshipStipendAmount = models.TextField( default='')  # Adjusted field name
+    StipendDocProof = models.TextField( default='')  # Adjusted field name
+    InternshipCompanyProcess = models.TextField( default='')
+    JobOfferExtension = models.TextField( default='')  # Adjusted field name
+    FinalSemesterInternshipDoc = models.FileField(upload_to='final_semester_documents/', null=True, blank=True)
+    PermanentEmail = models.EmailField( default='')  # Adjusted field type and name
+    ContactNum = models.TextField( default='')
+    ParentContactNum = models.TextField( default='')
+    HomeTown = models.TextField( default='')
+    PermanentAddress = models.TextField( default='')
+    Suggestions = models.TextField( default='') 
     AppDate = models.DateField(auto_now_add=True)
     AppTime = models.TimeField(auto_now_add=True)

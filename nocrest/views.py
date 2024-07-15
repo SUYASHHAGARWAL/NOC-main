@@ -180,106 +180,70 @@ def Dashboard(req):
     except Exception as e:
         print("Error",e)
 
-@api_view(['GET', 'POST', 'DELETE'])
-def StudentLogin(req):
+from django.views.decorators.http import require_http_methods
+@require_http_methods(["GET", "POST"])
+def StudentLogin(request):
+    if request.method == 'POST':
+        username = request.POST.get('EnrollmentId')
+        password = request.POST.get('password')
+        
+        if not username or not password:
+            return JsonResponse({'error': 'Missing username or password'}, status=400)
+        
+        try:
+            student = Student.objects.get(EnrollmentId=username)
+            if student.password == password:
+                # Instead of using Django's login, just set session variables
+                request.session['Enrollment'] = username
+                request.session['is_authenticated'] = True
+                return get_dashboard_data(request, username)
+            else:
+                return render(request, "Frontpage.html", {"msg": 'Incorrect Password'})
+        except Student.DoesNotExist:
+            return render(request, "Frontpage.html", {"msg": 'Kindly Signup First'})
+    
+    username = request.session.get('Enrollment')
+    return get_dashboard_data(request, username) if username else redirect('/')
+
+def get_dashboard_data(request, username):
     try:
-        print("KKKKk")
-        if req.method == 'POST':
-            if 'EnrollmentId' in req.POST and 'password' in req.POST:
-                username = req.POST.get('EnrollmentId')
-                password = req.POST.get('password')
-                req.session['Enrollment'] = username
-                q = "SELECT * FROM nocrest_student WHERE (username = '{0}' OR enrollmentid = '{0}') AND password = '{1}'".format(username, password)
-                cursor = connection.cursor()
-                cursor.execute(q)
-                btndisp = 1000
-                record = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                if record:
-                    qr = "SELECT * FROM nocrest_graduated WHERE enrollmentid = '{0}'".format(username)
-                    cursor2 = connection.cursor()
-                    cursor2.execute(qr)
-                    record2 = cursor2.fetchone()
-                    if record2:
-                        check = 1
-                        qry = "SELECT * FROM nocrest_exitsurvey WHERE enrollmentid = '{0}'".format(username)
-                        cursorn = connection.cursor()
-                        cursorn.execute(qry)
-                        recordn = cursorn.fetchone()
-                        if(recordn):
-                            check = 2
-                            qrdy = "SELECT * FROM nocrest_nodues_application_table WHERE EnrollmentId = '{0}'".format(username)
-                            cursordd = connection.cursor()
-                            cursordd.execute(qrdy)
-                            recoeddd = cursordd.fetchone()
-                            if(recoeddd):
-                                btndisp = 1
-                            else:
-                                btndisp = 0
-                        
-                    else:
-                        check = 0
-                else:
-                    q = "SELECT * FROM nocrest_student WHERE (username = '{0}' OR enrollmentid = '{0}')".format(username)
-                    cursor = connection.cursor()
-                    cursor.execute(q)
-                    rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                    if(rec):
-                        return render(req, "Frontpage.html",{"msg":'Incorrect Password'})
-                    else:
-                        return render(req, "Frontpage.html",{"msg":'Kindly Signup First'})
-                qry = "select * from nocrest_department where Dep_Id = {0}".format(record[0]['Branch'])
-                cursor = connection.cursor()
-                cursor.execute(qry)
-                rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                # print(btndisp)
-                return render(req, "Dashboard.html", {'record': record[0] ,"check": check,'branchstud':rec[0]['Department_name'],'btndisp':btndisp })
+        student = Student.objects.get(EnrollmentId=username)
+        
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM nocrest_graduated WHERE enrollmentid = %s", [username])
+            is_graduated = cursor.fetchone() is not None
+            
+            cursor.execute("SELECT * FROM nocrest_exitsurvey WHERE enrollmentid = %s", [username])
+            has_exit_survey = cursor.fetchone() is not None
+            
+            cursor.execute("SELECT * FROM nocrest_nodues_application_table WHERE EnrollmentId = %s", [username])
+            has_no_dues = cursor.fetchone() is not None
+            
+            cursor.execute("SELECT Department_name FROM nocrest_department WHERE Dep_Id = %s", [student.Branch])
+            department = cursor.fetchone()
+            department = department[0] if department else None
+            
+            cursor.execute("SELECT * FROM nocrest_application_table WHERE EnrollmentId = %s", [username])
+            has_applied_noc = cursor.fetchone() is not None
 
-            else:
-                return Response({'error': 'Missing username or password in the request'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            username = req.session['Enrollment']
-            # username = req.session['Enr']
-            print("hello",username)
-            q = "SELECT * FROM nocrest_student WHERE (username = '{0}' OR enrollmentid = '{0}')".format(username)
-            cursor = connection.cursor()
-            cursor.execute(q)
-            record = tuple_to_dict.ParseDictMultipleRecord(cursor)
-            if record:
-                    qr = "SELECT * FROM nocrest_graduated WHERE enrollmentid = '{0}'".format(username)
-                    cursor2 = connection.cursor()
-                    cursor2.execute(qr)
-                    record2 = cursor2.fetchone()
-                    btndisp = 1000
-                    if record2:
-                        check = 1
-                        qry = "SELECT * FROM nocrest_exitsurvey WHERE enrollmentid = '{0}'".format(username)
-                        cursorn = connection.cursor()
-                        cursorn.execute(qry)
-                        recordn = cursorn.fetchone()
-                        if(recordn):
-                            check = 2
-                            qrdy = "SELECT * FROM nocrest_nodues_application_table WHERE EnrollmentId = '{0}'".format(username)
-                            cursordd = connection.cursor()
-                            cursordd.execute(qrdy)
-                            recoeddd = cursordd.fetchone()
-                            if(recoeddd):
-                                btndisp = 1
-                            else:
-                                btndisp = 0
-                    else:
-                        check = 0
-            else:
-                return redirect('/')
-            qry = "select * from nocrest_department where Dep_Id = {0}".format(record[0]['Branch'])
-            cursor = connection.cursor()
-            cursor.execute(qry)
-            rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-            print(btndisp)
-            return render(req, "Dashboard.html", {'record': record[0] ,"check": check,'branchstud':rec[0]['Department_name'],'btndisp':btndisp })
-    except Exception as e:
-        print("Error", e)
+        check = 2 if has_exit_survey else (1 if is_graduated else 0)
+        btndisp = 1 if has_no_dues else (0 if has_exit_survey else 1000)
+
+        context = {
+            'record': student.__dict__,
+            'check': check,
+            'branchstud': department,
+            'btndisp': btndisp,
+            'has_applied_noc': has_applied_noc
+        }
+
+        return render(request, "Dashboard.html", context)
+    except Student.DoesNotExist:
         return redirect('/')
-
+    except Exception as e:
+        print(f"Error in get_dashboard_data: {str(e)}")
+        return redirect('/')
+    
 try:
     @csrf_exempt
     @api_view(['GET', 'POST', 'DELETE'])
@@ -980,12 +944,21 @@ def SubmitNoDuesApp(req):
         print("Error", e)
         return render(req, "Frontpage.html")
 
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+def handle_uploaded_file(file, enrollment_id, name,file_type):
+    _, extension = os.path.splitext(file.name)
+    # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    new_filename = f"{enrollment_id}_{name}_{file_type}_{extension}"
+    path = default_storage.save(f'offer_letters/{new_filename}', ContentFile(file.read()))
+    return os.path.join(settings.MEDIA_ROOT, path)
+
 @api_view(['GET', 'POST'])
 def ExitSurveySubmit(req):
     try:
         if req.method == 'POST':
             enr = req.POST.get('EnrollmentId')
-            print(enr)
+            print(f"Enrollment ID: {enr}")
             q = "SELECT * FROM nocrest_NoDues_application_table WHERE EnrollmentId = '{0}' ORDER BY App_Date DESC".format(enr)
             cursor = connection.cursor()
             cursor.execute(q)
@@ -1000,14 +973,12 @@ def ExitSurveySubmit(req):
                 email = req.POST.get('Email')
                 phone = req.POST.get('mobile')
                 apply = req.POST.get('apply')
-
                 dob = req.POST.get('dob')
                 gender = req.POST.get('gender')
                 course = req.POST.get('course')
                 branch = req.POST.get('branch')
                 rate_faculty = req.POST.get('rate_faculty')
                 teaching_methods = req.POST.get('teaching_methods')
-                # learning_resources = req.POST.get('learning_resources')
                 syllabus_completion = req.POST.get('syllabus_completion')
                 course_relevance = req.POST.get('course_relevance')
                 teacher_preparedness = req.POST.get('teacher_preparedness')
@@ -1028,6 +999,31 @@ def ExitSurveySubmit(req):
                 job_selection = req.POST.get('job_selection')
                 outside_job_offer = req.POST.get('outside_job_offers')
                 outside_job_letter = req.FILES.get('outside_job_offer_letter')
+                file_fields = [
+                'offer_letter_1', 'offer_letter_2', 'offer_letter_3', 'offer_letter_4', 'offer_letter_5',
+                'outside_job_offer_letter', 'gate_scorecard', 'entrance_exam_scorecards',
+                'higher_education_documents', 'final_semester_document','stipend_proof_document'
+                ]
+
+                file_paths = {}
+
+                for field in file_fields:
+                    if field in req.FILES:
+                        file = req.FILES[field]
+                        file_path = handle_uploaded_file(file, enrollmentid, name,field)
+                        file_paths[field] = file_path
+                        print(f"{field} saved at: {file_path}")
+                    else:
+                        file_paths[field] = None
+                    
+                
+                
+                
+                # offeletter_1 = req.FILES.get('offer_letter_1')
+                # offeletter_2 = req.FILES.get('offer_letter_2')
+                # offeletter_3 = req.FILES.get('offer_letter_3')
+                # offeletter_4 = req.FILES.get('offer_letter_4')
+                # offeletter_5 = req.FILES.get('offer_letter_5')
                 multiple_offer_companies = req.POST.get('oncampus_job_offers')
                 multiple_offer_letters = req.FILES.get('oncampus_job_offer_letter')
                 opted_job_or_pg = req.POST.get('post_graduation')
@@ -1062,73 +1058,134 @@ def ExitSurveySubmit(req):
                 current_date_str = current_datetime.date()
                 current_time_str = current_datetime.time()
 
-                # Save the data to the database
+                # Print file names for debugging
+                # print(f"Outside job letter: {outside_job_letter.name if outside_job_letter else 'None'}")
+                # print(f"Offer letter 1: {offeletter_1.name if offeletter_1 else 'None'}")
+                # print(f"Offer letter 2: {offeletter_2.name if offeletter_2 else 'None'}")
+                # print(f"Offer letter 3: {offeletter_3.name if offeletter_3 else 'None'}")
+                # print(f"Offer letter 4: {offeletter_4.name if offeletter_4 else 'None'}")
+                # print(f"Offer letter 5: {offeletter_5.name if offeletter_5 else 'None'}")
+                # print(f"Multiple offer letters: {multiple_offer_letters.name if multiple_offer_letters else 'None'}")
+                # print(f"Gate scorecard: {gate_scorecard.name if gate_scorecard else 'None'}")
+                # print(f"Score cards all: {score_cards_all.name if score_cards_all else 'None'}")
+                # print(f"Admission letter: {admission_letter.name if admission_letter else 'None'}")
+                # print(f"Final semester internship doc: {final_semester_internship_doc.name if final_semester_internship_doc else 'None'}")
+
+                # Create the ExitSurvey instance
                 survey_data = ExitSurvey(
-                     Name=name,
-        EnrollmentId=enrollmentid,
-        Email=email,
-        Phone=phone,
-        Apply=apply,
-        DOB=dob,
-        Gender=gender,
-        Course=course,
-        Branch=branch,
-        RateFaculty=rate_faculty,
-        TeachingMethods=teaching_methods,
-        SyllabusCompletion=syllabus_completion,
-        CourseRelevance=course_relevance,
-        TeacherPreparedness=teacher_preparedness,
-        CourseOutcomes=course_outcomes,
-        SoftSkills=soft_skills,
-        InternshipsSupport=internships_support,
-        StudentOrgs=student_orgs,
-        CurricularExtracurricular=curricular_extracurricular,
-        Quizzes=quizzes,
-        EvaluationFairness=evaluation_fairness,
-        LibraryResources=library_resources,
-        CurriculumFlexibility=curriculum_flexibility,
-        NPTELMOOCs=nptel_moocs,
-        FullSemesterInternship=full_semester_internship,
-        TrainingPlacement=training_placement,
-        InternshipCompany=internship_company,
-        InternshipCertificate=internship_certificate,
-        JobSelection=job_selection,
-        OutsideJobOffer=outside_job_offer,
-        OutsideJobLetter=outside_job_letter,
-        MultipleOfferCompanies=multiple_offer_companies,
-        MultipleOfferLetters=multiple_offer_letters,
-        OptedJoborPG=opted_job_or_pg,
-        FurtherStudyDetails=further_study_details,
-        JoiningCompany=joining_company,
-        QualifiedGate=qualified_gate,
-        GateRank=gate_rank,
-        GateScorecard=gate_scorecard,
-        AppearedForExams=appeared_for_exams,
-        OtherExamName=other_exam_name,
-        ScoreCardsAll=1,
-        Percentile=percentile,
-        MTechUniversity=mtech_university,
-        MBACollege=mba_college,
-        AdmissionLetter=admission_letter,
-        AnyOtherCompetitiveExams=any_other_competitive_exams,
-        DonateCautionMoney=donate_caution_money,
-        FinalSemesterChoice=final_semester_choice,
-        FinalYearInternship=final_year_internship,
-        FinalInternshipStipend=final_internship_stipend,
-        FinalInternshipStipendAmount=final_internship_stipend_amount,
-        InternshipCompanyProcess=internship_company_process,
-        JobOfferExtension=job_offer_extension,
-        FinalSemesterInternshipDoc=final_semester_internship_doc,
-        PermanentEmail=permanent_email,
-        ContactNum=contact_num,
-        ParentContactNum=parent_contact_num,
-        HomeTown=home_town,
-        PermanentAddress=permanent_address,
-        Suggestions=suggestions,
-        AppDate=current_date_str,
-        AppTime=current_time_str,
+                    Name=name,
+                    EnrollmentId=enrollmentid,
+                    Email=email,
+                    Phone=phone,
+                    Apply=apply,
+                    DOB=dob,
+                    Gender=gender,
+                    Course=course,
+                    Branch=branch,
+                    RateFaculty=rate_faculty,
+                    TeachingMethods=teaching_methods,
+                    SyllabusCompletion=syllabus_completion,
+                    CourseRelevance=course_relevance,
+                    TeacherPreparedness=teacher_preparedness,
+                    CourseOutcomes=course_outcomes,
+                    SoftSkills=soft_skills,
+                    InternshipsSupport=internships_support,
+                    StudentOrgs=student_orgs,
+                    CurricularExtracurricular=curricular_extracurricular,
+                    Quizzes=quizzes,
+                    EvaluationFairness=evaluation_fairness,
+                    LibraryResources=library_resources,
+                    CurriculumFlexibility=curriculum_flexibility,
+                    NPTELMOOCs=nptel_moocs,
+                    FullSemesterInternship=full_semester_internship,
+                    TrainingPlacement=training_placement,
+                    InternshipCompany=internship_company,
+                    InternshipCertificate=internship_certificate,
+                    JobSelection=job_selection,
+                    OutsideJobOffer=outside_job_offer,
+                    offer_letter_1=file_paths['offer_letter_1'],
+                    offer_letter_2=file_paths['offer_letter_2'],
+                    offer_letter_3=file_paths['offer_letter_3'],
+                    offer_letter_4=file_paths['offer_letter_4'],
+                    offer_letter_5=file_paths['offer_letter_5'],
+                    OutsideJobLetter=file_paths['outside_job_offer_letter'],
+                    GateScorecard=file_paths['gate_scorecard'],
+                    ScoreCardsAll=file_paths['entrance_exam_scorecards'],
+                    AdmissionLetter=file_paths['higher_education_documents'],
+                    FinalSemesterInternshipDoc=file_paths['final_semester_document'],
+                    StipendDocProof=file_paths['stipend_proof_document'],
+                    MultipleOfferCompanies=multiple_offer_companies,
+                    OptedJoborPG=opted_job_or_pg,
+                    FurtherStudyDetails=further_study_details,
+                    JoiningCompany=joining_company,
+                    QualifiedGate=qualified_gate,
+                    GateRank=gate_rank,
+                    AppearedForExams=appeared_for_exams,
+                    OtherExamName=other_exam_name,
+                    Percentile=percentile,
+                    MTechUniversity=mtech_university,
+                    MBACollege=mba_college,
+                    AnyOtherCompetitiveExams=any_other_competitive_exams,
+                    DonateCautionMoney=donate_caution_money,
+                    FinalSemesterChoice=final_semester_choice,
+                    FinalYearInternship=final_year_internship,
+                    FinalInternshipStipend=final_internship_stipend,
+                    FinalInternshipStipendAmount=final_internship_stipend_amount,
+                    InternshipCompanyProcess=internship_company_process,
+                    JobOfferExtension=job_offer_extension,
+                    PermanentEmail=permanent_email,
+                    ContactNum=contact_num,
+                    ParentContactNum=parent_contact_num,
+                    HomeTown=home_town,
+                    PermanentAddress=permanent_address,
+                    Suggestions=suggestions,
+                    AppDate=current_date_str,
+                    AppTime=current_time_str,
                 )
+
+                # Handle file fields separately
+                # if outside_job_letter:
+                #     survey_data.OutsideJobLetter = outside_job_letter.name
+                # if offeletter_1:
+                #     survey_data.offer_letter_1 = offeletter_1.name
+                # if offeletter_2:
+                #     survey_data.offer_letter_2 = offeletter_2.name
+                # if offeletter_3:
+                #     survey_data.offer_letter_3 = offeletter_3.name
+                # if offeletter_4:
+                #     survey_data.offer_letter_4 = offeletter_4.name
+                # if offeletter_5:
+                #     survey_data.offer_letter_5 = offeletter_5.name
+                # if multiple_offer_letters:
+                #     survey_data.MultipleOfferLetters = multiple_offer_letters.name
+                # if gate_scorecard:
+                #     survey_data.GateScorecard = gate_scorecard.name
+                # if score_cards_all:
+                #     survey_data.ScoreCardsAll = score_cards_all.name
+                # if admission_letter:
+                #     survey_data.AdmissionLetter = admission_letter.name
+                # if final_semester_internship_doc:
+                #     survey_data.FinalSemesterInternshipDoc = final_semester_internship_doc.name
+
+                # Save the survey data
                 survey_data.save()
+
+                print("Survey data saved successfully")
+
+                # Verify saved data
+                saved_survey = ExitSurvey.objects.get(id=survey_data.id)
+                print(f"Saved OutsideJobLetter: {saved_survey.OutsideJobLetter}")
+                print(f"Saved offer_letter_1: {saved_survey.offer_letter_1}")
+                print(f"Saved offer_letter_2: {saved_survey.offer_letter_2}")
+                print(f"Saved offer_letter_3: {saved_survey.offer_letter_3}")
+                print(f"Saved offer_letter_4: {saved_survey.offer_letter_4}")
+                print(f"Saved offer_letter_5: {saved_survey.offer_letter_5}")
+                print(f"Saved MultipleOfferLetters: {saved_survey.MultipleOfferLetters}")
+                print(f"Saved GateScorecard: {saved_survey.GateScorecard}")
+                # print(f"Saved ScoreCardsAll: {saved_survey.ScoreCardsAll}")
+                # print(f"Saved AdmissionLetter: {saved_survey.AdmissionLetter}")
+                # print(f"Saved FinalSemesterInternshipDoc: {saved_survey.FinalSemesterInternshipDoc}")
+
                 # Prepare and send the email
                 current_directory = os.getcwd()
                 html_template = get_template(os.path.join(current_directory, 'nocrest/Static/emailnodues.html'))
@@ -1141,11 +1198,12 @@ def ExitSurveySubmit(req):
                 email = EmailMessage(subject, message, from_email, recipient_list)
                 email.content_subtype = "html"  # Set the content type to HTML
                 email.body = html_content
-                email.send()
+                # email.send()
                 return render(req, "Dashboard.html", {'message': 'ok'})
     except Exception as e:
-        print("Error", e)
+        print(f"Error: {str(e)}")
         return render(req, "Frontpage.html")
+    
 
 @api_view(['GET','POST'])
 def AboutDev(req):
@@ -1167,6 +1225,7 @@ def ShowAppliedstudent(req):
             department = req.GET.get('dept')
             print(req.GET.get('dept'))
             rec = []
+            print(department)
             if(department != 'Tnp'):
                 qry = "select * from nocrest_department where Department = '{0}'".format(department)
                 cursor = connection.cursor()
@@ -1206,7 +1265,7 @@ def NoDuesAppliedstudent(req):
     try:
          if req.method == 'GET':
             department = req.GET.get('dept')
-            # print("fnjbqiughienbijnbiuehgiugnigbiu",department)
+            print("fnjbqiughienbijnbiuehgiugnigbiu",department)
             query = " select * from nocrest_department where Department = {0}".format(department)
             if(department == 'Tnp'):
                 department = 'TnP_approval'
@@ -2126,7 +2185,14 @@ def StudentProfile(req):
             cursor.execute(qry)
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
-            return render(req, 'Profile.html',{'record':rec})
+            print(rec['Branch'])
+            qry = "select Department_name from nocrest_department where Dep_Id={0}".format(rec['Branch'])
+            cursor = connection.cursor()
+            cursor.execute(qry)
+            r = tuple_to_dict.ParseDictSingleRecord(cursor)
+            print(r['Department_name'])
+            dept = r['Department_name']
+            return render(req, 'Profile.html',{'record':rec ,'branchstud':dept})
     except Exception as e:
 
         print("Error",e)

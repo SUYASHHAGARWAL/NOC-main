@@ -544,6 +544,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
                     <th>Duration</th>
                     <th>Start date</th>
                     <th>Stipend</th>
+                    <th>Offer Letter</th>
                     <th>Action</th>
                     <th>Comments</th>
                     <th>Action</th>
@@ -573,7 +574,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
                     <td>${data[i].duration}</td>
                     <td>${data[i].startDate}</td>
                     <td>${data[i].stipend}</td>
-                    <td>
+                    <td><a href="/pdfs/${data[i].offerletter}" target="_blank">Open PDF</a></td>                    <td>
                         <select id="approval_${i}">
                             <option value="none" ${approvalValue === "none" ? "selected" : ""}>None</option>
                             <option value="Approved" ${approvalValue === "Approved" ? "selected" : ""}>Approve</option>
@@ -1097,7 +1098,7 @@ function getCookie(name) {
                 <td>${data[i].Email}</td>
                 <td>${data[i].year}</td>
                 <td>${data[i].Company}</td>
-                <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>
+                <td><a href="/pdfs/${data[i].offerletter}" target="_blank">Open PDF</a></td>
                 <td>${data[i].Dept_approval}</td>
                 <td>${data[i].TnP_approval}</td>
                 <td>${data[i].App_Date}</td>
@@ -1444,7 +1445,9 @@ function getCookie(name) {
         });
     </script>
     <script>
+        
      $(document).ready(function () {
+    
     $('#showexitsurvey').click(function () {
         console.log("Fetching data...");
         $.getJSON('/api/showexitsurvey', function (dataa) {
@@ -1459,67 +1462,72 @@ function getCookie(name) {
                 <tr>
                     <th>S. no</th>
                     <th>Name</th>
-                <th>Enrollment</th>
-                <th>Email</th>
-                <th>Department</th>
-                <th>Phone</th>
-                <th>DOB</th>
-                <th>Gender</th>
-                <th>Course</th>
-                <th>Branch</th>
-                <th>RateFaculty</th>
-                <th>TeachingMethods</th>
-                <th>TeachingEngagement</th>
-                <th>SyllabusCompletion</th>
-                <th>CourseRelevance</th>
-                <th>TeacherPreparedness</th>
-                <th>CourseOutcomes</th>
-                <th>SoftSkills</th>
-                <th>InternshipsSupport</th>
-                <th>StudentOrgs</th>
-                <th>CurricularExtracurricular</th>
-                <th>Quizzes</th>
-                <th>EvaluationFairness</th>
-                <th>LibraryResources</th>
-                <th>CurriculumFlexibility</th>
-                <th>NPTELMOOCs</th>
-                <th>FullSemesterInternship</th>
-                <th>TrainingPlacement</th>
-                <th>InternshipCompany</th>
-                <th>InternshipCertificate</th>
-                <th>JobSelection</th>
-                <th>OutsideJobOffer</th>
-                <th>OutsideJobLetter</th>
-                <th>MultipleOfferCompanies</th>
-                <th>MultipleOfferLetters</th>
-                <th>OptedJoborPG</th>
-                <th>FurtherStudyDetails</th>
-                <th>JoiningCompany</th>
-                <th>QualifiedGate</th>
-                <th>GateRank</th>
-                <th>GateScorecard</th>
-                <th>AppearedForExams</th>
-                <th>OtherExamName</th>
-                <th>ScoreCardsAll</th>
-                <th>Percentile</th>
-                <th>MTechUniversity</th>
-                <th>MBACollege</th>
-                <th>AdmissionLetter</th>
-                <th>AnyOtherCompetitiveExams</th>
-                <th>DonateCautionMoney</th>
-                <th>FinalSemesterChoice</th>
-                <th>FinalYearInternship</th>
-                <th>FinalInternshipStipend</th>
-                <th>FinalInternshipStipendAmount</th>
-                <th>InternshipCompanyProcess</th>
-                <th>JobOfferExtension</th>
-                <th>FinalSemesterInternshipDoc</th>
-                <th>PermanentEmail</th>
-                <th>ContactNum</th>
-                <th>ParentContactNum</th>
-                <th>HomeTown</th>
-                <th>PermanentAddress</th>
-                <th>Suggestions</th>
+                    <th>Enrollment</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Course</th>
+                    <th>Branch</th>
+                    <th>RateFaculty</th>
+                    <th>TeachingMethods</th>
+                    <th>TeachingEngagement</th>
+                    <th>SyllabusCompletion</th>
+                    <th>CourseRelevance</th>
+                    <th>TeacherPreparedness</th>
+                    <th>CourseOutcomes</th>
+                    <th>SoftSkills</th>
+                    <th>InternshipsSupport</th>
+                    <th>StudentOrgs</th>
+                    <th>CurricularExtracurricular</th>
+                    <th>Quizzes</th>
+                    <th>EvaluationFairness</th>
+                    <th>LibraryResources</th>
+                    <th>CurriculumFlexibility</th>
+                    <th>NPTELMOOCs</th>
+                    <th>FullSemesterInternship</th>
+                    <th>TrainingPlacement</th>
+                    <th>InternshipCompany</th>
+                    <th>InternshipCertificate</th>
+                    <th>JobSelection</th>
+                    <th>OutsideJobOffer</th>
+                    <th>OutsideJobLetter</th>
+                    <th>Offer Letter 1</th>
+                    <th>Offer Letter 2</th>
+                    <th>Offer Letter 3</th>
+                    <th>Offer Letter 4</th>
+                    <th>Offer Letter 5</th>
+                    <th>MultipleOfferCompanies</th>
+                    <th>MultipleOfferLetters</th>
+                    <th>OptedJoborPG</th>
+                    <th>FurtherStudyDetails</th>
+                    <th>JoiningCompany</th>
+                    <th>QualifiedGate</th>
+                    <th>GateRank</th>
+                    <th>GateScorecard</th>
+                    <th>AppearedForExams</th>
+                    <th>OtherExamName</th>
+                    <th>ScoreCardsAll</th>
+                    <th>Percentile</th>
+                    <th>MTechUniversity</th>
+                    <th>MBACollege</th>
+                    <th>AdmissionLetter</th>
+                    <th>AnyOtherCompetitiveExams</th>
+                    <th>DonateCautionMoney</th>
+                    <th>FinalSemesterChoice</th>
+                    <th>FinalYearInternship</th>
+                    <th>FinalInternshipStipend</th>
+                    <th>FinalInternshipStipendAmount</th>
+                    <th>InternshipCompanyProcess</th>
+                    <th>JobOfferExtension</th>
+                    <th>FinalSemesterInternshipDoc</th>
+                    <th>PermanentEmail</th>
+                    <th>ContactNum</th>
+                    <th>ParentContactNum</th>
+                    <th>HomeTown</th>
+                    <th>PermanentAddress</th>
+                    <th>Suggestions</th>
                 </tr>
             </thead>
             <tbody id="tablebody2"></tbody>
@@ -1542,69 +1550,129 @@ function getCookie(name) {
                 responsive: true,
                 data: dataa,
                 columns: [
-                { data: "id" },
-  { data: "Name" },
-  { data: "EnrollmentId" },
-  { data: "Email" },
-  { data: "Department" },
-  { data: "Phone" },
-  { data: "DOB" },
-  { data: "Gender" },
-  { data: "Course" },
-  { data: "Branch" },
-  { data: "RateFaculty" },
-  { data: "TeachingMethods" },
-  { data: "TeachingEngagement" },
-  { data: "SyllabusCompletion" },
-  { data: "CourseRelevance" },
-  { data: "TeacherPreparedness" },
-  { data: "CourseOutcomes" },
-  { data: "SoftSkills" },
-  { data: "InternshipsSupport" },
-  { data: "StudentOrgs" },
-  { data: "CurricularExtracurricular" },
-  { data: "Quizzes" },
-  { data: "EvaluationFairness" },
-  { data: "LibraryResources" },
-  { data: "CurriculumFlexibility" },
-  { data: "NPTELMOOCs" },
-  { data: "FullSemesterInternship" },
-  { data: "TrainingPlacement" },
-  { data: "InternshipCompany" },
-  { data: "InternshipCertificate" },
-  { data: "JobSelection" },
-  { data: "OutsideJobOffer" },
-  { data: "OutsideJobLetter" },
-  { data: "MultipleOfferCompanies" },
-  { data: "MultipleOfferLetters" },
-  { data: "OptedJoborPG" },
-  { data: "FurtherStudyDetails" },
-  { data: "JoiningCompany" },
-  { data: "QualifiedGate" },
-  { data: "GateRank" },
-  { data: "GateScorecard" },
-  { data: "AppearedForExams" },
-  { data: "OtherExamName" },
-  { data: "ScoreCardsAll" },
-  { data: "Percentile" },
-  { data: "MTechUniversity" },
-  { data: "MBACollege" },
-  { data: "AdmissionLetter" },
-  { data: "AnyOtherCompetitiveExams" },
-  { data: "DonateCautionMoney" },
-  { data: "FinalSemesterChoice" },
-  { data: "FinalYearInternship" },
-  { data: "FinalInternshipStipend" },
-  { data: "FinalInternshipStipendAmount" },
-  { data: "InternshipCompanyProcess" },
-  { data: "JobOfferExtension" },
-  { data: "FinalSemesterInternshipDoc" },
-  { data: "PermanentEmail" },
-  { data: "ContactNum" },
-  { data: "ParentContactNum" },
-  { data: "HomeTown" },
-  { data: "PermanentAddress" },
-  { data: "Suggestions" }
+                    { data: "id" },
+                    { data: "Name" },
+                    { data: "EnrollmentId" },
+                    { data: "Email" },
+                    { data: "Department" },
+                    { data: "Phone" },
+                    { data: "DOB" },
+                    { data: "Gender" },
+                    { data: "Course" },
+                    { data: "Branch" },
+                    { data: "RateFaculty" },
+                    { data: "TeachingMethods" },
+                    { data: "TeachingEngagement" },
+                    { data: "SyllabusCompletion" },
+                    { data: "CourseRelevance" },
+                    { data: "TeacherPreparedness" },
+                    { data: "CourseOutcomes" },
+                    { data: "SoftSkills" },
+                    { data: "InternshipsSupport" },
+                    { data: "StudentOrgs" },
+                    { data: "CurricularExtracurricular" },
+                    { data: "Quizzes" },
+                    { data: "EvaluationFairness" },
+                    { data: "LibraryResources" },
+                    { data: "CurriculumFlexibility" },
+                    { data: "NPTELMOOCs" },
+                    { data: "FullSemesterInternship" },
+                    { data: "TrainingPlacement" },
+                    { data: "InternshipCompany" },
+                    { data: "InternshipCertificate" },
+                    { data: "JobSelection" },
+                    { data: "OutsideJobOffer" },
+                    { 
+                        data: "OutsideJobLetter",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { 
+                        data: "offer_letter_1",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { 
+                        data: "offer_letter_2",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { 
+                        data: "offer_letter_3",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { 
+                        data: "offer_letter_4",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { 
+                        data: "offer_letter_5",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { data: "MultipleOfferCompanies" },
+                    { 
+                        data: "MultipleOfferLetters",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { data: "OptedJoborPG" },
+                    { data: "FurtherStudyDetails" },
+                    { data: "JoiningCompany" },
+                    { data: "QualifiedGate" },
+                    { data: "GateRank" },
+                    { 
+                        data: "GateScorecard",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { data: "AppearedForExams" },
+                    { data: "OtherExamName" },
+                    { 
+                        data: "ScoreCardsAll",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { data: "Percentile" },
+                    { data: "MTechUniversity" },
+                    { data: "MBACollege" },
+                    { 
+                        data: "AdmissionLetter",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { data: "AnyOtherCompetitiveExams" },
+                    { data: "DonateCautionMoney" },
+                    { data: "FinalSemesterChoice" },
+                    { data: "FinalYearInternship" },
+                    { data: "FinalInternshipStipend" },
+                    { data: "FinalInternshipStipendAmount" },
+                    { data: "InternshipCompanyProcess" },
+                    { data: "JobOfferExtension" },
+                    { 
+                        data: "FinalSemesterInternshipDoc",
+                        render: function(data, type, row) {
+                            return data ? '<a href="' + data + '" target="_blank">View</a>' : '';
+                        }
+                    },
+                    { data: "PermanentEmail" },
+                    { data: "ContactNum" },
+                    { data: "ParentContactNum" },
+                    { data: "HomeTown" },
+                    { data: "PermanentAddress" },
+                    { data: "Suggestions" }
                 ],
                 order: [
                     [0, "asc"]

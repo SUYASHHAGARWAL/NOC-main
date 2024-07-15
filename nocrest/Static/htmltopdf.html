@@ -33,13 +33,11 @@
         .datecenter h4 {
             text-align: right;
             margin-left: auto;
-            /* Pushes the date to the right */
         }
 
         .refcenter h4 {
             text-align: left;
             margin-right: auto;
-            /* Pushes the reference to the left */
         }
 
         h2 {
@@ -91,12 +89,14 @@
             margin-top: 3rem;
             font-style: italic;
         }
-        .box7{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
+        .box7 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
+
         #upper {
             text-align: left;
         }
@@ -112,11 +112,22 @@
         #h2 {
             text-align: left;
         }
-        .picture{
+
+        .picture {
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
 
+        .spacing-adjust {
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .center-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -124,37 +135,31 @@
 <body>
     <div class="container">
         <div>
-            <div style="display: flex; justify-content: center; align-items: center;">
-                <img src="{{logo_path}}" alt="">
+            <div class="center-logo">
+                <img src="{{logo_path}}" alt="MITS Gwalior Logo">
             </div>
             <h2>MADHAV INSTITUTE OF TECHNOLOGY & SCIENCE, GWALIOR</h2>
-            <h4 style="color: #d52720;">Deemed to be University</h4>
-            <h4 style="color: #259208;">(Declared under Distinct Category by Ministry of Education, Government of India) </h4>
-            <h4 style="color: #d52720;">NAAC ACCREDITED WITH A++ GRADE</h4>
-            <h4>Phone: 0751 2409362, Email id: <span id="s2">tnp@mitsgwalior.in</span></h4>
+            <div class="spacing-adjust">
+                <h4 style="color: #d52720;">Deemed University</h4>
+                <h4 style="color: #259208;">(Declared under Distinct Category by Ministry of Education, Government of India)</h4>
+                <h4 style="color: #d52720;">NAAC ACCREDITED WITH A++ GRADE</h4>
+                <h4>Phone: 0751 2409362, Email id: <span id="s2">tnp@mitsgwalior.in</span></h4>
+            </div>
             <h3>(Training and Placement Cell)</h3>
             <hr class="line">
             <div class="refcenter">
                 <h4>Ref.: T&P/24/ {{apid}}</h4>
-
             </div>
             <div class="datecenter">
                 <h4>Date: {{today_date}}</h4>
-
             </div>
             <div>
                 <h4 id="upper">To,</h4>
                 <p id="p1">{{designation}} {{Name}}</p>
                 <p id="p2">{{company}}, {{location}}</p>
                 <h4 id="lower">Dear Sir/Ma'am,</h4>
-                <p class="p3">We are grateful to the co-operation in imparting Industrial Training/Internship/Vocational
-                    Training to the Students of our Institute. Industrial training/Internship is a part of Academic
-                    Curriculum in Pre-Final and Final year of B.Tech./MCA/MBA students and the progress of the same will
-                    be counted in their overall results and also gives them exposure & improves their skills and
-                    personality.</p>
-                <p class="p4">We will be highly obliged if the following student is permitted to undergo
-                    Training/Internship at your
-                    esteemed Organization from {{start_date}} to {{end_date}}.</p>
+                <p class="p3">We are grateful to the co-operation in imparting Industrial Training/Internship/Vocational Training to the Students of our Institute. Industrial training/Internship is a part of Academic Curriculum in Pre-Final and Final year of B.Tech./MCA/MBA students and the progress of the same will be counted in their overall results and also gives them exposure & improves their skills and personality.</p>
+                <p class="p4">We will be highly obliged if the following student is permitted to undergo Training/Internship at your esteemed Organization from {{start_date}} to {{end_date}}.</p>
             </div>
             <div>
                 <table>
@@ -180,32 +185,27 @@
                 <p class="p5">Hoping for your kind cooperation.</p>
                 <p class="p6">Best Regards!</p>
             </div>
-            
+
             <div class="picture">
                 <div class="box7">
                     <div style="text-align: left; height: 75px; width: 75px;">
                         <img src="{{file_path}}" alt="">
                     </div>
-                <h3 id="h1">Mr. Vikram Singh Rajput </h3>
-                <h3 id="h2">Training & Placement Officer</h3>
+                    <h3 id="h1">Mr. Vikram Singh Rajput</h3>
+                    <h3 id="h2">Training & Placement Officer</h3>
+                </div>
+
+                <div class="box7">
+                    <div style="text-align: left; height: 75px; width: 75px;">
+                        <img src="{{qr_img_path}}" alt="">
+                    </div>
+                    <h3 id="h1">Scan this to verify</h3>
+                </div>
             </div>
 
-            <div class="box7">
-                <div style="text-align: left; height: 75px; width: 75px;">
-                    <img src="{{qr_img_path}}" alt="">
-                </div>
-                <h3 id="h1">Scan this to verify</h3>
-                <!-- <h3 id="h2">Training & Placement Officer</h3> -->
-            </div>
-        </div>
-            
-            
-            
             <div class="box8">
                 <p class="p7">Kindly feel free to contact us for any further information.</p>
-                <p class="p8"> <b> Important Declaration:</b> <span class="s1">This is a system-generated letter with
-                        reference no. after the approval from the
-                        authority. There is no need for a signature and seal on a hard copy.</span></p>
+                <p class="p8"><b>Important Declaration:</b> <span class="s1">This is a system-generated letter with reference no. after the approval from the authority. There is no need for a signature and seal on a hard copy.</span></p>
             </div>
         </div>
     </div>
