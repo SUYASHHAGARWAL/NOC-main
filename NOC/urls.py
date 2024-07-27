@@ -26,7 +26,9 @@ from django.conf.urls.static import static
 
 from nocrest import views
 from nocrest.views import home, login, custom_logout, view_logs
+from django.conf.urls import handler404
 
+handler404 = 'nocrest.views.custom_404'
 urlpatterns = [
 
     path('upload/', upload_file, name='upload_file'),
@@ -115,6 +117,7 @@ path('logout/', custom_logout, name='logout'),
     re_path(r'^api/show_feedback',views.FeedbackByStudents),
     re_path(r'^api/ALldepartments',views.ShowDepartments),
     re_path(r'^api/DelFaculty',views.FDelete),
+    re_path(r'^api/DelStudent',views.StDelete),
     re_path(r'^api/editAppNocStud',views.NOCEditApp),
     re_path(r'^api/Edit_dept_admin',views.EditDeptAdmin),
     re_path(r'^api/PaddDEPT',views.AddDeptAdmin),

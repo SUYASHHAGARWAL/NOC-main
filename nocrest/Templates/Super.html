@@ -476,6 +476,8 @@ function NOCsendPostRequest(data, status, role) {
                 <th>Name</th>
                 <th>Department</th>
                 <th>Status</th>
+                <th>Submit</th>
+                <th>Deletw</th>
             </tr>
         `);
             for (let i = 0; i < data.length; i++) {
@@ -589,7 +591,9 @@ $('#depatrments').click(function () {
                           <td>${data[i].Name}</td>
                          <td>${data[i].contact_Num}</td>
                          <td>${data[i].Email}</td>
-                        
+                        <td>
+                            <a href="/api/DelStudent?id=${data[i].id}" class="delete-button" data-id="${data[i].id}">Delete</a>
+                        </td>
                        </tr>`
                         )
                     }

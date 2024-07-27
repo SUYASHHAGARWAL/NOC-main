@@ -77,7 +77,7 @@ def home(req):
     print(first_name)
     print(email)
     print(username)
-    if(em == 'mitsgwl.ac.in'):
+    if(em == 'mitswl.ac.in'):
         print("Tulla")
         q = "SELECT * FROM nocrest_student WHERE (Email = '{0}')".format(email)
         cursor = connection.cursor()
@@ -113,6 +113,10 @@ def home(req):
   except Exception as e:
       print(e)
       return redirect('/')
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
 
 def login(request):
     return render(request, 'Frontpage.html')
@@ -713,6 +717,8 @@ def SubmitApplication(req):
             Websitr_org = req.POST.get('websitr_org')
             Apply_through = req.POST.get('apply_through')
             Stipend = req.POST.get('stipend')
+            title = req.POST.get('title')
+            Name_reciever = title + " "+Name_reciever
             if 'offerletter' in req.FILES:
                 offerLetter_file = req.FILES['offerletter']
     # Continue with your code to save or process the file
@@ -756,31 +762,31 @@ def SubmitApplication(req):
                 App_time=time,
             )
 
-            contactdata.save()
+            # contactdata.save()
             try:
              current_directory = os.getcwd()
              html_template = get_template(os.path.join(current_directory,'nocrest/Static/emailnoc.html'))
             except Exception as error:
                 return HttpResponse(error)
-            try:
-                context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
-                html_content = html_template.render(context)
-                subject = 'Testing'
-                message = 'Successfully applied for NO Dues'
-                from_email = 'suyashu1606.agarwal@gmail.com'
-                recipient_list = [email]
+            # try:
+            #     context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+            #     html_content = html_template.render(context)
+            #     subject = 'Testing'
+            #     message = 'Successfully applied for NO Dues'
+            #     from_email = 'suyashu1606.agarwal@gmail.com'
+            #     recipient_list = [email]
 
-                email = EmailMessage(subject, message, from_email, recipient_list)
-                email.content_subtype = "html"
-                email.body = html_content
+            #     email = EmailMessage(subject, message, from_email, recipient_list)
+            #     email.content_subtype = "html"
+            #     email.body = html_content
 
-            # Attempt to send email
+            # # Attempt to send email
 
-                email.send()
-                print("Mail Sent")
-            except Exception as email_exception:
-                print("Email sending failed:", email_exception)
-                return HttpResponse(email_exception)
+            #     email.send()
+            #     print("Mail Sent")
+            # except Exception as email_exception:
+            #     print("Email sending failed:", email_exception)
+            #     return HttpResponse(email_exception)
             return render(req, "Dashboard.html", {'message': 'ok'})
         else:
             return HttpResponse("Method not allowed", status=405)
@@ -1830,12 +1836,14 @@ def BonaEdit(request):
             cursor.execute(qry)
             apid = tuple_to_dict.ParseDictSingleRecord(cursor)
             print("gwvdvubwbbf  yfebfebf8og7gw",apid['count(*)'])
-            query = 'select signature from nocrest_admins where Contact = {0}'.format(request.session['Admincontact'])
+            query = 'select * from nocrest_admins where Contact = {0}'.format(request.session['Admincontact'])
             cursor = connection.cursor()
             cursor.execute(query)
             sign = tuple_to_dict.ParseDictSingleRecord(cursor)
             tough = sign['signature']
-            print(stud_branch, Email, stud_enr)
+            print(sign)
+            print(stud_branch, Email, stud_enr,tough)
+            print("ibubibgubgrbgbgibeunb")
             apr_time = datetime.now()
             print(apr_time)
             date = apr_time.date()
@@ -2839,7 +2847,19 @@ def FDelete(request):
             # Get the ID from query parameters
             row_id = request.query_params.get('id')
             print(row_id)
-            data = Admins.objects.get(pk=request.GET['id'])
+            data = Admins.objects.get(pk=row_id)
+            data.delete()
+            return redirect('/api/superadmin')
+    except Exception as e:
+        print("Error", e)
+@api_view(['GET'])
+def StDelete(request):
+    try:
+        if request.method == 'GET':
+            # Get the ID from query parameters
+            row_id = request.query_params.get('id')
+            print(row_id)
+            data = Student.objects.get(pk=row_id)
             data.delete()
             return redirect('/api/superadmin')
     except Exception as e:
@@ -2915,9 +2935,9 @@ def AdminHostle(req):
 @api_view(['GET','POST','DELETE'])
 def SuperAdmin(req):
     try:
-        # if req.session['Adminemail'] == '':
-        #     return redirect('/')
-        # ADname = req.session['Adminname']
+        if req.session['Adminemail'] == '':
+            return redirect('/')
+        ADname = req.session['Adminname']
         qr = "SELECT COUNT(*) FROM nocrest_student"
         cursor = connection.cursor()
         cursor.execute(qr)
