@@ -186,9 +186,43 @@
             }
         }
         
-        
+        .password-container {
+    position: relative;
+}
 
+/* Adjust the position of the toggle button */
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
 
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #85849e;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    footer {
+        position: fixed; /* Keep the position fixed */
+        bottom: 0; /* Position at the bottom of the viewport */
+        width: 100%; /* Take up full width */
+        padding: 10px 0; /* Reduce padding for smaller screens */
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+}
+    .highlight {
+        color: #ff0; /* Yellow color */
+        font-weight: bold;
+    }
 
     </style>
 
@@ -214,14 +248,14 @@ $(document).ready(function () {
     <button class="toggle-btn" style="color: black; background: transparent;width:40px;">&#9776;</button>
     <div class="sidebar">
         <ul class="items">
-            <li >
+            <li>
                 <a href="/api/adminDash">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="active"> 
-                <a href="" id="profile-link">
+            <li class="active">
+                <a href="/api/adminprofile">
                     <i class="fas fa-user"></i>
                     <span>Profile</span>
                 </a>
@@ -263,7 +297,7 @@ $(document).ready(function () {
                     
                     <div class="form-box">
                         <label for="Email">Email</label>
-                        <input class="filledornot" type="text" id="Email" name="Email" placeholder="{{record.Email}}" value="{{record.Email}}">
+                        <input class="filledornot" type="text" readonly id="Email" name="Email" placeholder="{{record.Email}}" value="{{record.Email}}">
                     </div>
                     <div class="form-box">
                         <label for="Contact">Contact Number</label>
@@ -274,18 +308,68 @@ $(document).ready(function () {
                         <input class="filledornot" readonly type="text" id="dept" name="dept" placeholder="{{dept}}" value="{{record.dept}}">
                     </div>
                     <div class="form-box">
-                        <label for="Password">Password</label>
-                        <input class="filledornot" type="text" id="password" name="password" placeholder="{{record.Password}}" value="{{record.Password}}">
+                        <label for="password">Password</label>
+                        <div class="password-container">
+                            <input class="filledornot" type="password" id="password" name="password"
+                                placeholder="{{record.Password}}" value="{{record.Password}}">
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
                     </div>
                     <div class="form-box">
-                        <button type="submit">Submit</button>
+                        <label for="confirm-password">Confirm Password</label>
+                        <input class="filledornot" type="password" id="confirm-password" name="confirm-password"
+                            placeholder="Confirm Password">
+                    </div>
+                    <div class="form-box">
+                        <button type="submit" onclick="return validateForm()">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <footer>
+        <p>Copyright &copy; 2024 <span class="highlight">SDC MITS</span>. All Rights Reserved.</p>
+    </footer>
     <script src="/Static/dashboard.js"></script>
-    
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var icon = document.querySelector(".toggle-password i");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        function validateForm() {
+            var contactNum = document.getElementById("contact_Num").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirm-password").value;
+
+            // Check contact number length
+            if (contactNum.length !== 10) {
+                alert("Contact number must be 10 digits");
+                return false;
+            }
+
+            // Check password and confirm password match
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return false;
+            }
+
+            return true;
+        }
+        
+    </script>
 </body>
 
 </html>

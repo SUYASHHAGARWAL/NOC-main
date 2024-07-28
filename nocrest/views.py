@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from rest_framework.decorators import api_view, parser_classes
 import tempfile
+from .models import Admins 
+from django.db.models import Q
 from django.contrib.auth import logout
 from .serializers import BonafideModel
 from .serializers import ExitSurvey
@@ -42,6 +44,7 @@ from xhtml2pdf import pisa
 from django.template.loader import get_template
 from django.http import HttpResponse
 from datetime import datetime
+from django.contrib.auth.hashers import make_password, check_password
 media_root = settings.MEDIA_ROOT
 
 from django.http import JsonResponse
@@ -77,7 +80,7 @@ def home(req):
     print(first_name)
     print(email)
     print(username)
-    if(em == 'mitswl.ac.in'):
+    if(em == 'mitsgl.ac.in'):
         print("Tulla")
         q = "SELECT * FROM nocrest_student WHERE (Email = '{0}')".format(email)
         cursor = connection.cursor()
@@ -169,7 +172,7 @@ def Frontpage(req):
     try:
         
         req.session['Admincontact'] = ''
-        req.session['Adminpass'] = ''
+        req.session['AdminPass'] = ''
         req.session['Adminemail'] = ''
         req.session['Enrollment'] = ''
         return render(req, "Frontpage.html")
@@ -196,10 +199,12 @@ def StudentLogin(request):
         
         try:
             student = Student.objects.get(EnrollmentId=username)
-            if student.password == password:
+            
+            if check_password(password,student.password):
                 # Instead of using Django's login, just set session variables
                 request.session['Enrollment'] = username
                 request.session['is_authenticated'] = True
+                request.session['StudPass'] = password
                 return get_dashboard_data(request, username)
             else:
                 return render(request, "Frontpage.html", {"msg": 'Incorrect Password'})
@@ -252,35 +257,47 @@ try:
     @csrf_exempt
     @api_view(['GET', 'POST', 'DELETE'])
     def StudentREg(req):
-        print("Im in")
-        try:
-            if req.method == 'GET':
+        print("I'm in StudentREg")
+        if req.method == 'GET':
+            try:
                 username = req.GET.get('EnrollmentId')
                 password = req.GET.get('password')
                 req.session['StudPass'] = password
                 req.session['Enrollment'] = username
-                contact = contactserialiser(data=req.GET)
-                print(contactserialiser)
-                print(contact)
+                
+                # Encrypt the password
+                PassW = make_password(password)
+                
+                # Create a copy of GET data and update the password
+                data = req.GET.copy()
+                data['password'] = PassW
+                
+                # Use the modified data for serialization
+                contact = contactserialiser(data=data)
+                print("Serializer:", contact)
+                
                 if contact.is_valid():
-                    print("Valid")
+                    print("Data is valid")
                     try:
                         contact.save()
                         print("Save successful")
+                        print(f"Username: {username}, Password: [ENCRYPTED]")
+                        return redirect("/api/studentlogin")
                     except Exception as e:
                         print(f"Error during save: {e}")
-                    print(f"Username: {username}, Password: {password}")
-                    print("Hello")
-                    return redirect("/api/studentlogin")
+                        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 else:
-                    print(contact.errors)  # Print serializer errors for debugging
+                    print("Serializer errors:", contact.errors)
                     return Response(contact.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            print("Error", e)
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+            except Exception as e:
+                print("Error in StudentREg:", str(e))
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        else:
+            return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 except Exception as e:
-            print("Error", e)
-
+    print(e)
 # @csrf_exempt
 # @api_view(['GET', 'POST', 'DELETE'])
 # def AdminREg(req):
@@ -332,6 +349,7 @@ def AdminREg(req):
             contact = req.GET.get('Contact')
             password = req.GET.get('Password')
             stat = req.GET.get('status')
+            PassW = make_password(password)
             print(role, name, email, dept, contact, password, stat)
             admin_data = {
                 'role': role,
@@ -339,7 +357,7 @@ def AdminREg(req):
                 'email': email,
                 'dept': dept,
                 'contact': contact,
-                'password': password,
+                'password': PassW,
                 'status': stat
             }
             admin_serializer = Batchserialiser(data=admin_data)
@@ -349,7 +367,7 @@ def AdminREg(req):
             else:
                 return redirect('/')
             req.session['Admincontact'] = contact
-            req.session['Adminpass'] = password
+            req.session['AdminPass'] = password
             return redirect("/api/adminDash")
         
         elif req.method == 'POST':
@@ -361,7 +379,7 @@ def AdminREg(req):
             password = req.POST.get('Password')
             stat = req.POST.get('status')
             signature = req.FILES.get('signature')
-
+            PassW = make_password(password)
             # Ensure the directory exists
             image_dir = "nocrest\Static\Images"
             os.makedirs(image_dir, exist_ok=True)
@@ -370,9 +388,6 @@ def AdminREg(req):
             signature_filename = f"{name}_{dept}.png"
             signature_filepath = os.path.join(image_dir, signature_filename)
 
-# E:\NOC test\NOC-main\static\Images\
-#nocrest\Static\Images
-            # Save the file
             with open(signature_filepath, 'wb+') as destination:
                 for chunk in signature.chunks():
                     destination.write(chunk)
@@ -385,7 +400,7 @@ def AdminREg(req):
                 'Email': email,
                 'dept': dept,
                 'Contact': contact,
-                'Password': password,
+                'Password': PassW,
                 'status': stat,
                 'signature': signature_filename  # Save the file name to the database
             }
@@ -394,11 +409,11 @@ def AdminREg(req):
             if admin_serializer.is_valid():
                 admin_serializer.save()
                 print("Saved")
+                req.session['Admincontact'] = contact
+                req.session['AdminPass'] = password
             else:
                 return Response(admin_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
-            req.session['Admincontact'] = contact
-            req.session['Adminpass'] = password
             return redirect("/api/adminDash")
 
     except Exception as e:
@@ -409,7 +424,7 @@ def AdminREg(req):
 def Deptfp(req):
     try:
         req.session['Admincontact'] = ''
-        req.session['Adminpass'] = ''
+        req.session['AdminPass'] = ''
         req.session['Adminemail'] = ''
         q = "SELECT * FROM nocrest_admins"
         cursor = connection.cursor()
@@ -579,121 +594,84 @@ def DashLogin(req):
         return JsonResponse({'error': str(e)}, status=500)
 
 @api_view(['POST'])
-def DeptLogin(req):
-    print(22)
-    try:
-        if req.method == 'POST':
-            print(11)
-            contact = req.POST.get('Contact')
-            password = req.POST.get('password')
-            print(contact)
-            print(password)
-            q = "SELECT * FROM nocrest_admins WHERE (Contact = %s OR email = %s) AND password = %s"
-            cursor = connection.cursor()
-            cursor.execute(q, [contact,contact, password])
-            record = tuple_to_dict.ParseDictMultipleRecord(cursor)
-            # print(record['dept'])
-            if record:
-                print("\n\n", record[0]['dept'])
-                req.session['Admincontact'] = record[0]['Contact']
-                req.session['Adminemail'] = record[0]['Email']  
-                req.session['RoleAdmin'] = record[0]['Role']
-                req.session['Ad_Status'] = record[0]['status']
-                if(record[0]['dept'] == 'Tnp'):
-                    qry = "select count(*) from nocrest_application_table where dept_approval = 'approved' and tnp_approval = '' "
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)
-                    rec = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec['count(*)'])
-                    qry = "select count(*) from nocrest_application_table where tnp_approval = 'approved'"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)Request
-                    rec2 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec2['count(*)'])
-                    qry = "select count(*) from nocrest_application_table"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)
-                    rec3 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec3['count(*)'])
-                    qry = "select count(*) from nocrest_application_table where dept_approval = 'Approved' and Tnp_approval = 'Approved'"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)
-                    rec4 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print("kake",rec4['count(*)'])
-                    return redirect ('/api/adminDash')
-
-                else:
-                    q = "select * from nocrest_department where department = '{0}'".format(record[0]['dept'])
-                    cursor = connection.cursor()
-                    cursor.execute(q)
-                    rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                    print(len(rec))
-                    r = []
-                    for i in range(len(rec)):
-                        m = rec[i]['id']
-                        q = "select * from nocrest_application_table where dept='{0}' and dept_approval = '' order by App_Date desc".format(m)
-                        cursor = connection.cursor()
-                        cursor.execute(q)
-                        result = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                        if(result):
-                            print(i)
-                            print("sample",result)
-                            r += result
-                    print(len(r))
-                    r2 = []
-                    for i in range(len(rec)):
-                        m = rec[i]['id']
-                        q = "select * from nocrest_application_table where dept='{0}' and dept_approval = 'approved' order by App_Date desc".format(m)
-                        cursor = connection.cursor()
-                        cursor.execute(q)
-                        result = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                        if(result):
-                            print(i)
-                            print("sample",result)
-                            r2 += result
-                    print(len(r2))
-                    qry = "select count(*) from nocrest_application_table"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    rec3 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec3['count(*)'])
-                    qry = "select count(*) from nocrest_application_table where dept_approval = 'Approved' and Tnp_approval = 'Approved'"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)
-                    rec4 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec4['count(*)'])
-                    r3 = []
-                    for i in range(len(rec)):
-                        m = rec[i]['id']
-                        q = "select * from nocrest_application_table where dept_approval = 'Approved' and Tnp_approval = 'Approved' and dept='{0}'".format(m)
-                        cursor = connection.cursor()
-                        cursor.execute(q)
-                        result = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                        if(result):
-                            print(i)
-                            print("sample",result)
-                            r3 += result
-                    print(len(r3))
-                    return redirect ('/api/adminDash')
+def DeptLogin(request):
+    if request.method == 'POST':
+        contact = request.POST.get('Contact')
+        password = request.POST.get('password')
+       
+        if not contact or not password:
+            return JsonResponse({'error': 'Missing contact or password'}, status=400)
+       
+        try:
+            admin = Admins.objects.get(Q(Contact=contact) | Q(Email=contact))
+            print(check_password(password, admin.Password))
+            if check_password(password, admin.Password):
+                request.session['Admincontact'] = admin.Contact
+                request.session['Adminemail'] = admin.Email
+                request.session['RoleAdmin'] = admin.Role
+                request.session['Ad_Status'] = admin.status
+                request.session['AdminPass'] = password
+                return redirect('/api/adminDash')
             else:
+                return render(request, "Adminfp.html", {"msg": 'Incorrect Password'})
+        except Admins.DoesNotExist:
+            return render(request, "Adminfp.html", {"msg": 'Kindly Signup First'})
+   
+#     admin_contact = request.session.get('Admincontact')
+#     if admin_contact:
+#         admin = Admins.objects.get(Contact=admin_contact)
+#         return get_admin_dashboard_data(request, admin)
+#     return redirect('/')
 
-                q = "SELECT * FROM nocrest_admins WHERE (Contact = '{0}' OR email = '{0}')".format(contact)
-                cursor = connection.cursor()
-                cursor.execute(q)
-                rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                if(rec):
-                    return render(req, "Adminfp.html",{"msg":'Incorrect Password'})
-                else:
-                    return render(req, "Adminfp.html",{"msg":'Kindly Signup First'})
-        return JsonResponse({'error': 'No record found'}, status=404)
-    except Exception as e:
-        print("Error", e)
-        return JsonResponse({'error': str(e)}, status=500)
+# def get_admin_dashboard_data(request, admin):
+#     try:
+#         context = {}
+        
+#         if admin.dept == 'Tnp':
+#             with connection.cursor() as cursor:
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table WHERE dept_approval = 'approved' AND tnp_approval = ''")
+#                 context['pending_tnp_approvals'] = cursor.fetchone()[0]
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table WHERE tnp_approval = 'approved'")
+#                 context['tnp_approved'] = cursor.fetchone()[0]
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table")
+#                 context['total_applications'] = cursor.fetchone()[0]
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table WHERE dept_approval = 'Approved' AND Tnp_approval = 'Approved'")
+#                 context['fully_approved'] = cursor.fetchone()[0]
+#         else:
+#             departments = Admins.objects.filter(dept=admin.dept).values_list('id', flat=True)
+            
+#             with connection.cursor() as cursor:
+#                 pending_applications = []
+#                 approved_applications = []
+#                 fully_approved_applications = []
+                
+#                 for dept_id in departments:
+#                     cursor.execute("SELECT * FROM nocrest_application_table WHERE dept=%s AND dept_approval = '' ORDER BY App_Date DESC", [dept_id])
+#                     pending_applications.extend(cursor.fetchall())
+                    
+#                     cursor.execute("SELECT * FROM nocrest_application_table WHERE dept=%s AND dept_approval = 'approved' ORDER BY App_Date DESC", [dept_id])
+#                     approved_applications.extend(cursor.fetchall())
+                    
+#                     cursor.execute("SELECT * FROM nocrest_application_table WHERE dept_approval = 'Approved' AND Tnp_approval = 'Approved' AND dept=%s", [dept_id])
+#                     fully_approved_applications.extend(cursor.fetchall())
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table")
+#                 context['total_applications'] = cursor.fetchone()[0]
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table WHERE dept_approval = 'Approved' AND Tnp_approval = 'Approved'")
+#                 context['fully_approved'] = cursor.fetchone()[0]
+            
+#             context['pending_applications'] = pending_applications
+#             context['approved_applications'] = approved_applications
+#             context['fully_approved_applications'] = fully_approved_applications
+
+#         return render(request, "adminDash.html", context)
+#     except Exception as e:
+#         print(f"Error in get_admin_dashboard_data: {str(e)}")
+#         return redirect('/')
 
 
 @api_view(['GET','POST','DELETE'])
@@ -2185,6 +2163,7 @@ def Approval(req):
 @api_view(['GET','POST','DELETE'])
 def StudentProfile(req):
     try:
+            print("huihuihuihui")
             if req.session['Enrollment'] == '':
                 return redirect('/')
             enr = req.session['Enrollment']
@@ -2194,6 +2173,11 @@ def StudentProfile(req):
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
             print(rec['Branch'])
+            passW = check_password(req.session['StudPass'],rec['password']) 
+            print("dgkjbgiu",passW)
+            print(req.session['StudPass'])
+            print(rec['password'])
+            rec['password'] = req.session['StudPass']
             qry = "select Department_name from nocrest_department where Dep_Id={0}".format(rec['Branch'])
             cursor = connection.cursor()
             cursor.execute(qry)
@@ -2563,7 +2547,9 @@ def AdminProfile(req):
             cursor.execute(qry)
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
+            
             if(rec):
+                rec['Password'] = req.session['AdminPass']
                 return render(req, 'ADprofile.html',{'record':rec})
             else:
                 enr = req.session['Admincontact']
@@ -2632,13 +2618,14 @@ def StudentEdit(request):
             student_id = request.POST.get('idbb')
             enroll = request.POST.get('EnrollmentId')
             name = request.POST.get('Name')
+            PassW = make_password(password)
             student = Student.objects.get(pk=student_id)
             student.fathers_name = father
             student.Address = address
             student.contact_Num = contact
             student.Branch = dept
-            student.password = password
-        
+            student.password = PassW
+
             if 'image' in request.FILES:
                 image = request.FILES['image']
                 # Get file extension
@@ -2652,11 +2639,11 @@ def StudentEdit(request):
                     image.read(),
                     content_type=image.content_type
                 )
-                
                 # Assign the new image to the student
                 student.image = new_image
         
             student.save()
+            request.session['StudPass'] = password
 
         return redirect('/api/studentlogin')
 
@@ -2773,14 +2760,15 @@ def adminEdit(req):
             contact = req.POST.get('Contact')
             dep = req.POST.get('dept')
             passs = req.POST.get('password')
+            PassW = make_password(passs)
             student_id = req.POST.get('idbb')
             student = Admins.objects.get(pk=student_id)
             student.Email = email
             student.Contact = contact
             student.dept = dep
-            student.Password = passs
+            student.Password = PassW
             student.save()
-
+            req.session['AdminPass'] = passs
             return redirect('/api/adminDash')
     except Exception as e:
         print("Error:", e)
@@ -2935,9 +2923,9 @@ def AdminHostle(req):
 @api_view(['GET','POST','DELETE'])
 def SuperAdmin(req):
     try:
-        if req.session['Adminemail'] == '':
-            return redirect('/')
-        ADname = req.session['Adminname']
+        # if req.session['Adminemail'] == '':
+        #     return redirect('/')
+        # ADname = req.session['Adminname']
         qr = "SELECT COUNT(*) FROM nocrest_student"
         cursor = connection.cursor()
         cursor.execute(qr)

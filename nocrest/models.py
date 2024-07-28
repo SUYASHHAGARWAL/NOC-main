@@ -10,7 +10,7 @@ class Student(models.Model):
     Email = models.CharField(max_length=120,blank=False)
     Branch = models.CharField(max_length=120,blank=False)
     Noc_Count = models.CharField(max_length=120,blank=False, default=0)
-    password = models.CharField(max_length=25,blank=False, default=0)
+    password = models.CharField(max_length=255,blank=False, default=0)
     username = models.CharField(max_length=120,blank=False, default=0)
     Email_personal = models.CharField(max_length=120,blank=False, default=0)
     image = models.ImageField(upload_to='student_images/', null=True, blank=True)
@@ -28,7 +28,7 @@ class Admins(models.Model):
     Email = models.CharField(max_length=50,blank=False,default='')
     dept = models.CharField(max_length=120,blank=False,default='')
     Contact = models.CharField(max_length=12,blank=False,default='')
-    Password = models.CharField(max_length=25,blank=False,default='')
+    Password = models.CharField(max_length=255,blank=False,default='')
     admin_id = models.CharField(max_length=15,blank=False,default='')
     status = models.CharField(max_length=15,blank=False,default='')
     signature = models.CharField(max_length=255)#Abstractuser table 
