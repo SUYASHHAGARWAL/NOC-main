@@ -6,6 +6,7 @@ from django.contrib.auth import logout
 from .serializers import BonafideModel
 from .serializers import ExitSurvey
 from io import BytesIO
+from django.db.models import Q
 from .models import Student
 from .serializers import contactserialiser
 from .serializers import Batchserialiser
@@ -42,6 +43,7 @@ from xhtml2pdf import pisa
 from django.template.loader import get_template
 from django.http import HttpResponse
 from datetime import datetime
+from django.contrib.auth.hashers import make_password, check_password
 media_root = settings.MEDIA_ROOT
 
 from django.http import JsonResponse
@@ -77,14 +79,14 @@ def home(req):
     print(first_name)
     print(email)
     print(username)
-    if(em == 'mitswl.ac.in'):
-        print("Tulla")
+    if(em == 'mitsgw.ac.in'):
         q = "SELECT * FROM nocrest_student WHERE (Email = '{0}')".format(email)
         cursor = connection.cursor()
         cursor.execute(q)
         record = tuple_to_dict.ParseDictMultipleRecord(cursor)
         if(record):
             req.session['Enrollment'] = first_name
+            req.session['EncPassStu'] = record[0]['password']
             return redirect("/api/studentlogin")
         else:
             return render(req, "Signup.html")
@@ -102,6 +104,7 @@ def home(req):
             req.session['Adminname'] = record[0]['name']
             req.session['RoleAdmin'] = record[0]['Role']
             req.session['Ad_Status'] = record[0]['status']
+            req.session['EncPassAdm'] = record[0]['Password']
             if(record[0]['Role']=='admin'):
                 return redirect ('/api/superadmin')
             else:
@@ -113,10 +116,6 @@ def home(req):
   except Exception as e:
       print(e)
       return redirect('/')
-
-
-def custom_404(request, exception):
-    return render(request, '404.html', status=404)
 
 def login(request):
     return render(request, 'Frontpage.html')
@@ -132,19 +131,31 @@ def custom_logout(request):
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded_file = request.FILES['file']
+
+        # Check if the uploaded file is an Excel file
         if not uploaded_file.name.endswith('.xlsx'):
             return JsonResponse({'status': 'Invalid file format. Please upload an Excel file.'}, status=400)
+
+        # Read the Excel file into a DataFrame
         try:
             df = pd.read_excel(uploaded_file)
         except Exception as e:
             return JsonResponse({'status': f'Error reading Excel file: {str(e)}'}, status=400)
+
+        # Convert the DataFrame to a dictionary
         data_dict = df.to_dict(orient='records')
+
+        # Track how many records were added and skipped
         added_count = 0
         skipped_count = 0
+
+        # Now you can store the data_dict in the database
         for record in data_dict:
             enrollment_id = record.get('EnrollmentId')
             if not enrollment_id:
                 continue
+
+            # Check if the enrollment_id already exists
             if Graduated.objects.filter(EnrollmentId=enrollment_id).exists():
                 skipped_count += 1
                 continue
@@ -169,7 +180,7 @@ def Frontpage(req):
     try:
         
         req.session['Admincontact'] = ''
-        req.session['Adminpass'] = ''
+        req.session['AdminPass'] = ''
         req.session['Adminemail'] = ''
         req.session['Enrollment'] = ''
         return render(req, "Frontpage.html")
@@ -196,10 +207,11 @@ def StudentLogin(request):
         
         try:
             student = Student.objects.get(EnrollmentId=username)
-            if student.password == password:
+            if check_password(password,student.password):
                 # Instead of using Django's login, just set session variables
                 request.session['Enrollment'] = username
                 request.session['is_authenticated'] = True
+                request.session['StudPass'] = password
                 return get_dashboard_data(request, username)
             else:
                 return render(request, "Frontpage.html", {"msg": 'Incorrect Password'})
@@ -247,39 +259,53 @@ def get_dashboard_data(request, username):
     except Exception as e:
         print(f"Error in get_dashboard_data: {str(e)}")
         return redirect('/')
-    
+
 try:
     @csrf_exempt
     @api_view(['GET', 'POST', 'DELETE'])
     def StudentREg(req):
-        print("Im in")
-        try:
-            if req.method == 'GET':
+        print("I'm in StudentREg")
+        if req.method == 'GET':
+            try:
                 username = req.GET.get('EnrollmentId')
                 password = req.GET.get('password')
                 req.session['StudPass'] = password
                 req.session['Enrollment'] = username
-                contact = contactserialiser(data=req.GET)
-                print(contactserialiser)
-                print(contact)
+                
+                # Encrypt the password
+                PassW = make_password(password)
+                req.session['EncPassStu'] = PassW
+                # Create a copy of GET data and update the password
+                data = req.GET.copy()
+                data['password'] = PassW
+                
+                # Use the modified data for serialization
+                contact = contactserialiser(data=data)
+                print("Serializer:", contact)
+                
                 if contact.is_valid():
-                    print("Valid")
+                    print("Data is valid")
                     try:
                         contact.save()
                         print("Save successful")
+                        print(f"Username: {username}, Password: [ENCRYPTED]")
+                        return redirect("/api/studentlogin")
                     except Exception as e:
                         print(f"Error during save: {e}")
-                    print(f"Username: {username}, Password: {password}")
-                    print("Hello")
-                    return redirect("/api/studentlogin")
+                        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 else:
-                    print(contact.errors)  # Print serializer errors for debugging
+                    print("Serializer errors:", contact.errors)
                     return Response(contact.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            print("Error", e)
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+            except Exception as e:
+                print("Error in StudentREg:", str(e))
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        else:
+            return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 except Exception as e:
-            print("Error", e)
+    print(e)
+
 
 # @csrf_exempt
 # @api_view(['GET', 'POST', 'DELETE'])
@@ -332,6 +358,8 @@ def AdminREg(req):
             contact = req.GET.get('Contact')
             password = req.GET.get('Password')
             stat = req.GET.get('status')
+            PassW = make_password(password)
+            req.session['EncPassAdm'] = PassW
             print(role, name, email, dept, contact, password, stat)
             admin_data = {
                 'role': role,
@@ -339,7 +367,7 @@ def AdminREg(req):
                 'email': email,
                 'dept': dept,
                 'contact': contact,
-                'password': password,
+                'password': PassW,
                 'status': stat
             }
             admin_serializer = Batchserialiser(data=admin_data)
@@ -349,7 +377,7 @@ def AdminREg(req):
             else:
                 return redirect('/')
             req.session['Admincontact'] = contact
-            req.session['Adminpass'] = password
+            req.session['AdminPass'] = password
             return redirect("/api/adminDash")
         
         elif req.method == 'POST':
@@ -361,7 +389,7 @@ def AdminREg(req):
             password = req.POST.get('Password')
             stat = req.POST.get('status')
             signature = req.FILES.get('signature')
-
+            PassW = make_password(password)
             # Ensure the directory exists
             image_dir = "nocrest\Static\Images"
             os.makedirs(image_dir, exist_ok=True)
@@ -370,9 +398,6 @@ def AdminREg(req):
             signature_filename = f"{name}_{dept}.png"
             signature_filepath = os.path.join(image_dir, signature_filename)
 
-# E:\NOC test\NOC-main\static\Images\
-#nocrest\Static\Images
-            # Save the file
             with open(signature_filepath, 'wb+') as destination:
                 for chunk in signature.chunks():
                     destination.write(chunk)
@@ -385,7 +410,7 @@ def AdminREg(req):
                 'Email': email,
                 'dept': dept,
                 'Contact': contact,
-                'Password': password,
+                'Password': PassW,
                 'status': stat,
                 'signature': signature_filename  # Save the file name to the database
             }
@@ -394,11 +419,11 @@ def AdminREg(req):
             if admin_serializer.is_valid():
                 admin_serializer.save()
                 print("Saved")
+                req.session['Admincontact'] = contact
+                req.session['AdminPass'] = password
             else:
                 return Response(admin_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
-            req.session['Admincontact'] = contact
-            req.session['Adminpass'] = password
             return redirect("/api/adminDash")
 
     except Exception as e:
@@ -409,7 +434,7 @@ def AdminREg(req):
 def Deptfp(req):
     try:
         req.session['Admincontact'] = ''
-        req.session['Adminpass'] = ''
+        req.session['AdminPass'] = ''
         req.session['Adminemail'] = ''
         q = "SELECT * FROM nocrest_admins"
         cursor = connection.cursor()
@@ -441,8 +466,8 @@ def DashLogin(req):
     print(22)
     try:
         if(req.session['Adminemail']):
-            if(req.session['Adminemail'] == 'atul@mitsgwalior.in'):
-                return redirect('/api/superadmin')
+            # if(req.session['Adminemail'] == 'atul@mitsgwalior.in'):
+            #     return redirect('/api/superadmin')
             contact = req.session['Admincontact']
             email = req.session['Adminemail']
             print(contact)
@@ -579,121 +604,84 @@ def DashLogin(req):
         return JsonResponse({'error': str(e)}, status=500)
 
 @api_view(['POST'])
-def DeptLogin(req):
-    print(22)
-    try:
-        if req.method == 'POST':
-            print(11)
-            contact = req.POST.get('Contact')
-            password = req.POST.get('password')
-            print(contact)
-            print(password)
-            q = "SELECT * FROM nocrest_admins WHERE (Contact = %s OR email = %s) AND password = %s"
-            cursor = connection.cursor()
-            cursor.execute(q, [contact,contact, password])
-            record = tuple_to_dict.ParseDictMultipleRecord(cursor)
-            # print(record['dept'])
-            if record:
-                print("\n\n", record[0]['dept'])
-                req.session['Admincontact'] = record[0]['Contact']
-                req.session['Adminemail'] = record[0]['Email']  
-                req.session['RoleAdmin'] = record[0]['Role']
-                req.session['Ad_Status'] = record[0]['status']
-                if(record[0]['dept'] == 'Tnp'):
-                    qry = "select count(*) from nocrest_application_table where dept_approval = 'approved' and tnp_approval = '' "
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)
-                    rec = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec['count(*)'])
-                    qry = "select count(*) from nocrest_application_table where tnp_approval = 'approved'"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)Request
-                    rec2 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec2['count(*)'])
-                    qry = "select count(*) from nocrest_application_table"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)
-                    rec3 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec3['count(*)'])
-                    qry = "select count(*) from nocrest_application_table where dept_approval = 'Approved' and Tnp_approval = 'Approved'"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)
-                    rec4 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print("kake",rec4['count(*)'])
-                    return redirect ('/api/adminDash')
-
-                else:
-                    q = "select * from nocrest_department where department = '{0}'".format(record[0]['dept'])
-                    cursor = connection.cursor()
-                    cursor.execute(q)
-                    rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                    print(len(rec))
-                    r = []
-                    for i in range(len(rec)):
-                        m = rec[i]['id']
-                        q = "select * from nocrest_application_table where dept='{0}' and dept_approval = '' order by App_Date desc".format(m)
-                        cursor = connection.cursor()
-                        cursor.execute(q)
-                        result = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                        if(result):
-                            print(i)
-                            print("sample",result)
-                            r += result
-                    print(len(r))
-                    r2 = []
-                    for i in range(len(rec)):
-                        m = rec[i]['id']
-                        q = "select * from nocrest_application_table where dept='{0}' and dept_approval = 'approved' order by App_Date desc".format(m)
-                        cursor = connection.cursor()
-                        cursor.execute(q)
-                        result = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                        if(result):
-                            print(i)
-                            print("sample",result)
-                            r2 += result
-                    print(len(r2))
-                    qry = "select count(*) from nocrest_application_table"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    rec3 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec3['count(*)'])
-                    qry = "select count(*) from nocrest_application_table where dept_approval = 'Approved' and Tnp_approval = 'Approved'"
-                    cursor = connection.cursor()
-                    cursor.execute(qry)
-                    # print(cursor)
-                    rec4 = tuple_to_dict.ParseDictSingleRecord(cursor)
-                    print(rec4['count(*)'])
-                    r3 = []
-                    for i in range(len(rec)):
-                        m = rec[i]['id']
-                        q = "select * from nocrest_application_table where dept_approval = 'Approved' and Tnp_approval = 'Approved' and dept='{0}'".format(m)
-                        cursor = connection.cursor()
-                        cursor.execute(q)
-                        result = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                        if(result):
-                            print(i)
-                            print("sample",result)
-                            r3 += result
-                    print(len(r3))
-                    return redirect ('/api/adminDash')
+def DeptLogin(request):
+    if request.method == 'POST':
+        contact = request.POST.get('Contact')
+        password = request.POST.get('password')
+       
+        if not contact or not password:
+            return JsonResponse({'error': 'Missing contact or password'}, status=400)
+       
+        try:
+            admin = Admins.objects.get(Q(Contact=contact) | Q(Email=contact))
+            print(check_password(password, admin.Password))
+            if check_password(password, admin.Password):
+                request.session['Admincontact'] = admin.Contact
+                request.session['Adminemail'] = admin.Email
+                request.session['RoleAdmin'] = admin.Role
+                request.session['Ad_Status'] = admin.status
+                request.session['AdminPass'] = password
+                return redirect('/api/adminDash')
             else:
+                return render(request, "Adminfp.html", {"msg": 'Incorrect Password'})
+        except Admins.DoesNotExist:
+            return render(request, "Adminfp.html", {"msg": 'Kindly Signup First'})
+   
+#     admin_contact = request.session.get('Admincontact')
+#     if admin_contact:
+#         admin = Admins.objects.get(Contact=admin_contact)
+#         return get_admin_dashboard_data(request, admin)
+#     return redirect('/')
 
-                q = "SELECT * FROM nocrest_admins WHERE (Contact = '{0}' OR email = '{0}')".format(contact)
-                cursor = connection.cursor()
-                cursor.execute(q)
-                rec = tuple_to_dict.ParseDictMultipleRecord(cursor)
-                if(rec):
-                    return render(req, "Adminfp.html",{"msg":'Incorrect Password'})
-                else:
-                    return render(req, "Adminfp.html",{"msg":'Kindly Signup First'})
-        return JsonResponse({'error': 'No record found'}, status=404)
-    except Exception as e:
-        print("Error", e)
-        return JsonResponse({'error': str(e)}, status=500)
+# def get_admin_dashboard_data(request, admin):
+#     try:
+#         context = {}
+        
+#         if admin.dept == 'Tnp':
+#             with connection.cursor() as cursor:
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table WHERE dept_approval = 'approved' AND tnp_approval = ''")
+#                 context['pending_tnp_approvals'] = cursor.fetchone()[0]
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table WHERE tnp_approval = 'approved'")
+#                 context['tnp_approved'] = cursor.fetchone()[0]
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table")
+#                 context['total_applications'] = cursor.fetchone()[0]
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table WHERE dept_approval = 'Approved' AND Tnp_approval = 'Approved'")
+#                 context['fully_approved'] = cursor.fetchone()[0]
+#         else:
+#             departments = Admins.objects.filter(dept=admin.dept).values_list('id', flat=True)
+            
+#             with connection.cursor() as cursor:
+#                 pending_applications = []
+#                 approved_applications = []
+#                 fully_approved_applications = []
+                
+#                 for dept_id in departments:
+#                     cursor.execute("SELECT * FROM nocrest_application_table WHERE dept=%s AND dept_approval = '' ORDER BY App_Date DESC", [dept_id])
+#                     pending_applications.extend(cursor.fetchall())
+                    
+#                     cursor.execute("SELECT * FROM nocrest_application_table WHERE dept=%s AND dept_approval = 'approved' ORDER BY App_Date DESC", [dept_id])
+#                     approved_applications.extend(cursor.fetchall())
+                    
+#                     cursor.execute("SELECT * FROM nocrest_application_table WHERE dept_approval = 'Approved' AND Tnp_approval = 'Approved' AND dept=%s", [dept_id])
+#                     fully_approved_applications.extend(cursor.fetchall())
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table")
+#                 context['total_applications'] = cursor.fetchone()[0]
+                
+#                 cursor.execute("SELECT COUNT(*) FROM nocrest_application_table WHERE dept_approval = 'Approved' AND Tnp_approval = 'Approved'")
+#                 context['fully_approved'] = cursor.fetchone()[0]
+            
+#             context['pending_applications'] = pending_applications
+#             context['approved_applications'] = approved_applications
+#             context['fully_approved_applications'] = fully_approved_applications
+
+#         return render(request, "adminDash.html", context)
+#     except Exception as e:
+#         print(f"Error in get_admin_dashboard_data: {str(e)}")
+#         return redirect('/')
 
 
 @api_view(['GET','POST','DELETE'])
@@ -716,9 +704,9 @@ def SubmitApplication(req):
             Org_address = req.POST.get('org_address')
             Websitr_org = req.POST.get('websitr_org')
             Apply_through = req.POST.get('apply_through')
-            Stipend = req.POST.get('stipend')
             title = req.POST.get('title')
             Name_reciever = title + " "+Name_reciever
+            Stipend = req.POST.get('stipend')
             if 'offerletter' in req.FILES:
                 offerLetter_file = req.FILES['offerletter']
     # Continue with your code to save or process the file
@@ -762,31 +750,31 @@ def SubmitApplication(req):
                 App_time=time,
             )
 
-            # contactdata.save()
+            contactdata.save()
             try:
              current_directory = os.getcwd()
              html_template = get_template(os.path.join(current_directory,'nocrest/Static/emailnoc.html'))
             except Exception as error:
                 return HttpResponse(error)
-            # try:
-            #     context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
-            #     html_content = html_template.render(context)
-            #     subject = 'Testing'
-            #     message = 'Successfully applied for NO Dues'
-            #     from_email = 'suyashu1606.agarwal@gmail.com'
-            #     recipient_list = [email]
+            try:
+                context = {'variable1': 'Value 1', 'variable2': 'Value 2'}
+                html_content = html_template.render(context)
+                subject = 'Testing'
+                message = 'Successfully applied for NO Dues'
+                from_email = 'suyashu1606.agarwal@gmail.com'
+                recipient_list = [email]
 
-            #     email = EmailMessage(subject, message, from_email, recipient_list)
-            #     email.content_subtype = "html"
-            #     email.body = html_content
+                email = EmailMessage(subject, message, from_email, recipient_list)
+                email.content_subtype = "html"
+                email.body = html_content
 
-            # # Attempt to send email
+            # Attempt to send email
 
-            #     email.send()
-            #     print("Mail Sent")
-            # except Exception as email_exception:
-            #     print("Email sending failed:", email_exception)
-            #     return HttpResponse(email_exception)
+                email.send()
+                print("Mail Sent")
+            except Exception as email_exception:
+                print("Email sending failed:", email_exception)
+                return HttpResponse(email_exception)
             return render(req, "Dashboard.html", {'message': 'ok'})
         else:
             return HttpResponse("Method not allowed", status=405)
@@ -860,36 +848,18 @@ def SubmitNoDuesApp(req):
                 print(1234)
                 name = req.POST.get('name')
                 enrollmentid = req.POST.get('EnrollmentId')
-                email = req.POST.get('email')
+                email = req.POST.get('Email')
                 dept = req.POST.get('department')
-                poy = req.POST.get('passOutYear')
-                fname = req.POST.get('fathersname')
-                brn = req.POST.get('branch')
-                add = req.POST.get('address')
-                mob = req.POST.get('mobile')
-                hstl = req.POST.get('hostel')
-                fdue = req.POST.get('fees_due')
-                preport = req.POST.get('project_report')
-                cmoney = req.POST.get('caution_money')
-                accname = req.POST.get('account_holder_name')
-                bankname = req.POST.get('bank_name')
-                accnum = req.POST.get('account_number')
-                ifsc = req.POST.get('ifsc_code')
-                qry = "select Department from nocrest_department where Dep_Id = '{0}'".format(dept)
-                cursor = connection.cursor()
-                cursor.execute(qry)
-                records = tuple_to_dict.ParseDictSingleRecord(cursor)
-                print("xxxxxxxxxx",records)
-                print(len(records))
-                print(records['Department'])
-                dept = records['Department']
-                apply = 1
-                current_datetime = datetime.now()
+                apply = req.POST.get('apply')
+
+                current_datetime = datetime.datetime.now()
                 current_date = current_datetime.date()
                 current_time = current_datetime.time()
-                print(current_date, current_time,email)
+
+                print(current_date, current_time)
                 current_date_str = current_datetime.strftime("%Y-%m-%d")
                 current_time_str = current_datetime.strftime("%H:%M:%S")
+
                 dateapp = current_date_str
                 time = current_time_str
                 # Create an instance of Application_table
@@ -900,16 +870,7 @@ def SubmitNoDuesApp(req):
                     dept=dept,
                     App_Id=apply,
                     App_Date=dateapp,
-                    App_time=time,
-                    passOutYear = poy,
-                    hostel = hstl,
-                    fees_due = fdue,
-                    project_report = preport,
-                    caution_money = cmoney,
-                    account_number = accnum,
-                    account_holder_name = accname,
-                    bank_name = bankname,
-                    ifsc_code = ifsc,
+                    App_time=time
 
                 )
 
@@ -952,10 +913,10 @@ def SubmitNoDuesApp(req):
 
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-def handle_uploaded_file(file, enrollment_id, name,file_type):
+def handle_uploaded_file(file, enrollment_id,file_type):
     _, extension = os.path.splitext(file.name)
     # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    new_filename = f"{enrollment_id}_{name}_{file_type}_{extension}"
+    new_filename = f"{enrollment_id}_{file_type}_{extension}"
     path = default_storage.save(f'offer_letters/{new_filename}', ContentFile(file.read()))
     return os.path.join(settings.MEDIA_ROOT, path)
 
@@ -1001,14 +962,14 @@ def ExitSurveySubmit(req):
                 full_semester_internship = req.POST.get('internship')
                 training_placement = req.POST.get('placement')
                 internship_company = req.POST.get('internship_company')
-                internship_certificate = req.POST.get('internship_certificate')
+                # internship_certificate = req.POST.get('internship_certificate')
                 job_selection = req.POST.get('job_selection')
                 outside_job_offer = req.POST.get('outside_job_offers')
                 outside_job_letter = req.FILES.get('outside_job_offer_letter')
                 file_fields = [
                 'offer_letter_1', 'offer_letter_2', 'offer_letter_3', 'offer_letter_4', 'offer_letter_5',
                 'outside_job_offer_letter', 'gate_scorecard', 'entrance_exam_scorecards',
-                'higher_education_documents', 'final_semester_document','stipend_proof_document'
+                'higher_education_documents', 'final_semester_document','stipend_proof_document','internship_certificate'
                 ]
 
                 file_paths = {}
@@ -1016,7 +977,7 @@ def ExitSurveySubmit(req):
                 for field in file_fields:
                     if field in req.FILES:
                         file = req.FILES[field]
-                        file_path = handle_uploaded_file(file, enrollmentid, name,field)
+                        file_path = handle_uploaded_file(file, enrollmentid, field)
                         file_paths[field] = file_path
                         print(f"{field} saved at: {file_path}")
                     else:
@@ -1106,7 +1067,6 @@ def ExitSurveySubmit(req):
                     FullSemesterInternship=full_semester_internship,
                     TrainingPlacement=training_placement,
                     InternshipCompany=internship_company,
-                    InternshipCertificate=internship_certificate,
                     JobSelection=job_selection,
                     OutsideJobOffer=outside_job_offer,
                     offer_letter_1=file_paths['offer_letter_1'],
@@ -1119,7 +1079,8 @@ def ExitSurveySubmit(req):
                     ScoreCardsAll=file_paths['entrance_exam_scorecards'],
                     AdmissionLetter=file_paths['higher_education_documents'],
                     FinalSemesterInternshipDoc=file_paths['final_semester_document'],
-                    StipendDocProof=file_paths['stipend_proof_document'],
+                    # StipendDocProof=file_paths['stipend_proof_document'],
+                    InternshipCertificate='bvdkvg',
                     MultipleOfferCompanies=multiple_offer_companies,
                     OptedJoborPG=opted_job_or_pg,
                     FurtherStudyDetails=further_study_details,
@@ -1227,11 +1188,10 @@ def ShowAppliedstudent(req):
              return redirect('/')
          if(req.session['Ad_Status'] == 'passive'):
                 return redirect('/')
-         elif req.method == 'GET':
+         if req.method == 'GET':
             department = req.GET.get('dept')
             print(req.GET.get('dept'))
             rec = []
-            print(department)
             if(department != 'Tnp'):
                 qry = "select * from nocrest_department where Department = '{0}'".format(department)
                 cursor = connection.cursor()
@@ -1272,7 +1232,6 @@ def NoDuesAppliedstudent(req):
          if req.method == 'GET':
             department = req.GET.get('dept')
             print("fnjbqiughienbijnbiuehgiugnigbiu",department)
-            query = " select * from nocrest_department where Department = {0}".format(department)
             if(department == 'Tnp'):
                 department = 'TnP_approval'
                 q = "select * from nocrest_NoDues_application_table where {0} = ''  order by App_Date desc".format(department)
@@ -1329,7 +1288,6 @@ def NoDuesAccAppliedstudent(req):
                 return render(req,"Adminfp.html")
     except Exception as e:
         print("Error", e)
-
 
 @api_view(['GET','POST','DELETE'])
 def AppliedStudeApproved(req):
@@ -1732,6 +1690,20 @@ def EditSaveDept(request):
                                 cat.D_approved_by = approved_by
                                 cat.allow_edit = request.POST['approval']
                                 cat.save()
+                                current_directory = os.getcwd()
+                                html_template = get_template(os.path.join(current_directory,'nocrest/Static/editnoc.html'))
+                                context = {'dept': department, 'comment':request.POST['comment'] }
+                                html_content = html_template.render(context)
+                                subject = 'Testing'
+                                message = 'Successfully applied for NO Dues'
+                                from_email = 'sdc@mitsgwalior.in'
+                                recipient_list = [e_mail]
+                                email = EmailMessage(subject, message, from_email, recipient_list)
+                                email.content_subtype = "html"
+                                email.body = html_content
+                                email.send()
+                        
+
                         else:
                             cat = Application_table.objects.get(pk=request.POST['idbb'])
                             cat.TnP_approval = request.POST['approval']
@@ -1770,7 +1742,19 @@ def EditSaveDept(request):
                         cat.date_dept_approval = apr_time.date()
                         cat.D_approved_by = approved_by
                         cat.allow_edit = request.POST['approval']
-                        cat.save()        
+                        cat.save()    
+                        current_directory = os.getcwd()
+                        html_template = get_template(os.path.join(current_directory,'nocrest/Static/editnoc.html'))
+                        context = {'dept': department, 'comment':request.POST['comment'] }
+                        html_content = html_template.render(context)
+                        subject = 'Testing'
+                        message = 'Successfully applied for NO Dues'
+                        from_email = 'sdc@mitsgwalior.in'
+                        recipient_list = [e_mail]
+                        email = EmailMessage(subject, message, from_email, recipient_list)
+                        email.content_subtype = "html"
+                        email.body = html_content
+                        email.send()    
                 else:
                         cat.Dept_approval = request.POST['approval']
                         cat.Dept_Comment = request.POST['comment']
@@ -1796,7 +1780,6 @@ def EditSaveDept(request):
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'success': False, 'error': str(e)})  # Return an error response if needed
-
 
 
 @api_view(['GET', 'POST', 'DELETE'])
@@ -1841,6 +1824,7 @@ def BonaEdit(request):
             cursor.execute(query)
             sign = tuple_to_dict.ParseDictSingleRecord(cursor)
             tough = sign['signature']
+            fac_name = sign['name']
             print(sign)
             print(stud_branch, Email, stud_enr,tough)
             print("ibubibgubgrbgbgibeunb")
@@ -1856,7 +1840,7 @@ def BonaEdit(request):
                         cat.dept_approval = request.POST['approval']
                         cat.dept_comment = request.POST['comment']
                         cat.approval_date = apr_time.date()
-                        # cat.save()
+                        cat.save()
                         # Render approveBonaf.html template
                         current_directory = os.getcwd()
                         logo = f'nocrest/Static/Images/{tough}'
@@ -1885,7 +1869,8 @@ def BonaEdit(request):
                             'mitspath':Mits_logo_path,
                             'apid':apid,
                             'date':date,
-                            'image':image_path
+                            'image':image_path,
+                            'headname':fac_name
                         }
                         bonafide_pdf_html_content = bonafide_pdf_template.render(bonafide_pdf_context)
 
@@ -1947,6 +1932,7 @@ def BonaEdit(request):
     except Exception as e:
         print("Error:", e)
         return JsonResponse({'success': False, 'error': str(e)})  # Return an error response if needed
+
 
 
 
@@ -2079,8 +2065,6 @@ def EditSaveNDDept(req):
                     print(req.POST.get('idbb'))
                     dept = req.POST.get('randomdept')
                     e_mail = req.POST.get('Email')
-                    amount = req.POST['Dept_amount']
-                    print("Due hai ", amount,"ka")
                     if(dept == 'Lib'):
                         cat = NoDues_application_table.objects.get(pk=req.POST['idbb'])
                         cat.EnrollmentId = req.POST['EnrollmentId']
@@ -2124,7 +2108,6 @@ def EditSaveNDDept(req):
                         # cat.Name = req.POST['Name']
                         cat.TnP_approval = req.POST['Dept_approval']
                         cat.TnP_Comment= req.POST['Dept_comment']
-                        cat.TnP_amount= req.POST['Dept_amount']
                         cat.save()
                         print(444)
                     else:
@@ -2140,10 +2123,9 @@ def EditSaveNDDept(req):
         else:
                     cat = Application_table.objects.get(pk=req.POST.get('idbb'))
                     cat.delete()
-        return redirect('/api/adminDash')
+        return redirect('/adminDash')
     except Exception as e:
         print("Error", e)
-
 
 @api_view(['GET','POST','DELETE'])
 def EditSaveTnp(req):
@@ -2185,6 +2167,7 @@ def Approval(req):
 @api_view(['GET','POST','DELETE'])
 def StudentProfile(req):
     try:
+            print("huihuihuihui")
             if req.session['Enrollment'] == '':
                 return redirect('/')
             enr = req.session['Enrollment']
@@ -2194,6 +2177,15 @@ def StudentProfile(req):
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
             print(rec['Branch'])
+            if 'EncPassStu' in req.session:
+                if rec['password'] == req.session['EncPassStu']:
+                    passW = True
+            elif 'StudPass' in req.session:
+                if check_password(req.session['StudPass'], rec['password']):
+                    passW = True
+            # print(req.session['StudPass'])
+            # print(rec['password'])
+            # rec['password'] = req.session['StudPass']
             qry = "select Department_name from nocrest_department where Dep_Id={0}".format(rec['Branch'])
             cursor = connection.cursor()
             cursor.execute(qry)
@@ -2257,7 +2249,7 @@ def ShowFeedback(req):
             
     except Exception as e:
         print("Error", e)
-        
+
 @api_view(['GET', 'POST', 'DELETE'])
 def ExitShowSurvey(req):
     # if(req.session['Ad_Status'] == 'passive'):
@@ -2276,7 +2268,7 @@ def ExitShowSurvey(req):
             
     except Exception as e:
         print("Error", e)
-
+        
 from collections import defaultdict
 from django.db import connection
 
@@ -2385,11 +2377,11 @@ def FeedbackByStudents(req):
 @api_view(['GET', 'POST', 'DELETE'])
 def AllApplications(req):
     try:
-            # if req.session['Adminemail'] == '':
-            #     print("session khali")
-            #     return redirect('/')
-            # if(req.session['Ad_Status'] == 'passive'):
-            #     return
+            if req.session['Adminemail'] == '':
+                print("session khali")
+                return redirect('/')
+            if(req.session['Ad_Status'] == 'passive'):
+                return redirect('/')
             qry = "select * from nocrest_application_table where Dept_approval = '' and Tnp_approval = '' order by App_Date desc"
             cursor = connection.cursor()
             cursor.execute(qry)
@@ -2404,9 +2396,9 @@ def AllApplications(req):
 @api_view(['GET', 'POST', 'DELETE'])
 def AdminApprovedAllApps(req):
     try:
-            # if req.session['Adminemail'] == '':
-            #     print("session khali")
-            #     return redirect('/')
+            if req.session['Adminemail'] == '':
+                print("session khali")
+                return redirect('/')
             qry = "select * from nocrest_application_table where (Dept_approval = 'Approved' or TnP_approval='Approved' ) order by App_Date desc"
             cursor = connection.cursor()
             cursor.execute(qry)
@@ -2421,9 +2413,9 @@ def AdminApprovedAllApps(req):
 @api_view(['GET', 'POST', 'DELETE'])      
 def AdminDeclinedAllApps(req):
     try:
-            # if req.session['Adminemail'] == '':
-            #     print("session khali")
-            #     return redirect('/')
+            if req.session['Adminemail'] == '':
+                print("session khali")
+                return redirect('/')
             qry = "select * from nocrest_application_table where (Dept_approval = 'declined' or TnP_approval='declined' ) order by App_Date desc"
             cursor = connection.cursor()
             cursor.execute(qry)
@@ -2437,11 +2429,11 @@ def AdminDeclinedAllApps(req):
 @api_view(['GET', 'POST', 'DELETE'])
 def BonafApplications(req):
     try:
-            # if req.session['Adminemail'] == '':
-            #     print("session khali")
-            #     return redirect('/')
-            # if(req.session['Ad_Status'] == 'passive'):
-            #     return
+            if req.session['Adminemail'] == '':
+                print("session khali")
+                return redirect('/')
+            if(req.session['Ad_Status'] == 'passive'):
+                return redirect('/')
             dept = req.GET['dept']
             print('DEPARTMENT',dept)
             q = "select * from nocrest_department where department = '{0}'".format(dept)
@@ -2476,9 +2468,9 @@ def BonafApplications(req):
 @api_view(['GET', 'POST', 'DELETE'])
 def ApprovedBonafApplications(req):
     try:
-            # if req.session['Adminemail'] == '':
-            #     print("session khali")
-            #     return redirect('/')
+            if req.session['Adminemail'] == '':
+                print("session khali")
+                return redirect('/')
             if(req.session['Ad_Status'] == 'passive'):
                 return
             dept = req.GET['dept']
@@ -2514,9 +2506,9 @@ def ApprovedBonafApplications(req):
 @api_view(['GET', 'POST', 'DELETE'])
 def DeclinedBonafApplications(req):
     try:
-            # if req.session['Adminemail'] == '':
-            #     print("session khali")
-            #     return redirect('/')
+            if req.session['Adminemail'] == '':
+                print("session khali")
+                return redirect('/')
             if(req.session['Ad_Status'] == 'passive'):
                 return
             dept = req.GET['dept']
@@ -2557,14 +2549,24 @@ def AdminProfile(req):
             if req.session['Admincontact'] == '':
                 if req.session['Adminemail'] == '':
                     return redirect('/')
+            passW = False
             enr = req.session['Adminemail']
             qry = "select * from nocrest_admins where email = '{0}'".format(enr)
             cursor = connection.cursor()
             cursor.execute(qry)
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
-            if(rec):
-                return render(req, 'ADprofile.html',{'record':rec})
+            if rec:
+                if 'EncPassAdm' in req.session:
+                    if rec['Password'] == req.session['EncPassAdm']:
+                        passW = True
+                elif 'AdminPass' in req.session:
+                    if check_password(req.session['AdminPass'], rec['Password']):
+                        passW = True
+
+                print("passW status:", passW)  # Added for debugging
+                return render(req, 'ADprofile.html', {'record': rec})
+
             else:
                 enr = req.session['Admincontact']
                 qry = "select * from nocrest_admins where Contact = '{0}'".format(enr)
@@ -2572,7 +2574,17 @@ def AdminProfile(req):
                 cursor.execute(qry)
                 rec = tuple_to_dict.ParseDictSingleRecord(cursor)
                 print(rec)
-                return render(req, 'ADprofile.html',{'record':rec})
+                if(rec):
+                    if 'EncPassAdm' in req.session:
+                        if rec['Password'] == req.session['EncPassAdm']:
+                            passW = True
+                    elif 'AdminPass' in req.session:
+                        if check_password(req.session['AdminPass'], rec['Password']):
+                            passW = True
+
+                print("passW status:", passW)  # Added for debugging
+                return render(req, 'ADprofile.html', {'record': rec})
+                
     except Exception as e:
 
         print("Error",e)
@@ -2619,25 +2631,40 @@ def Companydata(req):
     except Exception as e:
         print("Error:", e)
         return HttpResponse(e)
+    
 from django.core.files.uploadedfile import SimpleUploadedFile
 @api_view(['GET', 'POST', 'DELETE'])
 def StudentEdit(request):
     try:
         if request.method == 'POST':
+            p=0
             father = request.POST.get('fathers_name')
             address = request.POST.get('Address')
             contact = request.POST.get('contact_Num')
             dept = request.POST.get('Branch')
             password = request.POST.get('password')
+            confirmpassword = request.POST.get('confirmpassword')
             student_id = request.POST.get('idbb')
             enroll = request.POST.get('EnrollmentId')
             name = request.POST.get('Name')
+            Pwd = make_password(password)
+            if 'EncPassStu' in request.session:
+                if Pwd == request.session['EncPassStu']:
+                   p=1
+            elif 'StudPass' in request.session:
+                if check_password(request.session['StudPass'], Pwd):
+                    p=1
+            # p = check_password(password,request.session['EncPassStu'])
+            if(p):
+                PassW = make_password(confirmpassword)
+            else:
+                return render(request, "Profile.html", {'message': 'error'})
             student = Student.objects.get(pk=student_id)
             student.fathers_name = father
             student.Address = address
             student.contact_Num = contact
             student.Branch = dept
-            student.password = password
+            student.password = PassW
         
             if 'image' in request.FILES:
                 image = request.FILES['image']
@@ -2657,10 +2684,9 @@ def StudentEdit(request):
                 student.image = new_image
         
             student.save()
-
-        return redirect('/api/studentlogin')
-
-
+            request.session['StudPass'] = password
+            request.session['EncPassStu'] = PassW
+        return render(request, "Profile.html", {'message': 'ok'})
             # return redirect('/api/studentlogin')
     except Exception as e:
         print("Error:", e)
@@ -2769,21 +2795,50 @@ def InternFeedback(req):
 def adminEdit(req):
     try:
         if req.method == 'POST':
+            p=0
+            print("Session contents:", req.session.items())
+            print("EncPassAdm in session:", 'EncPassAdm' in req.session)
             email = req.POST.get('Email')
             contact = req.POST.get('Contact')
             dep = req.POST.get('dept')
-            passs = req.POST.get('password')
+            old_password = req.POST.get('password')
+            new_password = req.POST.get('confirmpassword')
             student_id = req.POST.get('idbb')
-            student = Admins.objects.get(pk=student_id)
-            student.Email = email
-            student.Contact = contact
-            student.dept = dep
-            student.Password = passs
-            student.save()
+            Pwd = make_password(old_password)
+            print("Idhar tak chal gya")
+            if 'EncPassAdm' in req.session:
+                if Pwd == req.session['EncPassAdm']:
+                   p=1
+            elif 'AdminPass' in req.session:
+                if check_password(req.session['AdminPass'], Pwd):
+                    p=1
+            if(p):
+                PassW = make_password(new_password)
+            else:
+                return render(req, "ADprofile.html", {'message': 'error'})
+            try:
+                student = Admins.objects.get(pk=student_id)
+                student.Email = email
+                student.Contact = contact
+                student.dept = dep
+                student.Password = PassW
+                student.save()
 
-            return redirect('/api/adminDash')
+                # Update session
+                req.session['AdminPass'] = new_password
+                req.session['EncPassAdm'] = PassW
+
+                print("Admin details updated successfully")
+                return render(req, "ADprofile.html", {'message': 'ok'})
+            except Admins.DoesNotExist:
+                return render(req, "ADprofile.html", {'message': 'Admin not found'})
+
+        else:
+            return render(req, "ADprofile.html", {'message': 'Invalid request method'})
+
     except Exception as e:
         print("Error:", e)
+        return render(req, "ADprofile.html", {'message': f'An error occurred: {str(e)}'})
 
 @api_view(['GET','POST','DELETE'])
 def AdminFaculties(req):
@@ -2852,6 +2907,7 @@ def FDelete(request):
             return redirect('/api/superadmin')
     except Exception as e:
         print("Error", e)
+
 @api_view(['GET'])
 def StDelete(request):
     try:
@@ -2860,6 +2916,19 @@ def StDelete(request):
             row_id = request.query_params.get('id')
             print(row_id)
             data = Student.objects.get(pk=row_id)
+            data.delete()
+            return redirect('/api/superadmin')
+    except Exception as e:
+        print("Error", e)
+
+@api_view(['GET'])
+def DptDelete(request):
+    try:
+        if request.method == 'GET':
+            # Get the ID from query parameters
+            row_id = request.query_params.get('id')
+            print(row_id)
+            data = Department.objects.get(pk=row_id)
             data.delete()
             return redirect('/api/superadmin')
     except Exception as e:
@@ -2935,9 +3004,9 @@ def AdminHostle(req):
 @api_view(['GET','POST','DELETE'])
 def SuperAdmin(req):
     try:
-        if req.session['Adminemail'] == '':
-            return redirect('/')
-        ADname = req.session['Adminname']
+        # if req.session['Adminemail'] == '':
+        #     return redirect('/')
+        # ADname = req.session['Adminname']
         qr = "SELECT COUNT(*) FROM nocrest_student"
         cursor = connection.cursor()
         cursor.execute(qr)
@@ -3249,14 +3318,3 @@ def give_nodues(request):
     cat.Acc_Comment = comm
     cat.save()
     return redirect('/api/adminDash?clicked=9')
-
-    # return redirect('/')
-    # print(f"Processing No Dues approval for EnrollmentId: {enrollment_id}")
-    
-    # # Here you would typically update the database
-    # # For example: Student.objects.filter(EnrollmentId=enrollment_id).update(no_dues_status=True)
-    
-    # return JsonResponse({
-    #     'status': 'success',
-    #     'message': f'No Dues given to student with EnrollmentId: {enrollment_id}'
-    # })
