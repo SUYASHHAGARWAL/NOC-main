@@ -26,11 +26,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
-CSRF_TRUSTED_ORIGINS = ['https://*.mitsgwalior.in']
 # CORS_ALLOWED_ORIGINS = ['https://noc.mitsgwalior.in','http://noc.mitsgwalior.in']
-# CSRF_TRUSTED_ORIGINS = ['https://*.mitsgwalior.in']
-# Application definition
 CSRF_TRUSTED_ORIGINS = ['https://*.mitsgwalior.in']
+# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -138,6 +136,7 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+
 STATIC_URL = '/Static/'
 STATICFILES_DIRS = (os.path.join(MAIN_DIR,'nocrest/','Static/'),)
 
@@ -151,9 +150,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 
 EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 465
-#EMAIL_HOST_USER = 'sdc@mitsgwalior.in'
-#EMAIL_HOST_PASSWORD = 'wznfsucdzrutcfvb'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'sdc@mitsgwalior.in'
+# EMAIL_HOST_PASSWORD = 'wznfsucdzrutcfvb'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'suyashu1606.agarwal@gmail.com'
 EMAIL_HOST_PASSWORD = 'qogm rmdf yjeq npxh'
@@ -184,7 +183,6 @@ import logging
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
@@ -195,5 +193,3 @@ LOGGING = {
         'level': 'DEBUG',
     },
 }
-
-handler404 = 'nocrest.views.custom_404'

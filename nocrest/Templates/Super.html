@@ -261,7 +261,10 @@
     font-size: 24px;
     cursor: pointer;
 }
-
+.narrow-select {
+    width: 150px;
+    max-width: 100%;
+}
 .custom-form-row {
     display: flex;
     flex-wrap: wrap;
@@ -328,14 +331,15 @@
     </script>
     <script>
         function submitApproval(data, index) {
-    var rowData = data;
-    var ind = index;
-    var selectedStatus = document.getElementById(`status_${ind}`).value;
-    var selectedRole = document.getElementById(`role_${ind}`).value;
-    console.log("Selected Status:", selectedStatus);
-    console.log("Selected Role:", selectedRole);
-    sendPostRequest(rowData, selectedStatus, selectedRole);
-}
+            var rowData = data;
+            var ind = index;
+            var selectedStatus = document.getElementById(`status_${ind}`).value;
+            var selectedRole = document.getElementById(`role_${ind}`).value;
+            var SelectedDept = document.getElementById(`dept_${ind}`).value;
+            console.log("Selected Status:", selectedStatus);
+            console.log("Selected Role:", selectedRole);
+            sendPostRequest(rowData, selectedStatus, selectedRole,SelectedDept);
+        }
         function NOCAdminsubmitApproval(data, index) {
             var rowData = data;
             var ind = index;
@@ -369,18 +373,21 @@ function Editpopup(i) {
     document.getElementById('addorg').value = record.programmme;
     document.getElementById('addorg').setAttribute('placeholder', record.programmme);
     
+    document.getElementById('dispname').value = record.Displayname;
+    document.getElementById('dispname').setAttribute('placeholder', record.Displayname);
+    
     // document.getElementById('idbb').value = record.id;
     
     popup.style.display = 'block';
 }
-
 function AddPopupDept() {
     console.log('Opening Add Department Popup');
     const PPpopup = document.getElementById('PaddDepartmentBtn');
     PPpopup.style.display = 'block';
 }
 
-function closePopup() {
+function closeAddPopup() {
+    console.log("avkajvugwa akgbgsk ")
     const PPpopup = document.getElementById('PaddDepartmentBtn');
     PPpopup.style.display = 'none';
 }
@@ -417,7 +424,7 @@ function NOCsendPostRequest(data, status, role) {
     form.submit();
 }
 
-        function sendPostRequest(data, status, role) {
+        function sendPostRequest(data, status, role, NewDept) {
             console.log("Sending POST request");
             console.log(data)
             var form = $('<form method="POST" action="/api/statussave"></form>');
@@ -429,7 +436,7 @@ function NOCsendPostRequest(data, status, role) {
             $('<input type="hidden" name="Email" value="' + data.Email + '">').appendTo(form);
             $('<input type="hidden" name="Contact" value="' + data.Contact + '">').appendTo(form);
             $('<input type="hidden" name="id" value="' + data.id + '">').appendTo(form);
-            $('<input type="hidden" name="dept" value="' + data.dept + '">').appendTo(form);
+            $('<input type="hidden" name="dept" value="' + NewDept + '">').appendTo(form);
             $('<input type="hidden" name="status" value="' + status + '">').appendTo(form);
             $('<input type="hidden" name="clicked" value="{{clicked}}">').appendTo(form);
 
@@ -476,8 +483,8 @@ function NOCsendPostRequest(data, status, role) {
                 <th>Name</th>
                 <th>Department</th>
                 <th>Status</th>
-                <th>Submit</th>
-                <th>Deletw</th>
+                <th>Action</th>
+                <th>Delete</th>
             </tr>
         `);
             for (let i = 0; i < data.length; i++) {
@@ -495,7 +502,29 @@ function NOCsendPostRequest(data, status, role) {
                         </td>
                         <td>${data[i].Email}</td>
                         <td>${data[i].name}</td>
-                        <td>${data[i].dept}</td>
+                        <td>
+                            <select class="form-select" id="dept_${i}" name="dept_${i}" onchange="updateDepartment(${i})" style="width: 150px; max-width: 100%;">
+                                <option value="${data[i].dept}" selected>${data[i].dept}</option>
+                                <option value="" disabled>Select your Department</option>
+                                <option value="Civil">Civil</option>
+                                <option value="Mechanical">Mechanical</option>
+                                <option value="Electrical">Electrical</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Architecture">Architecture</option>
+                                <option value="CSE">CSE</option>
+                                <option value="Chemical">Chemical</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Biotechnology">Biotechnology</option>
+                                <option value="CFAI">CFAI</option>
+                                <option value="CFIOT">CFIOT</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="MBA">MBA</option>
+                                <option value="Lib">Library</option>
+                                <option value="Acc">Accounts</option>
+                                <option value="Tnp">TnP Cell</option>
+                                <option value="HOstel">Hostel</option>
+                            </select>
+                        </td>
                         <td>
                             <select id="status_${i}" name="status_${i}">
                                 <option value="active" ${data[i].status === 'active' ? 'selected' : ''}>Active</option>
@@ -516,50 +545,59 @@ function NOCsendPostRequest(data, status, role) {
 });
 
 
-$('#depatrments').click(function () {
+            $('#depatrments').click(function () {
     console.log(121);
     $.getJSON('/api/ALldepartments', function (data) {
         console.log(data);
         console.log(data.length);
-        Newdata = data;
+        Newdata = data
         $('#section-display').css('display', 'block');
         $("#tablebody2").html('');
-        $("#tablehead2").html('');
-        
+        $("#tablehead2").html('')
+        $("#tablehead2").html(''); // Clear existing table header
+
         // Add dynamic table header
         $("#tablehead2").append(`
             <tr>
                 <th>S No</th>
                 <th>Department ID</th>
-                <th>Department Name</th>
-                <th>Department</th>
                 <th>Programme</th>
-                <th>Edit</th>
+                <th>Branch Name</th>
+                <th>Department</th>
+                <th>Display Name</th>
+                <th>Action</th>
+                <th>Delete</th>
             </tr>
         `);
-
         // Populate table body
         for (let i = 0; i < data.length; i++) {
             $('#tablebody2').append(`
                 <tr>
                     <th scope="row">${i + 1}</th>
                     <td>${data[i].Dep_Id}</td>
+                    <td>${data[i].programmme}</td>
                     <td>${data[i].Department_name}</td>
                     <td>${data[i].Department}</td>
-                    <td>${data[i].programmme}</td>
+                    <td>${data[i].Displayname}</td>
                     <td>
-                        <button onclick="Editpopup('${i}')" type="button" class="btn flex items-center box centerAlign">Edit</button>
-                    </td>
+                        <button onclick="Editpopup('${i}')" type="button" class="btn flex items-center box centerAlign ">Edit</button>
+                        </td>
+                        <td>
+                            <a href="/api/DelDept?id=${data[i].id}" class="delete-button" data-id="${data[i].id}">Delete</a>
+                        </td>
                 </tr>
             `);
         }
-
-        // Add button to add new department
         $('#tablebody2').append(`
             <tr>
                 <td colspan="6"><button type="button" onclick="AddPopupDept()" class="btn flex items-center box centerAlign">Add Department</button></td>
             </tr>
         `);
+
+        // Bind click event to the "Add a Department" button
+        $('#addDepartmentBtn').click(function() {
+            // Code to add a department goes here
+        });
     });
 });
 
@@ -582,6 +620,7 @@ $('#depatrments').click(function () {
                 <th>Name</th>
                 <th>Contact Num</th>
                 <th>Email</th>
+                <th>Delete</th>
             </tr>
         `);
                     for (i = 0; i < data.length; i++) {
@@ -671,6 +710,7 @@ $('#depatrments').click(function () {
             })
 
 
+
             $('#adminhostle').click(function () {
                 console.log(121)
                 $.getJSON('/api/adminhostle', function (data) {
@@ -699,8 +739,9 @@ $('#depatrments').click(function () {
             })
             $('#show_all_applications_noc').click(function () {
     console.log(121);
-    var applicationsData; // Define a variable to hold the data
+    var applicationsData=[]; // Define a variable to hold the data
     $.getJSON('/api/AllApplications', function (data) {
+        console.log("data dikha ")
     console.log(data);
     console.log(data.length);
     applicationsData = data; // Assign the data to the variable
@@ -727,6 +768,7 @@ $('#depatrments').click(function () {
             <td>${data[i].Email}</td>
             <td>${data[i].year}</td>
             <td>${data[i].Company}</td>
+            <td>${data[i].dept}</td>
             <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>
             <td>
                 <select id="deptApprovalSelect${i}">
@@ -750,7 +792,7 @@ $('#depatrments').click(function () {
 
             $('#approved_all_show').click(function () {
                 console.log(121)
-                $.getJSON('/api/AdminApprovedAllApps', function (data) {
+                $.getJSON('/api/AllApplications', function (data) {
                     console.log(data)
                     console.log(data.length)
 
@@ -778,9 +820,22 @@ $('#depatrments').click(function () {
         <td>${data[i].year}</td>
         <td>${data[i].Company}</td>
         <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>
-        <td>${data[i].Dept_approval}</td>
-        <td>${data[i].TnP_approval}</td>
+        <td>
+            <select id="deptApprovalSelect${i}">
+                <option value="None" ${!data[i].Dept_approval ? 'selected' : ''}>None</option>
+                <option value="Approved" ${data[i].Dept_approval === 'Approved' ? 'selected' : ''}>Approved</option>
+                <option value="Declined" ${data[i].Dept_approval === 'Declined' ? 'selected' : ''}>Declined</option>
+            </select>
+        </td>
+        <td>
+            <select id="tnpApprovalSelect${i}">
+                <option value="None" ${!data[i].TnP_approval ? 'selected' : ''}>None</option>
+                <option value="Approved" ${data[i].TnP_approval === 'Approved' ? 'selected' : ''}>Approved</option>
+                <option value="Declined" ${data[i].TnP_approval === 'Declined' ? 'selected' : ''}>Declined</option>
+            </select>
+        </td>
         <td>${data[i].App_Date}</td>
+        <td><button onclick="submitApproval(${i})">Submit</button></td>
     </tr>`);
 }
                 })
@@ -822,9 +877,63 @@ $('#depatrments').click(function () {
 }
                 })
             })
+            $('#showfeedback').click(function () {
+                console.log(121);
+                $.getJSON('/api/showfeedback', function (data) {
+                    destroyDataTable();
+                    console.log(data);
+                    console.log(data.length);
+                    document.getElementById('myTable').hidden = false;
+
+                    $('#section-display').css('display', 'block');
+                    var table = $("#myTable").DataTable();
+
+                    table.destroy();
+                    $('#tablehead2').html(`
+            <tr>
+                <th>S. no</th>
+                <th>Enrollment</th>
+                <th>Department</th>
+                <th>Noc I'd</th>
+                <th>Company</th>
+                <th>Company Experience rating</th>
+                <th>Work Environment rating</th>
+                <th>Supervisor rating</th>
+                <th>Comments</th>
+                <th>HR Name</th>
+                <th>HR Email</th>
+                <th>HR Contact Num</th>
+            </tr>`);
+                    $("#tablebody2").html('');
+                    $("#tablebody3").html('');
+                    $("#tablebody4").html('');
+                    $("#tablebody5").html(`<tr></tr>`);
+
+
+
+                    for (i = 0; i < data.length; i++) {
+                        $('#tablebody2').append(`<tr>
+                <td>${i + 1}</td>
+                <td>${data[i].intern_enrollment_id}</td>
+                <td>${data[i].department}</td>
+                <td>${data[i].noc_approval_id}</td>
+                <td>${data[i].company_name}</td>
+                <td>${data[i].company_experience_rating}</td>
+                <td>${data[i].work_environment_rating}</td>
+                <td>${data[i].supervisor_rating}</td>
+                <td>${data[i].comments}</td>
+                <td>${data[i].hr_name}</td>
+                <td>${data[i].hr_contact_email}</td>
+                <td>${data[i].hr_contact_number}</td>
+            </tr>`);
+                    }
+
+                    initializeDataTable();
+                });
+            });
 
         })
-    </script>
+            </script>
 
     <script>
         $(document).ready(function () {
@@ -886,11 +995,11 @@ $('#depatrments').click(function () {
             </li>
             <li>
                 <a href="/api/adminprofile">
-                        <i class="fas fa-user"></i>
-                        <span>Profile</span>
-                    </a>
-                </li>
-            <li>
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <!-- <li>
                 <a href="http://moodle.mitsgwalior.in/" class="mat">
                     <i class="material-icons">assignment</i>
                     <span>Moodle</span>
@@ -901,6 +1010,24 @@ $('#depatrments').click(function () {
                     <i class="material-icons">notes</i>
                     <span>MITS Gwalior</span>
                 </a>
+            </li> -->
+            <li id="showfeedback">
+                <a class="mat">
+                    <i class="material-icons">notes</i>
+                    <span>Student's Feedback</span>
+                </a>
+            </li>
+            <li>
+                <a class="mat" id="quick-links">
+                    <i class="material-icons">notes</i>
+                    <span>Quick Links</span>
+                </a>
+                <div class="additional-options" id="links-opt">
+                    <ul class="items">
+                        <li><a href="">MITS Gwalior</a></li>
+                        <li><a href="">Moodle</a></li>
+                    </ul>
+                </div>
             </li>
             <li>
                 <a href="#" class="mat" id="complete-profile">
@@ -965,8 +1092,6 @@ $('#depatrments').click(function () {
             </div>
         </div>
 
-        <input type="text" name="" id="msgss" value="{{message}}" hidden>
-
         <div class="popup" id="popup" style="display: none;">
             <div class="innerbox">
                 <span class="close" onclick="closePopup()">&times;</span> <!-- Cross button -->
@@ -993,12 +1118,18 @@ $('#depatrments').click(function () {
                             <input type="text" id="addorg" name="programme">
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-column">
+                            <label for="Displayname">Display Name</label>
+                            <input type="text" id="dispname" name="Displayname">
+                        </div>
+                    </div>
+                    
                     <input type="submit" class="btn flex items-center box centerAlign" value="Submit">
                 </form>
             </div>
         </div>
-        
-        
+
         <div class="tabular-wrapper">
             <h3 class="main-title">Data Will appear here</h3>
             <div class="table-container">
@@ -1015,24 +1146,30 @@ $('#depatrments').click(function () {
 
 
         <input type="text" name="" id="msgss" value="{{message}}" hidden>
+   
+   
         <div class="custom-PaddDepartmentBtn" id="PaddDepartmentBtn" style="display: none;">
             <div class="custom-innerbox">
-                <span class="custom-close" onclick="closePopup()">&times;</span> <!-- Cross button -->
+                <span class="custom-close" onclick="closeAddPopup()">&times;</span> <!-- Cross button -->
                 <form method="post" enctype="multipart/form-data" action="/api/PaddDEPT" style="padding: 16px;">
                     <h1>Add Department Data</h1>
                     {% csrf_token %}
                     <div class="custom-form-row">
                         <div class="custom-form-column">
-                            <label for="name">Name</label>
+                            <label for="name">Branch Name</label>
                             <input type="text" id="naaam" name="deptname" class="custom-form-control">
                         </div>
                         <div class="custom-form-column">
-                            <label for="org_address">Department</label>
+                            <label for="org_address">Department Name</label>
                             <input type="text" id="cmpnm" name="department" class="custom-form-control">
                         </div>
                         <div class="custom-form-column">
                             <label for="companyname">Programme</label>
                             <input type="text" id="addorg" name="programme" class="custom-form-control">
+                        </div>
+                        <div class="custom-form-column">
+                            <label for="Displayname">Display Name</label>
+                            <input type="text" id="Displayname" name="Displayname" class="custom-form-control">
                         </div>
                     </div>
                     <input type="submit" class="custom-btn custom-flex custom-items-center custom-box custom-centerAlign" value="Submit" style="margin-top: 16px;">
@@ -1040,13 +1177,7 @@ $('#depatrments').click(function () {
             </div>
         </div>
         
-        
-        
-    
     </div>
-
-    
-
     <footer>
         <p>Copyright &copy; 2024 <span class="highlight">SDC MITS</span>. All Rights Reserved.</p>
     </footer>
@@ -1087,6 +1218,13 @@ $('#depatrments').click(function () {
             })
     </script>
      <script>
+        const linksAnchor = document.querySelector('#quick-links');
+        linksAnchor.addEventListener('click', function () {
+                linksOptions.classList.toggle('open');
+            });
+            linksAnchor.addEventListener('touchstart', function () {
+                linksOptions.classList.toggle('open');
+            });
          document.getElementById("complete-profile").addEventListener("click", function(event) {
         event.preventDefault();
         document.getElementById("admin-options").classList.toggle("open");
@@ -1095,7 +1233,6 @@ $('#depatrments').click(function () {
         event.preventDefault();
         document.getElementById("adminNODopt").classList.toggle("open");
     });
-
     function closePopup() {
         document.getElementById("popup").style.display = "none";
     }

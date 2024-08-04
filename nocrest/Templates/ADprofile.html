@@ -278,6 +278,8 @@ $(document).ready(function () {
             </li>
         </ul>
     </div>
+    <input type="text" name="" id="msgss" value="{{message}}" hidden>
+
     <div class="main--content">
         <div class="header-wrapper">
             <div class="header-title">
@@ -308,19 +310,24 @@ $(document).ready(function () {
                         <input class="filledornot" readonly type="text" id="dept" name="dept" placeholder="{{dept}}" value="{{record.dept}}">
                     </div>
                     <div class="form-box">
-                        <label for="password">Password</label>
+                        <label for="password">Old Password</label>
                         <div class="password-container">
                             <input class="filledornot" type="password" id="password" name="password"
-                                placeholder="{{record.Password}}" value="{{record.Password}}">
-                            <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                placeholder="Enter Old Password">
+                            <span class="toggle-password" onclick="togglePasswordVisibility('password')">
                                 <i class="fas fa-eye"></i>
                             </span>
                         </div>
                     </div>
                     <div class="form-box">
-                        <label for="confirm-password">Confirm Password</label>
-                        <input class="filledornot" type="password" id="confirm-password" name="confirm-password"
-                            placeholder="Confirm Password">
+                        <label for="confirmpassword">New Password</label>
+                        <div class="password-container">
+                            <input class="filledornot" type="password" id="confirmpassword" name="confirmpassword"
+                                placeholder="Enter New Password">
+                            <span class="toggle-password" onclick="togglePasswordVisibility('confirmpassword')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
                     </div>
                     <div class="form-box">
                         <button type="submit" onclick="return validateForm()">Submit</button>
@@ -334,42 +341,106 @@ $(document).ready(function () {
     </footer>
     <script src="/Static/dashboard.js"></script>
     <script>
-        function togglePasswordVisibility() {
-            var passwordInput = document.getElementById("password");
-            var icon = document.querySelector(".toggle-password i");
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-            } else {
-                passwordInput.type = "password";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
-            }
-        }
+        
 
         function validateForm() {
-            var contactNum = document.getElementById("contact_Num").value;
-            var password = document.getElementById("password").value;
-            var confirmPassword = document.getElementById("confirm-password").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmpassword").value;
+    var contactNum = document.getElementById("Contact").value;
 
-            // Check contact number length
-            if (contactNum.length !== 10) {
+    if (contactNum.length !== 10) {
                 alert("Contact number must be 10 digits");
                 return false;
             }
+    // Check new password length
+    if (confirmPassword.length < 8) {
+        alert("New password must be at least 8 characters long!");
+        return false;
+    }
 
-            // Check password and confirm password match
-            if (password !== confirmPassword) {
-                alert("Passwords do not match");
-                return false;
-            }
+    // Check for uppercase letter
+    if (!/[A-Z]/.test(confirmPassword)) {
+        alert("New password must contain at least one uppercase letter!");
+        return false;
+    }
 
-            return true;
-        }
-        
+    // Check for lowercase letter
+    if (!/[a-z]/.test(confirmPassword)) {
+        alert("New password must contain at least one lowercase letter!");
+        return false;
+    }
+
+    // Check for digit
+    if (!/\d/.test(confirmPassword)) {
+        alert("New password must contain at least one digit!");
+        return false;
+    }
+
+    // Check for special character
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(confirmPassword)) {
+        alert("New password must contain at least one special character!");
+        return false;
+    }
+
+    return true;
+}
+
+function togglePasswordVisibility(inputId) {
+    var input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
     </script>
+    <script>
+
+
+        let msg = document.getElementById('msgss').value
+        if (msg == 'ok') {
+        Swal.fire({
+        title: "Changed Succesfully. ",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Return to Dashboard",
+        cancelButtonText: 'LogOut',
+        cancelButtonHtml: true,
+        }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "/api/adminDash";
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            window.location.href = "/"; 
+        }
+        });
+        }
+
+        else if (msg == 'err2')
+            Swal.fire({
+                title: "Incorrect Old Password",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Return to Dashboard",
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    window.location.href = "/api/adminDash";
+                }
+            })
+        else if (msg == 'err1')
+            Swal.fire({
+                title: "Session Error",
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: "Return to Dashboard",
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    window.location.href = "/api/adminDash";
+                }
+            })
+      
+</script>
 </body>
 
 </html>

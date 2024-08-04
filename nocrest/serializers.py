@@ -17,7 +17,7 @@ class contactserialiser(serializers.ModelSerializer):
 class Newuserserialiser(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = ('id','Dep_Id','Department_name','Department','programmme')
+        fields = ('id','Dep_Id','Department_name','Department','programmme','Displayname')
 
 class Batchserialiser(serializers.ModelSerializer):
     class Meta:
@@ -47,7 +47,7 @@ class internfeedback(serializers.ModelSerializer):
 class BonafideSerializer(serializers.ModelSerializer):
     class Meta:
         model = BonafideModel
-        fields = ('id','student_name','EnrollmentId','fathers_name','Semester','email','session','application_date','approval_date','app_id','dept_approval','dept_comment','Branch')
+        fields = ('id','student_name','EnrollmentId','fathers_name','Semester','email','session','application_date','approval_date','app_id','dept_approval','dept_comment','Branch','bonafide')
 
 class ExitSuevrySerializer(serializers.ModelSerializer):
     class Meta:
