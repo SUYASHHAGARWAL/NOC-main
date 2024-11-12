@@ -193,8 +193,6 @@ LOGGING = {
         'level': 'DEBUG',
     },
 }
-<<<<<<< HEAD
 
 handler404 = 'nocrest.views.custom_404'
-=======
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
+

@@ -79,12 +79,9 @@ def home(req):
     print(first_name)
     print(email)
     print(username)
-<<<<<<< HEAD
     if(em == 'mitswl.ac.in'):
         print("Tulla")
-=======
     if(em == 'mitsgwl.ac.in'):
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
         q = "SELECT * FROM nocrest_student WHERE (Email = '{0}')".format(email)
         cursor = connection.cursor()
         cursor.execute(q)
@@ -212,16 +209,13 @@ def StudentLogin(request):
         
         try:
             student = Student.objects.get(EnrollmentId=username)
-<<<<<<< HEAD
             if student.password == password:
-=======
-            if check_password(password,student.password):
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
-                # Instead of using Django's login, just set session variables
-                request.session['Enrollment'] = username
-                request.session['is_authenticated'] = True
-                request.session['StudPass'] = password
-                return get_dashboard_data(request, username)
+                if check_password(password,student.password):
+                    # Instead of using Django's login, just set session variables
+                    request.session['Enrollment'] = username
+                    request.session['is_authenticated'] = True
+                    request.session['StudPass'] = password
+                    return get_dashboard_data(request, username)
             else:
                 return render(request, "Frontpage.html", {"msg": 'Incorrect Password'})
         except Student.DoesNotExist:
@@ -280,11 +274,9 @@ try:
                 password = req.GET.get('password')
                 req.session['StudPass'] = password
                 req.session['Enrollment'] = username
-<<<<<<< HEAD
                 contact = contactserialiser(data=req.GET)
                 print(contactserialiser)
                 print(contact)
-=======
                 
                 # Encrypt the password
                 PassW = make_password(password)
@@ -297,7 +289,6 @@ try:
                 contact = contactserialiser(data=data)
                 print("Serializer:", contact)
                 
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
                 if contact.is_valid():
                     print("Data is valid")
                     try:
@@ -315,12 +306,9 @@ try:
                 print("Error", e)
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 except Exception as e:
-<<<<<<< HEAD
-            print("Error", e)
-=======
+    print("Error", e)
     print(e)
 
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
 
 # @csrf_exempt
 # @api_view(['GET', 'POST', 'DELETE'])
@@ -373,11 +361,8 @@ def AdminREg(req):
             contact = req.GET.get('Contact')
             password = req.GET.get('Password')
             stat = req.GET.get('status')
-<<<<<<< HEAD
-=======
             PassW = make_password(password)
             req.session['EncPassAdm'] = PassW
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
             print(role, name, email, dept, contact, password, stat)
             admin_data = {
                 'role': role,
@@ -1806,10 +1791,6 @@ def EditSaveDept(request):
         print("Error:", e)
         return JsonResponse({'success': False, 'error': str(e)})  # Return an error response if needed
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
 @api_view(['GET', 'POST', 'DELETE'])
 def BonaEdit(request):
     try:
@@ -1869,11 +1850,8 @@ def BonaEdit(request):
                         cat.dept_approval = request.POST['approval']
                         cat.dept_comment = request.POST['comment']
                         cat.approval_date = apr_time.date()
-<<<<<<< HEAD
                         cat.save()
-=======
                         cat.app_id = apid
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
                         # Render approveBonaf.html template
                         current_directory = os.getcwd()
                         logo = f'nocrest/Static/Images/{tough}'
@@ -1919,12 +1897,8 @@ def BonaEdit(request):
                             'apid':apid,
                             'date':date,
                             'image':image_path,
-<<<<<<< HEAD
-                            'headname':fac_name
-=======
                             'headname':fac_name,
                             'qr_img_path':qr_img_path,
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
                         }
                         bonafide_pdf_html_content = bonafide_pdf_template.render(bonafide_pdf_context)
                         cat.bonafide = filename
@@ -2252,8 +2226,6 @@ def StudentProfile(req):
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
             print(rec['Branch'])
-<<<<<<< HEAD
-=======
             if 'EncPassStu' in req.session:
                 if rec['password'] == req.session['EncPassStu']:
                     passW = True
@@ -2263,7 +2235,6 @@ def StudentProfile(req):
             # print(req.session['StudPass'])
             # print(rec['password'])
             # rec['password'] = req.session['StudPass']
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
             qry = "select Department_name from nocrest_department where Dep_Id={0}".format(rec['Branch'])
             cursor = connection.cursor()
             cursor.execute(qry)
@@ -2460,11 +2431,8 @@ def AllApplications(req):
                 return redirect('/')
             if(req.session['Ad_Status'] == 'passive'):
                 return redirect('/')
-<<<<<<< HEAD
             qry = "select * from nocrest_application_table where Dept_approval = '' and Tnp_approval = '' order by App_Date desc"
-=======
             qry = "select * from nocrest_application_table where Dept_approval = '' and Tnp_approval = '' order by date_tnp_approval desc"
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
             cursor = connection.cursor()
             cursor.execute(qry)
             records = tuple_to_dict.ParseDictMultipleRecord(cursor)
@@ -2638,10 +2606,8 @@ def AdminProfile(req):
             cursor.execute(qry)
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
-<<<<<<< HEAD
             if(rec):
                 return render(req, 'ADprofile.html',{'record':rec})
-=======
             if rec:
                 if 'EncPassAdm' in req.session:
                     if rec['Password'] == req.session['EncPassAdm']:
@@ -2653,7 +2619,6 @@ def AdminProfile(req):
                 print("passW status:", passW)  # Added for debugging
                 return render(req, 'ADprofile.html', {'record': rec})
 
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
             else:
                 enr = req.session['Admincontact']
                 qry = "select * from nocrest_admins where Contact = '{0}'".format(enr)
@@ -2734,8 +2699,6 @@ def StudentEdit(request):
             student_id = request.POST.get('idbb')
             enroll = request.POST.get('EnrollmentId')
             name = request.POST.get('Name')
-<<<<<<< HEAD
-=======
             Pwd = make_password(password)
             if 'EncPassStu' in request.session:
                 if Pwd == request.session['EncPassStu']:
@@ -2748,17 +2711,13 @@ def StudentEdit(request):
                 PassW = make_password(confirmpassword)
             else:
                 return render(request, "Profile.html", {'message': 'error'})
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
             student = Student.objects.get(pk=student_id)
             student.fathers_name = father
             student.Address = address
             student.contact_Num = contact
             student.Branch = dept
-<<<<<<< HEAD
             student.password = password
-=======
             student.password = PassW
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
         
             if 'image' in request.FILES:
                 image = request.FILES['image']
@@ -2778,16 +2737,10 @@ def StudentEdit(request):
                 student.image = new_image
         
             student.save()
-<<<<<<< HEAD
 
         return redirect('/api/studentlogin')
 
 
-=======
-            request.session['StudPass'] = password
-            request.session['EncPassStu'] = PassW
-        return render(request, "Profile.html", {'message': 'ok'})
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
             # return redirect('/api/studentlogin')
     except Exception as e:
         print("Error:", e)
@@ -2906,7 +2859,6 @@ def adminEdit(req):
             email = req.POST.get('Email')
             contact = req.POST.get('Contact')
             dep = req.POST.get('dept')
-<<<<<<< HEAD
             passs = req.POST.get('password')
             student_id = req.POST.get('idbb')
             student = Admins.objects.get(pk=student_id)
@@ -2917,7 +2869,6 @@ def adminEdit(req):
             student.save()
 
             return redirect('/api/adminDash')
-=======
             old_password = req.POST.get('password')
             new_password = req.POST.get('confirmpassword')
             student_id = req.POST.get('idbb')
@@ -2953,7 +2904,6 @@ def adminEdit(req):
         else:
             return render(req, "ADprofile.html", {'message': 'Invalid request method'})
 
->>>>>>> 0261ae7858e9e92945665e7c05e2aa4f1ad30f38
     except Exception as e:
         print("Error:", e)
         return render(req, "ADprofile.html", {'message': f'An error occurred: {str(e)}'})
