@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from rest_framework.decorators import api_view, parser_classes
 import tempfile
+from .models import Admins 
+from django.db.models import Q
 from django.contrib.auth import logout
 from .serializers import BonafideModel
 from .serializers import ExitSurvey
@@ -79,7 +81,8 @@ def home(req):
     print(first_name)
     print(email)
     print(username)
-    if(em == 'mitsgw.ac.in'):
+    if(em == 'mitswl.ac.in'):
+        print("Tulla")
         q = "SELECT * FROM nocrest_student WHERE (Email = '{0}')".format(email)
         cursor = connection.cursor()
         cursor.execute(q)
@@ -207,7 +210,7 @@ def StudentLogin(request):
         
         try:
             student = Student.objects.get(EnrollmentId=username)
-            if check_password(password,student.password):
+            if student.password == password:
                 # Instead of using Django's login, just set session variables
                 request.session['Enrollment'] = username
                 request.session['is_authenticated'] = True
@@ -271,18 +274,9 @@ try:
                 password = req.GET.get('password')
                 req.session['StudPass'] = password
                 req.session['Enrollment'] = username
-                
-                # Encrypt the password
-                PassW = make_password(password)
-                req.session['EncPassStu'] = PassW
-                # Create a copy of GET data and update the password
-                data = req.GET.copy()
-                data['password'] = PassW
-                
-                # Use the modified data for serialization
-                contact = contactserialiser(data=data)
-                print("Serializer:", contact)
-                
+                contact = contactserialiser(data=req.GET)
+                print(contactserialiser)
+                print(contact)
                 if contact.is_valid():
                     print("Data is valid")
                     try:
@@ -296,16 +290,11 @@ try:
                 else:
                     print("Serializer errors:", contact.errors)
                     return Response(contact.errors, status=status.HTTP_400_BAD_REQUEST)
-            
             except Exception as e:
-                print("Error in StudentREg:", str(e))
-                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-        else:
-            return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+                print("Error", e)
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 except Exception as e:
-    print(e)
-
+            print("Error", e)
 
 # @csrf_exempt
 # @api_view(['GET', 'POST', 'DELETE'])
@@ -358,8 +347,6 @@ def AdminREg(req):
             contact = req.GET.get('Contact')
             password = req.GET.get('Password')
             stat = req.GET.get('status')
-            PassW = make_password(password)
-            req.session['EncPassAdm'] = PassW
             print(role, name, email, dept, contact, password, stat)
             admin_data = {
                 'role': role,
@@ -2177,15 +2164,6 @@ def StudentProfile(req):
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
             print(rec['Branch'])
-            if 'EncPassStu' in req.session:
-                if rec['password'] == req.session['EncPassStu']:
-                    passW = True
-            elif 'StudPass' in req.session:
-                if check_password(req.session['StudPass'], rec['password']):
-                    passW = True
-            # print(req.session['StudPass'])
-            # print(rec['password'])
-            # rec['password'] = req.session['StudPass']
             qry = "select Department_name from nocrest_department where Dep_Id={0}".format(rec['Branch'])
             cursor = connection.cursor()
             cursor.execute(qry)
@@ -2556,17 +2534,8 @@ def AdminProfile(req):
             cursor.execute(qry)
             rec = tuple_to_dict.ParseDictSingleRecord(cursor)
             print(rec)
-            if rec:
-                if 'EncPassAdm' in req.session:
-                    if rec['Password'] == req.session['EncPassAdm']:
-                        passW = True
-                elif 'AdminPass' in req.session:
-                    if check_password(req.session['AdminPass'], rec['Password']):
-                        passW = True
-
-                print("passW status:", passW)  # Added for debugging
-                return render(req, 'ADprofile.html', {'record': rec})
-
+            if(rec):
+                return render(req, 'ADprofile.html',{'record':rec})
             else:
                 enr = req.session['Admincontact']
                 qry = "select * from nocrest_admins where Contact = '{0}'".format(enr)
@@ -2647,24 +2616,12 @@ def StudentEdit(request):
             student_id = request.POST.get('idbb')
             enroll = request.POST.get('EnrollmentId')
             name = request.POST.get('Name')
-            Pwd = make_password(password)
-            if 'EncPassStu' in request.session:
-                if Pwd == request.session['EncPassStu']:
-                   p=1
-            elif 'StudPass' in request.session:
-                if check_password(request.session['StudPass'], Pwd):
-                    p=1
-            # p = check_password(password,request.session['EncPassStu'])
-            if(p):
-                PassW = make_password(confirmpassword)
-            else:
-                return render(request, "Profile.html", {'message': 'error'})
             student = Student.objects.get(pk=student_id)
             student.fathers_name = father
             student.Address = address
             student.contact_Num = contact
             student.Branch = dept
-            student.password = PassW
+            student.password = password
         
             if 'image' in request.FILES:
                 image = request.FILES['image']
@@ -2679,14 +2636,14 @@ def StudentEdit(request):
                     image.read(),
                     content_type=image.content_type
                 )
-                
                 # Assign the new image to the student
                 student.image = new_image
         
             student.save()
-            request.session['StudPass'] = password
-            request.session['EncPassStu'] = PassW
-        return render(request, "Profile.html", {'message': 'ok'})
+
+        return redirect('/api/studentlogin')
+
+
             # return redirect('/api/studentlogin')
     except Exception as e:
         print("Error:", e)
@@ -2801,41 +2758,16 @@ def adminEdit(req):
             email = req.POST.get('Email')
             contact = req.POST.get('Contact')
             dep = req.POST.get('dept')
-            old_password = req.POST.get('password')
-            new_password = req.POST.get('confirmpassword')
+            passs = req.POST.get('password')
             student_id = req.POST.get('idbb')
-            Pwd = make_password(old_password)
-            print("Idhar tak chal gya")
-            if 'EncPassAdm' in req.session:
-                if Pwd == req.session['EncPassAdm']:
-                   p=1
-            elif 'AdminPass' in req.session:
-                if check_password(req.session['AdminPass'], Pwd):
-                    p=1
-            if(p):
-                PassW = make_password(new_password)
-            else:
-                return render(req, "ADprofile.html", {'message': 'error'})
-            try:
-                student = Admins.objects.get(pk=student_id)
-                student.Email = email
-                student.Contact = contact
-                student.dept = dep
-                student.Password = PassW
-                student.save()
+            student = Admins.objects.get(pk=student_id)
+            student.Email = email
+            student.Contact = contact
+            student.dept = dep
+            student.Password = passs
+            student.save()
 
-                # Update session
-                req.session['AdminPass'] = new_password
-                req.session['EncPassAdm'] = PassW
-
-                print("Admin details updated successfully")
-                return render(req, "ADprofile.html", {'message': 'ok'})
-            except Admins.DoesNotExist:
-                return render(req, "ADprofile.html", {'message': 'Admin not found'})
-
-        else:
-            return render(req, "ADprofile.html", {'message': 'Invalid request method'})
-
+            return redirect('/api/adminDash')
     except Exception as e:
         print("Error:", e)
         return render(req, "ADprofile.html", {'message': f'An error occurred: {str(e)}'})

@@ -22,13 +22,15 @@ MAIN_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'django-insecure-gwms2q)u^e+)26_6(_x!1w&y+)kx(v184_$#mz39a+a0^q8otx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ALLOWED_ORIGINS = ['https://noc.mitsgwalior.in','http://noc.mitsgwalior.in']
 CSRF_TRUSTED_ORIGINS = ['https://*.mitsgwalior.in']
+# CORS_ALLOWED_ORIGINS = ['https://noc.mitsgwalior.in','http://noc.mitsgwalior.in']
+# CSRF_TRUSTED_ORIGINS = ['https://*.mitsgwalior.in']
 # Application definition
+CSRF_TRUSTED_ORIGINS = ['https://*.mitsgwalior.in']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -136,7 +138,6 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = '/Static/'
 STATICFILES_DIRS = (os.path.join(MAIN_DIR,'nocrest/','Static/'),)
 
