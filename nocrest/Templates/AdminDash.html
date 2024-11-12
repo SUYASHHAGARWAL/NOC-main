@@ -390,7 +390,6 @@ function GiveNodues(enr,id,comment){
         function sendBonafPostRequest(data, approval, comment) {
             console.log("Sending POST request");
             console.log(data);
-
             var form = $('<form method="POST" action="/api/editbonafide"></form>');
             var csrftoken = getCookie('csrftoken');
             $('<input type="hidden" name="csrfmiddlewaretoken" value="' + csrftoken + '">').appendTo(form);
@@ -403,7 +402,7 @@ function GiveNodues(enr,id,comment){
             $('<input type="hidden" name="fathersname" value="' + data.fathers_name + '">').appendTo(form);
             $('<input type="hidden" name="approval" value="' + approval + '">').appendTo(form);
             $('<input type="hidden" name="comment" value="' + comment + '">').appendTo(form);
-            $('<input type="hidden" name="dept" value="' + data.dept + '">').appendTo(form);
+            $('<input type="hidden" name="dept" value="' + data.Branch + '">').appendTo(form);
             $('<input type="hidden" name="session" value="' + data.session + '">').appendTo(form);
 
             $('body').append(form);
@@ -574,7 +573,7 @@ function sendDuesStatusUpdate(data, duesStatus, comment,amount) {
                     <td>${data[i].duration}</td>
                     <td>${data[i].startDate}</td>
                     <td>${data[i].stipend}</td>
-                    <td><a href="/pdfs/${data[i].offerletter}" target="_blank">Open PDF</a></td>                    <td>
+                    <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>                 <td>
                         <select id="approval_${i}">
                             <option value="none" ${approvalValue === "none" ? "selected" : ""}>None</option>
                             <option value="Approved" ${approvalValue === "Approved" ? "selected" : ""}>Approve</option>
@@ -1080,6 +1079,8 @@ function getCookie(name) {
                 <th>Dept Approval</th>
                 <th>Tnp approval</th>
                 <th>Application date</th>
+                <th>T&P Approval date</th>
+                <th>Dept Approval date</th>
                 <th>Dept Approval By</th>
                 <th>Tnp Approval By</th>
             </tr>`);
@@ -1098,10 +1099,12 @@ function getCookie(name) {
                 <td>${data[i].Email}</td>
                 <td>${data[i].year}</td>
                 <td>${data[i].Company}</td>
-                <td><a href="/pdfs/${data[i].offerletter}" target="_blank">Open PDF</a></td>
+                <td><a href="/pdfs/${data[i].offerletter}" download>Download PDF</a></td>
                 <td>${data[i].Dept_approval}</td>
                 <td>${data[i].TnP_approval}</td>
                 <td>${data[i].App_Date}</td>
+                <td>${data[i].date_tnp_approval}</td>
+                <td>${data[i].date_dept_approval}</td>
                 <td>${data[i].D_approved_by}</td>
                 <td>${data[i].Tnp_approved_by}</td>
             </tr>`);
@@ -1768,6 +1771,35 @@ function getCookie(name) {
                         <span>Dashboard</span>
                     </a>
                 </li>
+                <li id="nocadminoptions">
+                    <a class="mat" id="complete-profile">
+                        <i class="fas fa-user"></i>
+                        <span>NOC Related Options</span>
+                    </a>
+                    <div class="additional-options" id="admin-options">
+                        <ul class="items">
+                            <li id="checkapplied">NOC Applications</li>
+                            <li id="checkapproved">Approved NOC's</li>
+                            <li id="checkdisapproved">Declined NOC's</li>
+                            <li id="allapplications">All NOC Applications</li>
+                        </ul>
+                    </div>
+                </li>
+                <div id="bonafideff"> 
+                    <li id="bonafide" style="display: none;">
+                        <a class="mat" id="cfile">
+                            <i class="fas fa-user"></i>
+                            <span>Bonafide Options</span>
+                        </a>
+                        <div class="additional-options" id="adminBonafide">
+                            <ul class="items">
+                                <li id="BonaCheck">Bonafide Applications</li>
+                                <li id="bonaApproved">Approved Bonafides</li>
+                                <li id="declined_bonafide">Declined Bonafides</li>
+                            </ul>
+                        </div>
+                    </li>
+                </div>
                 <li>
                     <a href="/api/adminprofile">
                         <i class="fas fa-user"></i>
@@ -1793,20 +1825,7 @@ function getCookie(name) {
                         <span>Student's Feedback</span>
                     </a>
                 </li>
-                <li id="nocadminoptions">
-                    <a class="mat" id="complete-profile">
-                        <i class="fas fa-user"></i>
-                        <span>NOC Related Options</span>
-                    </a>
-                    <div class="additional-options" id="admin-options">
-                        <ul class="items">
-                            <li id="checkapplied">NOC Applications</li>
-                            <li id="checkapproved">Approved NOC's</li>
-                            <li id="checkdisapproved">Declined NOC's</li>
-                            <li id="allapplications">All NOC Applications</li>
-                        </ul>
-                    </div>
-                </li>
+                
                 <li style="display: none;">
                     <a class="mat" id="compfile">
                         <i class="fas fa-user"></i>
@@ -1820,27 +1839,14 @@ function getCookie(name) {
                         </ul>
                     </div>
                 </li>
-                <li id="tnponly" style="display: none;">
+                <!-- <li id="tnponly" style="display: none;"> -->
+                <li style="display: none;">
                     <a class="mat" id="compfile">
                         <i class="fas fa-user"></i>
                         <span id="showexitsurvey">Exit Survey</span>
                     </a>
                 </li>
-                <div id="bonafideff"> 
-                    <li id="bonafide" style="display: none;">
-                        <a class="mat" id="cfile">
-                            <i class="fas fa-user"></i>
-                            <span>Bonafide Options</span>
-                        </a>
-                        <div class="additional-options" id="adminBonafide">
-                            <ul class="items">
-                                <li id="BonaCheck">Bonafide Applications</li>
-                                <li id="bonaApproved">Approved Bonafides</li>
-                                <li id="declined_bonafide">Declined Bonafides</li>
-                            </ul>
-                        </div>
-                    </li>
-                </div>
+                
                 <li class="logout">
                     <a href="{% url 'logout' %}">
                         <i class="fas fa-sign-out-alt"></i>
@@ -1853,7 +1859,7 @@ function getCookie(name) {
     <div class="main--content" style="height: 100vh; overflow-y: scroll;">
         <div class="header-wrapper">
             <div class="header-title">
-                <span>{{record.dept}} Dashboard</span>
+                <span>{{dispname}} Dashboard</span>
                 <input type="hidden" id="dptms" value="{{record.dept}}">
                 <h2>{{record.Contact}}</h2>
                 <h3>{{record.name}}</h2>
@@ -1903,10 +1909,10 @@ function getCookie(name) {
         
         <input type="hidden" name="clicked" value="{{clicked}}" id="clicked">
         <div id="randomdept" value="{{record.dept}}"></div>
-
+<!-- 
         <div class="card-container">
             <h3 class="main-title">Faculties Section</h3>
-            <div class="card-wrapper">
+            <div class="card-wrapper"> -->
 
                 <!-- <button class="btn" onclick="SetActivecolour(this)" id="checkapplied">NOC Applications</button>
 
@@ -1922,7 +1928,7 @@ function getCookie(name) {
                     class="btn flex items-center box centerAlign ">Approved No
                     Dues</button> -->
 
-                <a id="excellink" style="display: none;" target="_blank"
+                <!-- <a id="excellink" style="display: none;" target="_blank"
                     href="https://docs.google.com/spreadsheets/d/1gWlG0g2RX24f0IXsKTTEqY8pbPuHbnx5X3jP8Nf4ENw/edit?usp=sharing">
                     <button type="button" style="display: none;" id="sampleexcel"
                         class="btn flex items-center box centerAlign">Template for graduated students</button>
@@ -1938,11 +1944,11 @@ function getCookie(name) {
                 <button  type="button" style="display: none;" id="gradstudents"
                     class="btn flex items-center box centerAlign ">Graduated Students</button>
 
-                    <!-- <button class="btn" onclick="SetActivecolour(this)" id="showfeedback">Students FeedBack</button>
+                     <button class="btn" onclick="SetActivecolour(this)" id="showfeedback">Students FeedBack</button>
                     <button class="btn" onclick="SetActivecolour(this)" id="allapplications">All Aplications</button> -->
-            </div>
+            <!-- </div>
 
-        </div>
+        </div> --> 
 
         <div class="tabular-wrapper">
             <h3 id="datawillappear" class="main-title">Data</h3>
@@ -2137,6 +2143,8 @@ function getCookie(name) {
     var accshownodapp = document.getElementById('accchecknodapp')
     var shownodapp = document.getElementById('checknodapp')
     var nocOptions = document.getElementById('nocadminoptions')
+    var BAllApp = document.getElementById('allapplications')
+
     setTimeout(() => {
         if (clicked == 6) {
             myButton.click();
@@ -2200,7 +2208,9 @@ function getCookie(name) {
         deptstudentsgot.style.display = 'none';
         addepartments.style.display = 'none';
         exirsurveytnp.style.display = 'block';
-
+    }
+    if (content != 'Tnp') {
+        BAllApp.style.display = 'none';
     }
     // function attachFile() {
     //     document.getElementById('fileInput').click();

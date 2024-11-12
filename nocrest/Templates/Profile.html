@@ -316,14 +316,13 @@ $(document).ready(function () {
                     </div>
                     <div class="form-box">
                         <label for="dept">Department</label>
-                        <input class="filledornot" readonly type="text" id="dept" name="Branch" placeholder="{{branchstud}} " value="{{record.Branch}}"
-                           >
+                        <input class="filledornot" readonly type="text" id="dept" name="Branch" placeholder="{{branchstud}} " >
                     </div>
                     <div class="form-box">
-                        <label for="password">Password</label>
+                        <label for="password">Old Password</label>
                         <div class="password-input">
                             <input class="filledornot" type="password" id="password" name="password"
-                                placeholder="{{record.password}}" value="{{record.password}}">
+                                placeholder="Enter Old Password" >
                             <span class="toggle-password" onclick="togglePasswordVisibility()">
                                 <i class="fas fa-eye"></i>
                             </span>
@@ -331,7 +330,7 @@ $(document).ready(function () {
                     </div>
                     <div class="form-box">
                         <label for="confirm-password">Confirm Password</label>
-                        <input class="filledornot" type="password" id="confirm-password" name="confirm-password"
+                        <input class="filledornot" type="password" id="confirm-password" name="confirmpassword"
                             placeholder="Confirm Password">
                     </div>
                     <div class="form-box">
@@ -368,19 +367,51 @@ $(document).ready(function () {
         function validateForm() {
             var contactNum = document.getElementById("contact_Num").value;
             var password = document.getElementById("password").value;
-            var confirmPassword = document.getElementById("confirm-password").value;
+            var confirmPassword = document.getElementById("confirmpassword").value;
 
             // Check contact number length
             if (contactNum.length !== 10) {
                 alert("Contact number must be 10 digits");
                 return false;
             }
+            if (confirmPassword.length < 8) {
+                alert("Password must be at least 8 characters long!");
+                return;
+            }
+
+            // Check for uppercase letter
+            var hasUppercase = /[A-Z]/.test(confirmPassword);
+            if (!hasUppercase) {
+                alert("Password must contain at least one uppercase letter!");
+                return;
+            }
+
+            // Check for lowercase letter
+            var hasLowercase = /[a-z]/.test(confirmPassword);
+            if (!hasLowercase) {
+                alert("Password must contain at least one lowercase letter!");
+                return;
+            }
+
+            // Check for digit
+            var hasDigit = /\d/.test(confirmPassword);
+            if (!hasDigit) {
+                alert("Password must contain at least one digit!");
+                return;
+            }
+
+            // Check for special character
+            var hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(confirmPassword);
+            if (!hasSpecialChar) {
+                alert("Password must contain at least one special character!");
+                return;
+            }
 
             // Check password and confirm password match
-            if (password !== confirmPassword) {
-                alert("Passwords do not match");
-                return false;
-            }
+           // if (password !== confirmPassword) {
+              //  alert("Passwords do not match");
+              //  return false;
+           // }
 
             return true;
         }
